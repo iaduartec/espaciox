@@ -394,6 +394,12 @@ nav a.active {
   overflow: hidden;
 }
 
+.blog-card figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .blog-card .content {
   padding: 18px;
   display: flex;
