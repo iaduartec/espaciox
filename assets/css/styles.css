@@ -1,11 +1,11 @@
 :root {
   --color-primary: #f28c8c;
   --color-primary-dark: #e76f6f;
-  --color-secondary: #f8f1e9;
+  --color-secondary: #f1e7dd;
   --color-accent: #7ab7d9;
   --color-text: #2e2d2b;
   --color-muted: #6b6865;
-  --bg-light: #fffaf7;
+  --bg-light: #e9e0d7;
   --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.08);
   --radius: 14px;
   --font-body: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
