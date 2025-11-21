@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | Espacio Río Norte</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a class="logo" href="index.html">Espacio Río Norte</a>
+      <nav aria-label="Menú principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="reservas.html">Reservas</a></li>
+          <li><a href="tarifas.html">Tarifas</a></li>
+          <li><a href="instalaciones.html">Instalaciones</a></li>
+          <li><a class="active" href="blog.html">Blog</a></li>
+          <li><a href="regalos.html">Regalos</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <div class="container mobile-nav" aria-label="Menú móvil">
+      <a href="index.html">Inicio</a>
+      <a href="reservas.html">Reservas</a>
+      <a href="tarifas.html">Tarifas</a>
+      <a href="instalaciones.html">Instalaciones</a>
+      <a class="active" href="blog.html">Blog</a>
+      <a href="regalos.html">Regalos</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-simple">
+      <div class="container">
+        <h1>Blog</h1>
+        <p class="lead">Consejos e inspiración para tus celebraciones y eventos en Burgos.</p>
+      </div>
+    </section>
+
+    <section class="main-content">
+      <div class="container">
+        <div class="filters">
+          <button class="filter-btn active" data-categoria="todas">Todas</button>
+          <button class="filter-btn" data-categoria="cumple">Cumpleaños niños</button>
+          <button class="filter-btn" data-categoria="comunion">Comuniones</button>
+          <button class="filter-btn" data-categoria="empresa">Eventos empresa</button>
+          <button class="filter-btn" data-categoria="decoracion">Decoración</button>
+        </div>
+
+        <div class="blog-grid">
+          <article class="blog-card blog-post" data-categoria="cumple">
+            <figure><img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?auto=format&fit=crop&w=900&q=80" alt="Niños en fiesta de cumpleaños"></figure>
+            <div class="content">
+              <span class="badge">Cumpleaños niños</span>
+              <h3>Temáticas fáciles que encantan a los peques</h3>
+              <p>Animales, superhéroes y exploradores: cómo preparar un rincón temático sin complicarte.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+          <article class="blog-card blog-post" data-categoria="empresa">
+            <figure><img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80" alt="Equipo de trabajo colaborando"></figure>
+            <div class="content">
+              <span class="badge">Empresa</span>
+              <h3>5 dinámicas para cohesionar equipos</h3>
+              <p>Propuestas rápidas para romper el hielo y lograr reuniones productivas en poco tiempo.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+          <article class="blog-card blog-post" data-categoria="decoracion">
+            <figure><img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=900&q=80" alt="Mesa dulce decorada"></figure>
+            <div class="content">
+              <span class="badge">Decoración</span>
+              <h3>Montar una mesa dulce en 20 minutos</h3>
+              <p>Color base, mini carteles y un mantel bonito cambian por completo tu celebración.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+          <article class="blog-card blog-post" data-categoria="comunion">
+            <figure><img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=900&q=80" alt="Decoración elegante para comunión"></figure>
+            <div class="content">
+              <span class="badge">Comuniones</span>
+              <h3>Claves para una comunión íntima</h3>
+              <p>Selección de música, seating sencillo y rincones decorativos que aportan calidez.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+          <article class="blog-card blog-post" data-categoria="empresa">
+            <figure><img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80" alt="Sala con proyector y asistentes"></figure>
+            <div class="content">
+              <span class="badge">Empresa</span>
+              <h3>Presentaciones con impacto</h3>
+              <p>Checklist rápido para preparar tu presentación: sonido, iluminación y apoyo visual.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+          <article class="blog-card blog-post" data-categoria="cumple">
+            <figure><img src="https://images.unsplash.com/photo-1478144592103-25e218a04891?auto=format&fit=crop&w=900&q=80" alt="Pastel y velas de cumpleaños"></figure>
+            <div class="content">
+              <span class="badge">Cumpleaños niños</span>
+              <h3>Checklist exprés para cumpleaños</h3>
+              <p>Decoración, merienda, juegos y bolsa de recuerdos: todo organizado en cuatro bloques.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+          <article class="blog-card blog-post" data-categoria="decoracion">
+            <figure><img src="https://images.unsplash.com/photo-1481833761820-0509d3217039?auto=format&fit=crop&w=900&q=80" alt="Flores y luz ambiental">
+            </figure>
+            <div class="content">
+              <span class="badge">Decoración</span>
+              <h3>Iluminación que transforma</h3>
+              <p>Guirnaldas, velas LED y lámparas auxiliares para dar calidez a cualquier rincón.</p>
+              <a class="btn secondary" href="#">Leer más</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3>Espacio Río Norte</h3>
+        <p>C/ Río Arlanzón, 12 – 09005 Burgos, España</p>
+        <p>Tel: <a href="tel:+34612345678">+34 612 345 678</a></p>
+        <p>Email: <a href="mailto:hola@espaciorionorte.com">hola@espaciorionorte.com</a></p>
+      </div>
+      <div>
+        <h3>Horario</h3>
+        <ul>
+          <li>L–J: 9:00–21:00</li>
+          <li>V: 9:00–23:00</li>
+          <li>S: 10:00–23:00</li>
+          <li>D: 10:00–22:00</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="aviso-legal.html">Aviso legal</a></li>
+          <li><a href="politica-privacidad.html">Política de privacidad</a></li>
+          <li><a href="normas-uso.html">Normas de uso</a></li>
+          <li><a href="politica-cookies.html">Política de cookies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Redes</h3>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container legal">
+      <p>© 2025 Espacio Río Norte. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
