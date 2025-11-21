@@ -1,6 +1,6 @@
-# Espacio Río Norte
+# El Santuario
 
-Landing estática para el salón privado Espacio Río Norte en Burgos. Incluye páginas de marketing, sección de blog y formularios básicos para simulación de reservas.
+Landing estática para el salón privado El Santuario en Burgos. Incluye páginas de marketing, sección de blog y formularios básicos para simulación de reservas.
 
 ## Estructura del proyecto
 - `index.html`: página de inicio con navegación hacia reservas, tarifas, instalaciones, blog y regalos.
