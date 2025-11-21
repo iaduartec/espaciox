@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas | Espacio Río Norte</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a class="logo" href="index.html">Espacio Río Norte</a>
+      <nav aria-label="Menú principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a class="active" href="reservas.html">Reservas</a></li>
+          <li><a href="tarifas.html">Tarifas</a></li>
+          <li><a href="instalaciones.html">Instalaciones</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="regalos.html">Regalos</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="container mobile-nav" aria-label="Menú móvil">
+      <a href="index.html">Inicio</a>
+      <a class="active" href="reservas.html">Reservas</a>
+      <a href="tarifas.html">Tarifas</a>
+      <a href="instalaciones.html">Instalaciones</a>
+      <a href="blog.html">Blog</a>
+      <a href="regalos.html">Regalos</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-simple">
+      <div class="container">
+        <h1>Reservas</h1>
+        <p class="lead">Fianza de 100 € para confirmar tu fecha. Te pediremos datos básicos y confirmaremos disponibilidad al instante.</p>
+      </div>
+    </section>
+
+    <section class="main-content">
+      <div class="container">
+        <div class="card" style="margin-bottom:30px;">
+          <h2>¿Qué necesitamos?</h2>
+          <p>Indica nombre y apellidos, email y teléfono de contacto, tipo de evento, fecha, franja horaria y número aproximado de asistentes. La fianza de 100 € asegura que el día queda bloqueado para ti.</p>
+        </div>
+
+        <div class="card" style="margin-bottom:30px;">
+          <h2>Disponibilidad</h2>
+          <p>Consulta el calendario del mes. Las fechas marcadas como ocupadas ya no están disponibles.</p>
+          <div class="calendar" aria-label="Calendario de disponibilidad febrero 2025">
+            <div class="weekday">L</div><div class="weekday">M</div><div class="weekday">X</div><div class="weekday">J</div><div class="weekday">V</div><div class="weekday">S</div><div class="weekday">D</div>
+            <div class="day" data-date="2025-02-01">1</div>
+            <div class="day" data-date="2025-02-02">2</div>
+            <div class="day" data-date="2025-02-03">3</div>
+            <div class="day" data-date="2025-02-04">4</div>
+            <div class="day" data-date="2025-02-05">5</div>
+            <div class="day" data-date="2025-02-06">6</div>
+            <div class="day" data-date="2025-02-07">7</div>
+            <div class="day" data-date="2025-02-08">8</div>
+            <div class="day" data-date="2025-02-09">9</div>
+            <div class="day" data-date="2025-02-10">10</div>
+            <div class="day" data-date="2025-02-11">11</div>
+            <div class="day" data-date="2025-02-12">12</div>
+            <div class="day" data-date="2025-02-13">13</div>
+            <div class="day" data-date="2025-02-14">14</div>
+            <div class="day" data-date="2025-02-15">15</div>
+            <div class="day" data-date="2025-02-16">16</div>
+            <div class="day" data-date="2025-02-17">17</div>
+            <div class="day" data-date="2025-02-18">18</div>
+            <div class="day" data-date="2025-02-19">19</div>
+            <div class="day" data-date="2025-02-20">20</div>
+            <div class="day" data-date="2025-02-21">21</div>
+            <div class="day" data-date="2025-02-22">22</div>
+            <div class="day" data-date="2025-02-23">23</div>
+            <div class="day" data-date="2025-02-24">24</div>
+            <div class="day" data-date="2025-02-25">25</div>
+            <div class="day" data-date="2025-02-26">26</div>
+            <div class="day" data-date="2025-02-27">27</div>
+            <div class="day" data-date="2025-02-28">28</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Formulario de reserva</h2>
+          <form id="form-reserva" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="nombre">Nombre y apellidos *</label>
+                <input id="nombre" name="nombre" type="text" required>
+              </div>
+              <div class="field">
+                <label for="email">Email *</label>
+                <input id="email" name="email" type="email" required>
+              </div>
+              <div class="field">
+                <label for="telefono">Teléfono *</label>
+                <input id="telefono" name="telefono" type="tel" required>
+              </div>
+              <div class="field">
+                <label for="tipo">Tipo de evento</label>
+                <select id="tipo" name="tipo">
+                  <option>Cumpleaños infantil</option>
+                  <option>Cumpleaños adulto</option>
+                  <option>Reunión familiar</option>
+                  <option>Evento empresa</option>
+                  <option>Curso/taller</option>
+                  <option>Otros</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="fecha">Fecha</label>
+                <input id="fecha" name="fecha" type="date">
+              </div>
+              <div class="field">
+                <label for="franja">Franja horaria</label>
+                <select id="franja" name="franja">
+                  <option>Mañana</option>
+                  <option>Tarde</option>
+                  <option>Noche</option>
+                  <option>Día completo</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="asistentes">Número aproximado de asistentes</label>
+                <input id="asistentes" name="asistentes" type="number" min="1">
+              </div>
+              <div class="field">
+                <label for="comentarios">Comentarios adicionales</label>
+                <textarea id="comentarios" name="comentarios"></textarea>
+              </div>
+            </div>
+            <div class="field" style="margin-top:12px;">
+              <label><input id="normas" type="checkbox"> He leído y acepto las <a href="normas-uso.html">normas de uso</a> *</label>
+            </div>
+            <div class="form-actions">
+              <button class="btn" type="submit">Enviar reserva</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3>Espacio Río Norte</h3>
+        <p>C/ Río Arlanzón, 12 – 09005 Burgos, España</p>
+        <p>Tel: <a href="tel:+34612345678">+34 612 345 678</a></p>
+        <p>Email: <a href="mailto:hola@espaciorionorte.com">hola@espaciorionorte.com</a></p>
+      </div>
+      <div>
+        <h3>Horario</h3>
+        <ul>
+          <li>L–J: 9:00–21:00</li>
+          <li>V: 9:00–23:00</li>
+          <li>S: 10:00–23:00</li>
+          <li>D: 10:00–22:00</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="aviso-legal.html">Aviso legal</a></li>
+          <li><a href="politica-privacidad.html">Política de privacidad</a></li>
+          <li><a href="normas-uso.html">Normas de uso</a></li>
+          <li><a href="politica-cookies.html">Política de cookies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Redes</h3>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container legal">
+      <p>© 2025 Espacio Río Norte. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
