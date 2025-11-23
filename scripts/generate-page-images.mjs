@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -59,4 +60,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
