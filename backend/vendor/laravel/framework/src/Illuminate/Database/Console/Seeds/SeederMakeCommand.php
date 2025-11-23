@@ -71,7 +71,7 @@ class SeederMakeCommand extends GeneratorCommand
      */
     protected function getPath($name)
     {
-        $name = str_replace('\\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
+        $name = str_replace('\', '/', Str::replaceFirst($this->rootNamespace(), '', $name));
 
         if (is_dir($this->laravel->databasePath().'/seeds')) {
             return $this->laravel->databasePath().'/seeds/'.$name.'.php';
@@ -87,6 +87,6 @@ class SeederMakeCommand extends GeneratorCommand
      */
     protected function rootNamespace()
     {
-        return 'Database\Seeders\\';
+        return 'Database\Seeders\';
     }
 }

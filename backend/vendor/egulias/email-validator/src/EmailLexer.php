@@ -75,7 +75,7 @@ class EmailLexer extends AbstractLexer
         ':'    => self::S_COLON,
         ';'    => self::S_SEMICOLON,
         '@'    => self::S_AT,
-        '\\'   => self::S_BACKSLASH,
+        '\'   => self::S_BACKSLASH,
         '/'    => self::S_SLASH,
         ','    => self::S_COMMA,
         '.'    => self::S_DOT,

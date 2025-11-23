@@ -231,7 +231,7 @@ class Inflector
      */
     public function tableize(string $word): string
     {
-        $tableized = preg_replace('~(?<=\\w)([A-Z])~u', '_$1', $word);
+        $tableized = preg_replace('~(?<=\w)([A-Z])~u', '_$1', $word);
 
         if ($tableized === null) {
             throw new RuntimeException(sprintf(

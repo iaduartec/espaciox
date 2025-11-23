@@ -188,7 +188,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
         }
 
         if (windows_os()) {
-            $path = str_replace('/', '\\', $path);
+            $path = str_replace('/', '\', $path);
         }
 
         $this->components->info(sprintf('%s [%s] created successfully.', $info, $path));
@@ -202,9 +202,9 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      */
     protected function qualifyClass($name)
     {
-        $name = ltrim($name, '\\/');
+        $name = ltrim($name, '\/');
 
-        $name = str_replace('/', '\\', $name);
+        $name = str_replace('/', '\', $name);
 
         $rootNamespace = $this->rootNamespace();
 
@@ -213,7 +213,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
         }
 
         return $this->qualifyClass(
-            $this->getDefaultNamespace(trim($rootNamespace, '\\')).'\\'.$name
+            $this->getDefaultNamespace(trim($rootNamespace, '\')).'\'.$name
         );
     }
 
@@ -225,9 +225,9 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      */
     protected function qualifyModel(string $model)
     {
-        $model = ltrim($model, '\\/');
+        $model = ltrim($model, '\/');
 
-        $model = str_replace('/', '\\', $model);
+        $model = str_replace('/', '\', $model);
 
         $rootNamespace = $this->rootNamespace();
 
@@ -236,7 +236,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
         }
 
         return is_dir(app_path('Models'))
-                    ? $rootNamespace.'Models\\'.$model
+                    ? $rootNamespace.'Models\'.$model
                     : $rootNamespace.$model;
     }
 
@@ -308,7 +308,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return $this->laravel['path'].'/'.str_replace('\\', '/', $name).'.php';
+        return $this->laravel['path'].'/'.str_replace('\', '/', $name).'.php';
     }
 
     /**
@@ -375,7 +375,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      */
     protected function getNamespace($name)
     {
-        return trim(implode('\\', array_slice(explode('\\', $name), 0, -1)), '\\');
+        return trim(implode('\', array_slice(explode('\', $name), 0, -1)), '\');
     }
 
     /**
@@ -387,7 +387,7 @@ abstract class GeneratorCommand extends Command implements PromptsForMissingInpu
      */
     protected function replaceClass($stub, $name)
     {
-        $class = str_replace($this->getNamespace($name).'\\', '', $name);
+        $class = str_replace($this->getNamespace($name).'\', '', $name);
 
         return str_replace(['DummyClass', '{{ class }}', '{{class}}'], $class, $stub);
     }

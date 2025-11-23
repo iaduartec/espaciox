@@ -117,7 +117,7 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     protected function getView()
     {
-        $segments = explode('/', str_replace('\\', '/', $this->argument('name')));
+        $segments = explode('/', str_replace('\', '/', $this->argument('name')));
 
         $name = array_pop($segments);
 

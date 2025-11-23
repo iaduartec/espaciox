@@ -1,10 +1,10 @@
 <?php
 
-namespace App\\Http\\Middleware;
+namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\\Auth\\Access\\AuthorizationException;
-use Illuminate\\Http\\Request;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
 
 class IsAdmin
 {

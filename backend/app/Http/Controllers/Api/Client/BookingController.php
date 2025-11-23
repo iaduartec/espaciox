@@ -1,15 +1,15 @@
 <?php
 
-namespace App\\Http\\Controllers\\Api\\Client;
+namespace App\Http\Controllers\Api\Client;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Http\\Requests\\Bookings\\StoreBookingRequest;
-use App\\Http\\Resources\\BookingResource;
-use App\\Models\\Booking;
-use App\\Notifications\\BookingReceivedNotification;
-use App\\Notifications\\BookingStatusNotification;
-use Carbon\\Carbon;
-use Illuminate\\Http\\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Bookings\StoreBookingRequest;
+use App\Http\Resources\BookingResource;
+use App\Models\Booking;
+use App\Notifications\BookingReceivedNotification;
+use App\Notifications\BookingStatusNotification;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {

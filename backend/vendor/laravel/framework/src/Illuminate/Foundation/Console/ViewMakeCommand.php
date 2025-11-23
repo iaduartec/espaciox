@@ -78,7 +78,7 @@ class ViewMakeCommand extends GeneratorCommand
     {
         $name = trim($this->argument('name'));
 
-        $name = str_replace(['\\', '.'], '/', $name);
+        $name = str_replace(['\', '.'], '/', $name);
 
         return $name;
     }
@@ -117,7 +117,7 @@ class ViewMakeCommand extends GeneratorCommand
     {
         return base_path(
             Str::of($this->testClassFullyQualifiedName())
-                ->replace('\\', '/')
+                ->replace('\', '/')
                 ->replaceFirst('Tests/Feature', 'tests/Feature')
                 ->append('Test.php')
                 ->value()
@@ -158,7 +158,7 @@ class ViewMakeCommand extends GeneratorCommand
     protected function testNamespace()
     {
         return Str::of($this->testClassFullyQualifiedName())
-            ->beforeLast('\\')
+            ->beforeLast('\')
             ->value();
     }
 
@@ -170,7 +170,7 @@ class ViewMakeCommand extends GeneratorCommand
     protected function testClassName()
     {
         return Str::of($this->testClassFullyQualifiedName())
-            ->afterLast('\\')
+            ->afterLast('\')
             ->append('Test')
             ->value();
     }
@@ -189,14 +189,14 @@ class ViewMakeCommand extends GeneratorCommand
                 ->replace('/', ' ')
                 ->explode(' ')
                 ->map(fn ($part) => (new Stringable($part))->ucfirst())
-                ->implode('\\')
+                ->implode('\')
         )
             ->replace(['-', '_'], ' ')
             ->explode(' ')
             ->map(fn ($part) => (new Stringable($part))->ucfirst())
             ->implode('');
 
-        return 'Tests\\Feature\\View\\'.$namespacedName;
+        return 'Tests\Feature\View\'.$namespacedName;
     }
 
     /**
@@ -238,7 +238,7 @@ class ViewMakeCommand extends GeneratorCommand
         }
 
         return $this->option('pest') ||
-            (function_exists('\Pest\\version') &&
+            (function_exists('\Pest\version') &&
              file_exists(base_path('tests').'/Pest.php'));
     }
 

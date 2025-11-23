@@ -120,7 +120,7 @@ class MailMakeCommand extends GeneratorCommand
     {
         $class = str_replace(
             '{{ subject }}',
-            Str::headline(str_replace($this->getNamespace($name).'\\', '', $name)),
+            Str::headline(str_replace($this->getNamespace($name).'\', '', $name)),
             parent::buildClass($name)
         );
 
@@ -141,7 +141,7 @@ class MailMakeCommand extends GeneratorCommand
         $view = $this->option('markdown') ?: $this->option('view');
 
         if (! $view) {
-            $name = str_replace('\\', '/', $this->argument('name'));
+            $name = str_replace('\', '/', $this->argument('name'));
 
             $view = 'mail.'.(new Collection(explode('/', $name)))
                 ->map(fn ($part) => Str::kebab($part))

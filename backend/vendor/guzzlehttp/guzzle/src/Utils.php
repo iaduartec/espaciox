@@ -148,8 +148,8 @@ final class Utils
             // Google app engine
             '/etc/ca-certificates.crt',
             // Windows?
-            'C:\\windows\\system32\\curl-ca-bundle.crt',
-            'C:\\windows\\curl-ca-bundle.crt',
+            'C:\windows\system32\curl-ca-bundle.crt',
+            'C:\windows\curl-ca-bundle.crt',
         ];
 
         if ($cached) {

@@ -202,7 +202,7 @@ class ModelInspector
 
                 return [
                     'name' => $method->getName(),
-                    'type' => Str::afterLast(get_class($relation), '\\'),
+                    'type' => Str::afterLast(get_class($relation), '\'),
                     'related' => get_class($relation->getRelated()),
                 ];
             })
@@ -308,13 +308,13 @@ class ModelInspector
      */
     protected function qualifyModel(string $model)
     {
-        if (str_contains($model, '\\') && class_exists($model)) {
+        if (str_contains($model, '\') && class_exists($model)) {
             return $model;
         }
 
-        $model = ltrim($model, '\\/');
+        $model = ltrim($model, '\/');
 
-        $model = str_replace('/', '\\', $model);
+        $model = str_replace('/', '\', $model);
 
         $rootNamespace = $this->app->getNamespace();
 
@@ -323,7 +323,7 @@ class ModelInspector
         }
 
         return is_dir(app_path('Models'))
-            ? $rootNamespace.'Models\\'.$model
+            ? $rootNamespace.'Models\'.$model
             : $rootNamespace.$model;
     }
 

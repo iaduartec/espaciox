@@ -144,7 +144,7 @@ class RouteListCommand extends Command
             'method' => implode('|', $route->methods()),
             'uri' => $route->uri(),
             'name' => $route->getName(),
-            'action' => ltrim($route->getActionName(), '\\'),
+            'action' => ltrim($route->getActionName(), '\'),
             'middleware' => $this->getMiddleware($route),
             'vendor' => $this->isVendorRoute($route),
         ]);
@@ -429,7 +429,7 @@ class RouteListCommand extends Command
         $name = $name ? "$name   " : null;
 
         $rootControllerNamespace = $this->laravel[UrlGenerator::class]->getRootControllerNamespace()
-            ?? ($this->laravel->getNamespace().'Http\\Controllers');
+            ?? ($this->laravel->getNamespace().'Http\Controllers');
 
         if (str_starts_with($action, $rootControllerNamespace)) {
             return $name.substr($action, mb_strlen($rootControllerNamespace) + 1);
@@ -438,9 +438,9 @@ class RouteListCommand extends Command
         $actionClass = explode('@', $action)[0];
 
         if (class_exists($actionClass) && str_starts_with((new ReflectionClass($actionClass))->getFilename(), base_path('vendor'))) {
-            $actionCollection = new Collection(explode('\\', $action));
+            $actionCollection = new Collection(explode('\', $action));
 
-            return $name.$actionCollection->take(2)->implode('\\').'   '.$actionCollection->last();
+            return $name.$actionCollection->take(2)->implode('\').'   '.$actionCollection->last();
         }
 
         return $name.$action;

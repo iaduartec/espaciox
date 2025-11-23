@@ -1,10 +1,10 @@
 <?php
 
-namespace App\\Http\\Controllers\\Api\\Admin;
+namespace App\Http\Controllers\Api\Admin;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Http\\Requests\\Blocks\\StoreBlockRequest;
-use App\\Models\\BookingBlock;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Blocks\StoreBlockRequest;
+use App\Models\BookingBlock;
 
 class BookingBlockController extends Controller
 {

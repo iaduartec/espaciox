@@ -695,17 +695,17 @@ class Gate implements GateContract
             return Arr::wrap(call_user_func($this->guessPolicyNamesUsingCallback, $class));
         }
 
-        $classDirname = str_replace('/', '\\', dirname(str_replace('\\', '/', $class)));
+        $classDirname = str_replace('/', '\', dirname(str_replace('\', '/', $class)));
 
-        $classDirnameSegments = explode('\\', $classDirname);
+        $classDirnameSegments = explode('\', $classDirname);
 
         return Arr::wrap(Collection::times(count($classDirnameSegments), function ($index) use ($class, $classDirnameSegments) {
-            $classDirname = implode('\\', array_slice($classDirnameSegments, 0, $index));
+            $classDirname = implode('\', array_slice($classDirnameSegments, 0, $index));
 
-            return $classDirname.'\\Policies\\'.class_basename($class).'Policy';
+            return $classDirname.'\Policies\'.class_basename($class).'Policy';
         })->reverse()->values()->first(function ($class) {
             return class_exists($class);
-        }) ?: [$classDirname.'\\Policies\\'.class_basename($class).'Policy']);
+        }) ?: [$classDirname.'\Policies\'.class_basename($class).'Policy']);
     }
 
     /**

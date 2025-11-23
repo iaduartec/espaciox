@@ -1,12 +1,12 @@
 <?php
 
-namespace App\\Http\\Controllers\\Api\\Admin;
+namespace App\Http\Controllers\Api\Admin;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Http\\Resources\\BookingResource;
-use App\\Models\\Booking;
-use App\\Notifications\\BookingStatusNotification;
-use Illuminate\\Http\\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
+use App\Models\Booking;
+use App\Notifications\BookingStatusNotification;
+use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {

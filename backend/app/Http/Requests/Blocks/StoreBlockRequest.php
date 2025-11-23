@@ -1,11 +1,11 @@
 <?php
 
-namespace App\\Http\\Requests\\Blocks;
+namespace App\Http\Requests\Blocks;
 
-use App\\Models\\BookingBlock;
-use Illuminate\\Foundation\\Http\\FormRequest;
-use Illuminate\\Contracts\\Validation\\Validator as ValidatorContract;
-use Carbon\\Carbon;
+use App\Models\BookingBlock;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
+use Carbon\Carbon;
 
 class StoreBlockRequest extends FormRequest
 {

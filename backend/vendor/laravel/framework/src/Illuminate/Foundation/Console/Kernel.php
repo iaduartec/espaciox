@@ -390,7 +390,7 @@ class Kernel implements KernelContract
     {
         return $namespace.str_replace(
             ['/', '.php'],
-            ['\\', ''],
+            ['\', ''],
             Str::after($file->getRealPath(), realpath(app_path()).DIRECTORY_SEPARATOR)
         );
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\\Http\\Controllers;
+namespace App\Http\Controllers;
 
-use Illuminate\\Routing\\Controller as BaseController;
+use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {

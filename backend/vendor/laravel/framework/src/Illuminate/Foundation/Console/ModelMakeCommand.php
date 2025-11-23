@@ -223,7 +223,7 @@ class ModelMakeCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return is_dir(app_path('Models')) ? $rootNamespace.'\\Models' : $rootNamespace;
+        return is_dir(app_path('Models')) ? $rootNamespace.'\Models' : $rootNamespace;
     }
 
     /**
@@ -253,9 +253,9 @@ class ModelMakeCommand extends GeneratorCommand
         $replacements = [];
 
         if ($this->option('factory') || $this->option('all')) {
-            $modelPath = Str::of($this->argument('name'))->studly()->replace('/', '\\')->toString();
+            $modelPath = Str::of($this->argument('name'))->studly()->replace('/', '\')->toString();
 
-            $factoryNamespace = '\\Database\\Factories\\'.$modelPath.'Factory';
+            $factoryNamespace = '\Database\Factories\'.$modelPath.'Factory';
 
             $factoryCode = <<<EOT
             /** @use HasFactory<$factoryNamespace> */

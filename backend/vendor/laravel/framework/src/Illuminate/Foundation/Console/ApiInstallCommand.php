@@ -134,7 +134,7 @@ class ApiInstallCommand extends Command
                 artisan_binary(),
                 'vendor:publish',
                 '--provider',
-                'Laravel\\Sanctum\\SanctumServiceProvider',
+                'Laravel\Sanctum\SanctumServiceProvider',
             ]);
         }
     }

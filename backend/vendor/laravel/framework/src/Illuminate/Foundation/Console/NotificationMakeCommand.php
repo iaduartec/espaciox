@@ -145,7 +145,7 @@ class NotificationMakeCommand extends GeneratorCommand
         $wantsMarkdownView = confirm('Would you like to create a markdown view?');
 
         if ($wantsMarkdownView) {
-            $defaultMarkdownView = (new Collection(explode('/', str_replace('\\', '/', $this->argument('name')))))
+            $defaultMarkdownView = (new Collection(explode('/', str_replace('\', '/', $this->argument('name')))))
                 ->map(fn ($path) => Str::kebab($path))
                 ->prepend('mail')
                 ->implode('.');

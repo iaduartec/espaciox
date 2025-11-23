@@ -72,7 +72,7 @@ class TestMakeCommand extends GeneratorCommand
     {
         $name = Str::replaceFirst($this->rootNamespace(), '', $name);
 
-        return base_path('tests').str_replace('\\', '/', $name).'.php';
+        return base_path('tests').str_replace('\', '/', $name).'.php';
     }
 
     /**
@@ -151,7 +151,7 @@ class TestMakeCommand extends GeneratorCommand
         }
 
         return $this->option('pest') ||
-            (function_exists('\Pest\\version') &&
+            (function_exists('\Pest\version') &&
              file_exists(base_path('tests').'/Pest.php'));
     }
 }

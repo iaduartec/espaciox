@@ -1,11 +1,11 @@
 <?php
 
-use App\\Http\\Controllers\\Api\\Auth\\AuthController;
-use App\\Http\\Controllers\\Api\\Public\\SpaceController;
-use App\\Http\\Controllers\\Api\\Client\\BookingController as ClientBookingController;
-use App\\Http\\Controllers\\Api\\Admin\\BookingController as AdminBookingController;
-use App\\Http\\Controllers\\Api\\Admin\\BookingBlockController;
-use Illuminate\\Support\\Facades\\Route;
+use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\Public\SpaceController;
+use App\Http\Controllers\Api\Client\BookingController as ClientBookingController;
+use App\Http\Controllers\Api\Admin\BookingController as AdminBookingController;
+use App\Http\Controllers\Api\Admin\BookingBlockController;
+use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);

@@ -37,7 +37,7 @@ trait CreatesMatchingTest
         }
 
         return $this->call('make:test', [
-            'name' => (new Stringable($path))->after($this->laravel['path'])->beforeLast('.php')->append('Test')->replace('\\', '/'),
+            'name' => (new Stringable($path))->after($this->laravel['path'])->beforeLast('.php')->append('Test')->replace('\', '/'),
             '--pest' => $this->option('pest'),
             '--phpunit' => $this->option('phpunit'),
         ]) == 0;

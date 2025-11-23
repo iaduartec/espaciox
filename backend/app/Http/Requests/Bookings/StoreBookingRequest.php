@@ -1,12 +1,12 @@
 <?php
 
-namespace App\\Http\\Requests\\Bookings;
+namespace App\Http\Requests\Bookings;
 
-use App\\Models\\Booking;
-use App\\Models\\Space;
-use Carbon\\Carbon;
-use Illuminate\\Foundation\\Http\\FormRequest;
-use Illuminate\\Contracts\\Validation\\Validator as ValidatorContract;
+use App\Models\Booking;
+use App\Models\Space;
+use Carbon\Carbon;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator as ValidatorContract;
 
 class StoreBookingRequest extends FormRequest
 {

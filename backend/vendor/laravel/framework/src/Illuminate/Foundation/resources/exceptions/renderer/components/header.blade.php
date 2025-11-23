@@ -6,7 +6,7 @@
                     {{ $exception->class() }}
                 </span>
                 <span class="md:hidden">
-                    {{ implode(' ', array_slice(explode('\\', $exception->class()), -1)) }}
+                    {{ implode(' ', array_slice(explode('\', $exception->class()), -1)) }}
                 </span>
             </div>
             <div class="mt-4 text-lg font-semibold text-gray-900 break-words dark:text-white lg:text-2xl">

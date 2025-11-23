@@ -2236,7 +2236,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public function broadcastChannelRoute()
     {
-        return str_replace('\\', '.', get_class($this)).'.{'.Str::camel(class_basename($this)).'}';
+        return str_replace('\', '.', get_class($this)).'.{'.Str::camel(class_basename($this)).'}';
     }
 
     /**
@@ -2246,7 +2246,7 @@ abstract class Model implements Arrayable, ArrayAccess, CanBeEscapedWhenCastToSt
      */
     public function broadcastChannel()
     {
-        return str_replace('\\', '.', get_class($this)).'.'.$this->getKey();
+        return str_replace('\', '.', get_class($this)).'.'.$this->getKey();
     }
 
     /**

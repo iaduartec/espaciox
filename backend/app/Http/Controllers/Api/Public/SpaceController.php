@@ -1,17 +1,17 @@
 <?php
 
-namespace App\\Http\\Controllers\\Api\\Public;
+namespace App\Http\Controllers\Api\Public;
 
-use App\\Http\\Controllers\\Controller;
-use App\\Http\\Resources\\AvailabilitySlotResource;
-use App\\Http\\Resources\\CalendarDayResource;
-use App\\Http\\Resources\\SpaceResource;
-use App\\Models\\Booking;
-use App\\Models\\BookingBlock;
-use App\\Models\\Space;
-use Carbon\\Carbon;
-use Illuminate\\Support\\Collection;
-use Illuminate\\Http\\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\AvailabilitySlotResource;
+use App\Http\Resources\CalendarDayResource;
+use App\Http\Resources\SpaceResource;
+use App\Models\Booking;
+use App\Models\BookingBlock;
+use App\Models\Space;
+use Carbon\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Http\Request;
 
 class SpaceController extends Controller
 {

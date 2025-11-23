@@ -1,8 +1,8 @@
 <?php
 
-namespace App\\Http\\Resources;
+namespace App\Http\Resources;
 
-use Illuminate\\Http\\Resources\\Json\\JsonResource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class SpaceResource extends JsonResource
 {

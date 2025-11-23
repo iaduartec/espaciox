@@ -180,7 +180,7 @@ class BelongsToMany extends Relation
      */
     protected function resolveTableName($table)
     {
-        if (! str_contains($table, '\\') || ! class_exists($table)) {
+        if (! str_contains($table, '\') || ! class_exists($table)) {
             return $table;
         }
 
