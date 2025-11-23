@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Helper to run php with local extensions (dom + mysql) without requiring sudo installs
+export PHP_INI_SCAN_DIR="/home/kiri_/code/espaciox/php-conf:/etc/php/8.3/cli/conf.d"
+php "$@"
