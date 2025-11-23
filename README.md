@@ -32,3 +32,10 @@ python -m http.server 8000
 - Mantén la navegación en `header` sincronizada en todas las páginas.
 - Reutiliza las clases existentes de `styles.css` para nuevas secciones.
 - Si añades nuevas interacciones, centralízalas en `assets/js/main.js` para mantener un único punto de scripts.
+
+## Base de datos de prueba
+
+1. Copia el .env
+```bash
+cp .env.example .env
+php artisan key:generate
