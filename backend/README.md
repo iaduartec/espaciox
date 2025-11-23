@@ -29,10 +29,12 @@ Esta carpeta contiene la propuesta de backend Laravel API-first para el sistema 
 | POST | /api/admin/blocks | Crear bloqueos de espacio |
 
 ## Recursos JSON
+
 - `SpaceResource`, `BookingResource`, `CalendarDayResource`, `AvailabilitySlotResource`
 - Notificaciones por email al crear, confirmar o cancelar reservas
 
 ## Validaciones destacadas
+
 - Anti-solape general mediante `Booking::overlaps`
 - Horario definido por día vía `config/spaces.php`
 - Reglas de capacidad, duración (1-12h) y bloques administrativos
