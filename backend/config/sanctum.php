@@ -1,8 +1,11 @@
 <?php
 
 return [
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'localhost')),
-    'expiration' => env('SANCTUM_EXPIRATION', 120),
+    'stateful' => array_unique(array_filter(array_map('trim', explode(',', env(
+        'SANCTUM_STATEFUL_DOMAINS',
+        'localhost,127.0.0.1,localhost:8000,127.0.0.1:8000'
+    ))))),
+    'expiration' => (int) env('SANCTUM_EXPIRATION', 120),
     'middleware' => [
         'verify_csrf_token' => App\\Http\\Middleware\\VerifyCsrfToken::class,
         'encrypt_cookies' => Illuminate\\Cookie\\Middleware\\EncryptCookies::class,
