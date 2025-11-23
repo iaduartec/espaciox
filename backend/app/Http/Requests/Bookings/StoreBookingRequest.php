@@ -85,8 +85,8 @@ class StoreBookingRequest extends FormRequest
 
         $period = $config[$dayKey];
         return [
-            'start' => Carbon::createFromFormat('H:i', $period['start']),
-            'end' => Carbon::createFromFormat('H:i', $period['end']),
+            'start' => Carbon::createFromFormat('Y-m-d H:i', "{$this->date} {$period['start']}"),
+            'end' => Carbon::createFromFormat('Y-m-d H:i', "{$this->date} {$period['end']}"),
         ];
     }
 }
