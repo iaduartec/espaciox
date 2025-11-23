@@ -2,12 +2,26 @@
 
 Esta carpeta contiene la propuesta de backend Laravel API-first para el sistema de reservas.
 
-## Setup
+## Requisitos
 
-1. Copia `.env.example` a `.env` y actualiza credenciales de base de datos.
-2. Corre `composer install` desde esta carpeta.
-3. Genera el `APP_KEY` y configura Sanctum si se usa en producción.
-4. Ejecuta `php artisan migrate` para crear las tablas.
+- PHP 8.3 con extensiones `dom`, `pdo_sqlite` (para desarrollo) y `pdo_mysql` si usarás MySQL.
+- Composer.
+
+## Puesta en marcha rápida (usando SQLite local)
+
+1. Instalar dependencias: `cd backend && composer install --ignore-platform-req=ext-dom`
+2. Clonar env: `cp .env.example .env`
+3. Usar el wrapper que ya carga SQLite: `./bin/php artisan key:generate`
+4. Migrar y seed de demo: `./bin/php artisan migrate:fresh --seed`
+5. Levantar el servidor: `./bin/php -S localhost:8000 -t public`
+
+El `.env` ya apunta a `DB_CONNECTION=sqlite` en `database/database.sqlite`.
+
+### Usar MySQL en lugar de SQLite
+
+1. Edita `.env` con tus credenciales MySQL (`DB_CONNECTION=mysql`, host, puerto, usuario, pass, base).
+2. Asegúrate de tener instaladas las extensiones `pdo_mysql` y `mysqli`.
+3. Ejecuta migraciones y seed: `php artisan migrate --seed` (o con `./bin/php` si necesitas cargar extensiones locales).
 
 ## Endpoints principales
 
