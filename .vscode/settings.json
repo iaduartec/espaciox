@@ -1,5 +1,7 @@
 {
   "gitdoc.enabled": false,
-  "github.copilot.nextEditSuggestions.enabled": true
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "chatgpt.runCodexInWindowsSubsystemForLinux": false,
+  "vscode-openai.apiKey": "${env:OPENAI_API_KEY}",
+  "vscode-openai.apiBaseUrl": "${env:OPENAI_API_BASE_URL}"
 }
-º
