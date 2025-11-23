@@ -1,7 +1,15 @@
-public function run(): void
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
 {
-    $this->call([
-        SpaceSeeder::class,     // el que ya tenías
-        TestDataSeeder::class,  // nuevo
-    ]);
+    public function run(): void
+    {
+        $this->call([
+            TestDataSeeder::class,
+        ]);
+    }
 }
