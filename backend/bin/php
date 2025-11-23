@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-# Helper to run php with local extensions (dom + mysql) without requiring sudo installs
+# Helper to run php with local extensions (SQLite) without requiring sudo installs.
+# MySQL y DOM ya están cargados en el PHP del sistema; cargamos solo lo que falta.
 EXT_DIR="/home/kiri_/code/espaciox/php-ext/usr/lib/php/20230831"
-php -d extension="${EXT_DIR}/dom.so" \
-    -d extension="${EXT_DIR}/mysqlnd.so" \
-    -d extension="${EXT_DIR}/pdo_mysql.so" \
-    -d extension="${EXT_DIR}/mysqli.so" \
-    -d extension="${EXT_DIR}/pdo_sqlite.so" \
+php -d extension="${EXT_DIR}/pdo_sqlite.so" \
     -d extension="${EXT_DIR}/sqlite3.so" \
     "$@"
