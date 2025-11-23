@@ -10,3 +10,6 @@
 /storage/framework/sessions
 /storage/framework/views
 /storage/logs
+/storage
+/public/storage
+/database/database.sqlite
