@@ -33,6 +33,12 @@ python -m http.server 8000
 - Reutiliza las clases existentes de `styles.css` para nuevas secciones.
 - Si añades nuevas interacciones, centralízalas en `assets/js/main.js` para mantener un único punto de scripts.
 
+## Configuración de Codex Chat en VS Code
+- Copia `.env.example` a `.env` y rellena `OPENAI_API_KEY` con tu clave válida (no se versiona).
+- Opcional: define `OPENAI_API_BASE_URL` solo si tu endpoint difiere del valor por defecto de la extensión.
+- Abre VS Code con `./scripts/open-vscode-with-env.sh` para exportar automáticamente las variables del `.env` al proceso de VS Code.
+- `.vscode/settings.json` lee esas variables directamente del entorno, evitando hardcodear valores sensibles.
+
 ## Base de datos de prueba
 
 1. Copia el .env
