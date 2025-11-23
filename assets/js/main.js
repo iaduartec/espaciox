@@ -104,4 +104,22 @@ window.addEventListener('DOMContentLoaded', () => {
   marcarCalendario();
   inicializarFormulario();
   inicializarFiltrosBlog();
+
+  // Initialize AOS
+  AOS.init({
+    once: true,
+    offset: 50,
+    duration: 800,
+    easing: 'ease-out-cubic',
+  });
+
+  // Navbar scroll effect
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
 });
