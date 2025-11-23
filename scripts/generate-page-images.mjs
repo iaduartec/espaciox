@@ -1,5 +1,5 @@
-import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
+import "dotenv/config";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -38,7 +38,7 @@ async function main() {
     console.log(`Generando imagen para ${fileName}...`);
 
     const response = await ai.models.generateImages({
-      model: "imagen-4.0-generate-001",
+      model: "gemini-2.5-flash-image",
       prompt,
       config: {
         numberOfImages: 1,
