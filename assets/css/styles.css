@@ -218,7 +218,7 @@ nav a.active {
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, rgba(31, 47, 61, 0.75), rgba(20, 32, 43, 0.65)),
-    url('../img/salon-celebraciones.jpg') center/cover;
+    url('../img/salon-celebraciones.webp') center/cover;
   opacity: 0.3;
   z-index: 1;
 }
@@ -278,7 +278,7 @@ nav a.active {
 .hero-visual {
   min-height: 320px;
   background: linear-gradient(180deg, rgba(31, 47, 61, 0.55), rgba(31, 47, 61, 0.35)),
-    url('../img/zonas-polivalentes.jpg') center/cover;
+    url('../img/zonas-polivalentes.webp') center/cover;
   border-radius: 28px;
   box-shadow: var(--shadow-soft);
   position: relative;
