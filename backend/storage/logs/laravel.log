@@ -221,3 +221,27 @@
 #40 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
 #41 {main}
 "} 
+[2025-11-23 23:05:35] local.ERROR: Class "DOMDocument" not found {"exception":"[object] (Error(code: 0): Class \"DOMDocument\" not found at /home/kiri_/code/espaciox/backend/vendor/nunomaduro/termwind/src/HtmlRenderer.php:32)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/nunomaduro/termwind/src/HtmlRenderer.php(24): Termwind\\HtmlRenderer->parse()
+#1 /home/kiri_/code/espaciox/backend/vendor/nunomaduro/termwind/src/Functions.php(41): Termwind\\HtmlRenderer->render()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/View/Components/Component.php(52): Termwind\\render()
+#3 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/View/Components/Line.php(54): Illuminate\\Console\\View\\Components\\Component->renderView()
+#4 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/View/Components/Info.php(18): Illuminate\\Console\\View\\Components\\Line->render()
+#5 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/View/Components/Factory.php(60): Illuminate\\Console\\View\\Components\\Info->render()
+#6 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/KeyGenerateCommand.php(53): Illuminate\\Console\\View\\Components\\Factory->__call()
+#7 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Foundation\\Console\\KeyGenerateCommand->handle()
+#8 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#9 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure()
+#10 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#11 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate\\Container\\BoundMethod::call()
+#12 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call()
+#13 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute()
+#14 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#15 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(1073): Illuminate\\Console\\Command->run()
+#16 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(356): Symfony\\Component\\Console\\Application->doRunCommand()
+#17 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#18 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#19 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#20 {main}
+"} 
