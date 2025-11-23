@@ -35,8 +35,8 @@ python -m http.server 8000
 
 ## Configuración de Codex Chat en VS Code
 - Copia `.env.example` a `.env` y rellena `OPENAI_API_KEY` con tu clave válida (no se versiona).
-- Opcional: ajusta `OPENAI_API_BASE_URL` si tu endpoint difiere del valor por defecto.
-- Las variables se usan desde `.vscode/settings.json` para evitar el error 401 al iniciar la extensión `vscode-openai`.
+- Opcional: define `OPENAI_API_BASE_URL` solo si tu endpoint difiere del valor por defecto de la extensión.
+- `.vscode/settings.json` lee esas variables directamente, evitando hardcodear valores sensibles.
 
 ## Base de datos de prueba
 

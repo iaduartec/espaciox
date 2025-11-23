@@ -1,5 +1,5 @@
 {
   "chatgpt.runCodexInWindowsSubsystemForLinux": false,
   "vscode-openai.apiKey": "${env:OPENAI_API_KEY}",
-  "vscode-openai.apiBaseUrl": "${env:OPENAI_API_BASE_URL:https://api.arbs.io/openai/inference/v1}"
+  "vscode-openai.apiBaseUrl": "${env:OPENAI_API_BASE_URL}"
 }
