@@ -33,6 +33,11 @@ python -m http.server 8000
 - Reutiliza las clases existentes de `styles.css` para nuevas secciones.
 - Si añades nuevas interacciones, centralízalas en `assets/js/main.js` para mantener un único punto de scripts.
 
+## Configuración de Codex Chat en VS Code
+- Copia `.env.example` a `.env` y rellena `OPENAI_API_KEY` con tu clave válida (no se versiona).
+- Opcional: ajusta `OPENAI_API_BASE_URL` si tu endpoint difiere del valor por defecto.
+- Las variables se usan desde `.vscode/settings.json` para evitar el error 401 al iniciar la extensión `vscode-openai`.
+
 ## Base de datos de prueba
 
 1. Copia el .env
