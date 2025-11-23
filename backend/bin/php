@@ -6,4 +6,6 @@ php -d extension="${EXT_DIR}/dom.so" \
     -d extension="${EXT_DIR}/mysqlnd.so" \
     -d extension="${EXT_DIR}/pdo_mysql.so" \
     -d extension="${EXT_DIR}/mysqli.so" \
+    -d extension="${EXT_DIR}/pdo_sqlite.so" \
+    -d extension="${EXT_DIR}/sqlite3.so" \
     "$@"
