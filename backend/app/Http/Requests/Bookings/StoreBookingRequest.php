@@ -28,11 +28,6 @@ class StoreBookingRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(ValidatorContract $validator)
-    {
-        parent::failedValidation($validator);
-    }
-
     public function withValidator(ValidatorContract $validator): void
     {
         $validator->after(function (ValidatorContract $validator) {
