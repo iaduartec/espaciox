@@ -1,0 +1,1 @@
+report-with: php8.3-common php8.3-cli libphp8.3-embed libapache2-mod-php8.3 libapache2-mod-php8.3filter php8.3-cgi php8.3-fpm
