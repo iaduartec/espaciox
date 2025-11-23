@@ -1,6 +1,6 @@
 import "dotenv/config";
 import OpenAI from "openai";
-import * as fs from "node:fs";
+import { Jimp } from "jimp";
 import * as path from "node:path";
 
 async function main() {
@@ -16,23 +16,21 @@ async function main() {
 
   const imagesToGenerate = [
     {
-      fileName: "office-barra.png",
+      fileName: "office-barra.jpg",
       prompt:
         "Photo-realistic image of a modern, bright kitchenette in a private event venue, with marble countertop, steel pots, a bowl of lemons and colorful details, styled for small parties and corporate events.",
     },
     {
-      fileName: "salon-evento.png",
+      fileName: "salon-evento.jpg",
       prompt:
         "Photo-realistic image of an elegant event hall with round tables dressed in white, golden chairs and large crystal chandeliers turned on, ready for a family celebration or corporate dinner.",
     },
     {
-      fileName: "zona-infantil.png",
+      fileName: "zona-infantil.jpg",
       prompt:
         "Photo-realistic indoor kids play area with padded floor, colorful hoops and soft blocks, with an adult monitor nearby helping a small child, safe and joyful atmosphere.",
     },
   ];
-
-  await fs.promises.mkdir(baseDir, { recursive: true });
 
   for (const { fileName, prompt } of imagesToGenerate) {
     console.log(`Generando imagen para ${fileName}...`);
@@ -46,12 +44,16 @@ async function main() {
 
     const imageBase64 = response.data[0].b64_json;
     const buffer = Buffer.from(imageBase64, "base64");
+
+    const image = await Jimp.read(buffer);
+    image.quality(80).resize(1024, Jimp.AUTO);
+
     const outPath = path.join(baseDir, fileName);
-    fs.writeFileSync(outPath, buffer);
+    await image.writeAsync(outPath);
     console.log(`→ Guardada ${outPath}`);
   }
 
-  console.log("Imágenes generadas con OpenAI. Actualiza las rutas en las páginas HTML para usar los nuevos .png si lo deseas.");
+  console.log("Imágenes generadas y optimizadas (JPG, 1024px de ancho, calidad 80).");
 }
 
 main().catch((err) => {
