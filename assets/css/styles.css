@@ -218,7 +218,7 @@ nav a.active {
   position: absolute;
   inset: 0;
   background: linear-gradient(120deg, rgba(31, 47, 61, 0.75), rgba(20, 32, 43, 0.65)),
-    url('https://images.unsplash.com/photo-1505692069463-5e3405e3e7ee?auto=format&fit=crop&w=1600&q=80') center/cover;
+    url('../img/salon-celebraciones.jpg') center/cover;
   opacity: 0.3;
   z-index: 1;
 }
@@ -278,7 +278,7 @@ nav a.active {
 .hero-visual {
   min-height: 320px;
   background: linear-gradient(180deg, rgba(31, 47, 61, 0.55), rgba(31, 47, 61, 0.35)),
-    url('https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=1200&q=80') center/cover;
+    url('../img/zonas-polivalentes.jpg') center/cover;
   border-radius: 28px;
   box-shadow: var(--shadow-soft);
   position: relative;
