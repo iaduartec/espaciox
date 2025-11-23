@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { GoogleGenAI } from "@google/genai";
+import OpenAI from "openai";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
@@ -37,8 +37,8 @@ async function main() {
   for (const { fileName, prompt } of imagesToGenerate) {
     console.log(`Generando imagen para ${fileName}...`);
 
-    const response = await ai.models.generateImages({
-      model: "imagen-4.0-generate-001",
+    const response = await openai.images.generate({
+      model: "gpt-image-1",
       prompt,
       n: 1,
       size: "1024x1024",
