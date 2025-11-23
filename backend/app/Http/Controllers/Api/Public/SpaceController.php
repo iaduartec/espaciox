@@ -30,11 +30,13 @@ class SpaceController extends Controller
 
         $bookings = $space->bookings()
             ->where('status', '!=', 'cancelled')
-            ->whereBetween('start_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
+            ->where('start_at', '<', $end->copy()->endOfDay())
+            ->where('end_at', '>', $start->copy()->startOfDay())
             ->get();
 
         $blocks = $space->bookingBlocks()
-            ->whereBetween('start_at', [$start->copy()->startOfDay(), $end->copy()->endOfDay()])
+            ->where('start_at', '<', $end->copy()->endOfDay())
+            ->where('end_at', '>', $start->copy()->startOfDay())
             ->get();
 
         $days = [];
@@ -84,11 +86,13 @@ class SpaceController extends Controller
 
         $bookings = $space->bookings()
             ->where('status', '!=', 'cancelled')
-            ->whereBetween('start_at', [$periodStart, $periodEnd])
+            ->where('start_at', '<', $periodEnd)
+            ->where('end_at', '>', $periodStart)
             ->get();
 
         $blocks = $space->bookingBlocks()
-            ->whereBetween('start_at', [$periodStart, $periodEnd])
+            ->where('start_at', '<', $periodEnd)
+            ->where('end_at', '>', $periodStart)
             ->get();
 
         $slotStart = $periodStart->copy();
