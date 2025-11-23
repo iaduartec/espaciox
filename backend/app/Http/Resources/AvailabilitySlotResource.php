@@ -3,8 +3,6 @@
 namespace App\\Http\\Resources;
 
 use Illuminate\\Http\\Resources\\Json\\JsonResource;
-use Illuminate\\Support\\Carbon;
-
 class AvailabilitySlotResource extends JsonResource
 {
     public function toArray($request): array
