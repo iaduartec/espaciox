@@ -7,28 +7,26 @@ use App\\Http\\Controllers\\Api\\Admin\\BookingController as AdminBookingControl
 use App\\Http\\Controllers\\Api\\Admin\\BookingBlockController;
 use Illuminate\\Support\\Facades\\Route;
 
-Route::prefix('api')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
 
-    Route::get('spaces', [SpaceController::class, 'index']);
-    Route::get('spaces/{space}/calendar', [SpaceController::class, 'calendar']);
-    Route::get('spaces/{space}/availability', [SpaceController::class, 'availability']);
+Route::get('spaces', [SpaceController::class, 'index']);
+Route::get('spaces/{space}/calendar', [SpaceController::class, 'calendar']);
+Route::get('spaces/{space}/availability', [SpaceController::class, 'availability']);
 
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('me', [AuthController::class, 'me']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::get('me', [AuthController::class, 'me']);
 
-        Route::post('bookings', [ClientBookingController::class, 'store']);
-        Route::get('bookings/my', [ClientBookingController::class, 'index']);
-        Route::get('bookings/{booking}', [ClientBookingController::class, 'show']);
-        Route::patch('bookings/{booking}/cancel', [ClientBookingController::class, 'cancel']);
+    Route::post('bookings', [ClientBookingController::class, 'store']);
+    Route::get('bookings/my', [ClientBookingController::class, 'index']);
+    Route::get('bookings/{booking}', [ClientBookingController::class, 'show']);
+    Route::patch('bookings/{booking}/cancel', [ClientBookingController::class, 'cancel']);
 
-        Route::middleware('is_admin')->prefix('admin')->group(function () {
-            Route::get('bookings', [AdminBookingController::class, 'index']);
-            Route::patch('bookings/{booking}/confirm', [AdminBookingController::class, 'confirm']);
-            Route::patch('bookings/{booking}/cancel', [AdminBookingController::class, 'cancel']);
-            Route::post('blocks', [BookingBlockController::class, 'store']);
-        });
+    Route::middleware('is_admin')->prefix('admin')->group(function () {
+        Route::get('bookings', [AdminBookingController::class, 'index']);
+        Route::patch('bookings/{booking}/confirm', [AdminBookingController::class, 'confirm']);
+        Route::patch('bookings/{booking}/cancel', [AdminBookingController::class, 'cancel']);
+        Route::post('blocks', [BookingBlockController::class, 'store']);
     });
 });
