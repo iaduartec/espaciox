@@ -81,7 +81,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
             && !isset($_SERVER['IDEA_INITIAL_DIRECTORY']);
 
         if (null !== $this->href && $this->handlesHrefGracefully) {
-            $text = "\033]8;;$this->href\033\$text\033]8;;\033\";
+            $text = "\033]8;;$this->href\033\\$text\033]8;;\033\\";
         }
 
         return $this->color->apply($text);

@@ -164,8 +164,8 @@ final class VcsIgnoredFilterIterator extends \FilterIterator
 
     private function normalizePath(string $path): string
     {
-        if ('\' === \DIRECTORY_SEPARATOR) {
-            return str_replace('\', '/', $path);
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            return str_replace('\\', '/', $path);
         }
 
         return $path;

@@ -27,7 +27,7 @@ final class EscapableParser implements InlineParserInterface
 {
     public function getMatchDefinition(): InlineParserMatch
     {
-        return InlineParserMatch::string('\');
+        return InlineParserMatch::string('\\');
     }
 
     public function parse(InlineParserContext $inlineContext): bool
@@ -50,7 +50,7 @@ final class EscapableParser implements InlineParserInterface
         }
 
         $cursor->advanceBy(1);
-        $inlineContext->getContainer()->appendChild(new Text('\'));
+        $inlineContext->getContainer()->appendChild(new Text('\\'));
 
         return true;
     }

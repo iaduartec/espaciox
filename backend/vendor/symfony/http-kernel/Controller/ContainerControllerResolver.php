@@ -32,7 +32,7 @@ class ContainerControllerResolver extends ControllerResolver
 
     protected function instantiateController(string $class): object
     {
-        $class = ltrim($class, '\');
+        $class = ltrim($class, '\\');
 
         if ($this->container->has($class)) {
             return $this->container->get($class);

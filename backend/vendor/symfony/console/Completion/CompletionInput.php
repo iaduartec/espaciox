@@ -44,7 +44,7 @@ final class CompletionInput extends ArgvInput
      */
     public static function fromString(string $inputStr, int $currentIndex): self
     {
-        preg_match_all('/(?<=^|\s)([\'"]?)(.+?)(?<!\\)\1(?=$|\s)/', $inputStr, $tokens);
+        preg_match_all('/(?<=^|\s)([\'"]?)(.+?)(?<!\\\\)\1(?=$|\s)/', $inputStr, $tokens);
 
         return self::fromTokens($tokens[0], $currentIndex);
     }

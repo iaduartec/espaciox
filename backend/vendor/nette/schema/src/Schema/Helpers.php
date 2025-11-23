@@ -65,7 +65,7 @@ final class Helpers
 			&& ($type = preg_replace('#\s.*#', '', (string) self::parseAnnotation($prop, 'var')))
 		) {
 			$class = Reflection::getPropertyDeclaringClass($prop);
-			return preg_replace_callback('#[\w\\]+#', fn($m) => Reflection::expandClassName($m[0], $class), $type);
+			return preg_replace_callback('#[\w\\\]+#', fn($m) => Reflection::expandClassName($m[0], $class), $type);
 		}
 
 		return null;

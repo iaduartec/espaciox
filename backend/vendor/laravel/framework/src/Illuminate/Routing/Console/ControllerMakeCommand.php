@@ -207,7 +207,7 @@ class ControllerMakeCommand extends GeneratorCommand
      */
     protected function parseModel($model)
     {
-        if (preg_match('([^A-Za-z0-9_/\\])', $model)) {
+        if (preg_match('([^A-Za-z0-9_/\\\\])', $model)) {
             throw new InvalidArgumentException('Model name contains invalid characters.');
         }
 
@@ -224,21 +224,21 @@ class ControllerMakeCommand extends GeneratorCommand
     protected function buildFormRequestReplacements(array $replace, $modelClass)
     {
         [$namespace, $storeRequestClass, $updateRequestClass] = [
-            'Illuminate\Http', 'Request', 'Request',
+            'Illuminate\\Http', 'Request', 'Request',
         ];
 
         if ($this->option('requests')) {
-            $namespace = 'App\Http\Requests';
+            $namespace = 'App\\Http\\Requests';
 
             [$storeRequestClass, $updateRequestClass] = $this->generateFormRequests(
                 $modelClass, $storeRequestClass, $updateRequestClass
             );
         }
 
-        $namespacedRequests = $namespace.'\'.$storeRequestClass.';';
+        $namespacedRequests = $namespace.'\\'.$storeRequestClass.';';
 
         if ($storeRequestClass !== $updateRequestClass) {
-            $namespacedRequests .= PHP_EOL.'use '.$namespace.'\'.$updateRequestClass.';';
+            $namespacedRequests .= PHP_EOL.'use '.$namespace.'\\'.$updateRequestClass.';';
         }
 
         return array_merge($replace, [
@@ -246,10 +246,10 @@ class ControllerMakeCommand extends GeneratorCommand
             '{{storeRequest}}' => $storeRequestClass,
             '{{ updateRequest }}' => $updateRequestClass,
             '{{updateRequest}}' => $updateRequestClass,
-            '{{ namespacedStoreRequest }}' => $namespace.'\'.$storeRequestClass,
-            '{{namespacedStoreRequest}}' => $namespace.'\'.$storeRequestClass,
-            '{{ namespacedUpdateRequest }}' => $namespace.'\'.$updateRequestClass,
-            '{{namespacedUpdateRequest}}' => $namespace.'\'.$updateRequestClass,
+            '{{ namespacedStoreRequest }}' => $namespace.'\\'.$storeRequestClass,
+            '{{namespacedStoreRequest}}' => $namespace.'\\'.$storeRequestClass,
+            '{{ namespacedUpdateRequest }}' => $namespace.'\\'.$updateRequestClass,
+            '{{namespacedUpdateRequest}}' => $namespace.'\\'.$updateRequestClass,
             '{{ namespacedRequests }}' => $namespacedRequests,
             '{{namespacedRequests}}' => $namespacedRequests,
         ]);

@@ -40,8 +40,8 @@ final class ServiceValueResolver implements ValueResolverInterface
             return [];
         }
 
-        if ('\' === $controller[0]) {
-            $controller = ltrim($controller, '\');
+        if ('\\' === $controller[0]) {
+            $controller = ltrim($controller, '\\');
         }
 
         if (!$this->container->has($controller) && false !== $i = strrpos($controller, ':')) {

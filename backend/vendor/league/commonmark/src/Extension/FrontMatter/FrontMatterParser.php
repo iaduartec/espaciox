@@ -23,7 +23,7 @@ final class FrontMatterParser implements FrontMatterParserInterface
     /** @psalm-readonly */
     private FrontMatterDataParserInterface $frontMatterParser;
 
-    private const REGEX_FRONT_MATTER = '/^---\R.*?\R---\R/s';
+    private const REGEX_FRONT_MATTER = '/^---\\R.*?\\R---\\R/s';
 
     public function __construct(FrontMatterDataParserInterface $frontMatterParser)
     {

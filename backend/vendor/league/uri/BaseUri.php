@@ -147,14 +147,14 @@ class BaseUri implements Stringable, JsonSerializable, UriAccess
             $root = $matches['root'];
             $path = substr($path, strlen($root));
 
-            return $root.str_replace('/', '\', rawurldecode($path));
+            return $root.str_replace('/', '\\', rawurldecode($path));
         }
 
         $host = $this->uri->getHost();
 
         return match ($this->nullValue) {
-            $host => str_replace('/', '\', rawurldecode($originalPath)),
-            default => '\\'.$host.'\'.str_replace('/', '\', rawurldecode($path)),
+            $host => str_replace('/', '\\', rawurldecode($originalPath)),
+            default => '\\\\'.$host.'\\'.str_replace('/', '\\', rawurldecode($path)),
         };
     }
 

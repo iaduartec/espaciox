@@ -53,7 +53,7 @@ trait AuthorizesRequests
     {
         $ability = enum_value($ability);
 
-        if (is_string($ability) && ! str_contains($ability, '\')) {
+        if (is_string($ability) && ! str_contains($ability, '\\')) {
             return [$ability, $arguments];
         }
 

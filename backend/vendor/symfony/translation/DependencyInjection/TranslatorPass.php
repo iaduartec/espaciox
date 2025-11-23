@@ -60,7 +60,7 @@ class TranslatorPass implements CompilerPassInterface
                 // Resolve constraint validator FQCN even if defined as %foo.validator.class% parameter
                 $className = $container->getParameterBag()->resolveValue($definition->getClass());
                 // Extraction of the constraint class name from the Constraint Validator FQCN
-                $constraintClassNames[] = str_replace('Validator', '', substr(strrchr($className, '\'), 1));
+                $constraintClassNames[] = str_replace('Validator', '', substr(strrchr($className, '\\'), 1));
             }
 
             $constraintVisitorDefinition->setArgument(0, $constraintClassNames);

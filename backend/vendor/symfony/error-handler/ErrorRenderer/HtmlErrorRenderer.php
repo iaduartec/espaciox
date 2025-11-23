@@ -193,7 +193,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
     private function abbrClass(string $class): string
     {
-        $parts = explode('\', $class);
+        $parts = explode('\\', $class);
         $short = array_pop($parts);
 
         return \sprintf('<abbr title="%s">%s</abbr>', $class, $short);
@@ -201,7 +201,7 @@ class HtmlErrorRenderer implements ErrorRendererInterface
 
     private function getFileRelative(string $file): ?string
     {
-        $file = str_replace('\', '/', $file);
+        $file = str_replace('\\', '/', $file);
 
         if (null !== $this->projectDir && str_starts_with($file, $this->projectDir)) {
             return ltrim(substr($file, \strlen($this->projectDir)), '/');
@@ -257,15 +257,15 @@ class HtmlErrorRenderer implements ErrorRendererInterface
             $code = @highlight_file($file, true);
             if (\PHP_VERSION_ID >= 80300) {
                 // remove main pre/code tags
-                $code = preg_replace('#^<pre.*?>\s*<code.*?>(.*)</code>\s*</pre>#s', '\1', $code);
+                $code = preg_replace('#^<pre.*?>\s*<code.*?>(.*)</code>\s*</pre>#s', '\\1', $code);
                 // split multiline span tags
-                $code = preg_replace_callback('#<span ([^>]++)>((?:[^<\n]*+\n)++[^<]*+)</span>#', function ($m) {
+                $code = preg_replace_callback('#<span ([^>]++)>((?:[^<\\n]*+\\n)++[^<]*+)</span>#', function ($m) {
                     return "<span $m[1]>".str_replace("\n", "</span>\n<span $m[1]>", $m[2]).'</span>';
                 }, $code);
                 $content = explode("\n", $code);
             } else {
                 // remove main code/span tags
-                $code = preg_replace('#^<code.*?>\s*<span.*?>(.*)</span>\s*</code>#s', '\1', $code);
+                $code = preg_replace('#^<code.*?>\s*<span.*?>(.*)</span>\s*</code>#s', '\\1', $code);
                 // split multiline spans
                 $code = preg_replace_callback('#<span ([^>]++)>((?:[^<]*+<br \/>)++[^<]*+)</span>#', fn ($m) => "<span $m[1]>".str_replace('<br />', "</span><br /><span $m[1]>", $m[2]).'</span>', $code);
                 $content = explode('<br />', $code);

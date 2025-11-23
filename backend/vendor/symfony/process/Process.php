@@ -156,7 +156,7 @@ class Process implements \IteratorAggregate
         // on Gnu/Linux, PHP builds with --enable-maintainer-zts are also affected
         // @see : https://bugs.php.net/51800
         // @see : https://bugs.php.net/50524
-        if (null === $this->cwd && (\defined('ZEND_THREAD_SAFE') || '\' === \DIRECTORY_SEPARATOR)) {
+        if (null === $this->cwd && (\defined('ZEND_THREAD_SAFE') || '\\' === \DIRECTORY_SEPARATOR)) {
             $this->cwd = getcwd();
         }
         if (null !== $env) {
@@ -303,10 +303,10 @@ class Process implements \IteratorAggregate
         $descriptors = $this->getDescriptors(null !== $callback);
 
         if ($this->env) {
-            $env += '\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($this->env, $env, 'strcasecmp') : $this->env;
+            $env += '\\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($this->env, $env, 'strcasecmp') : $this->env;
         }
 
-        $env += '\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($this->getDefaultEnv(), $env, 'strcasecmp') : $this->getDefaultEnv();
+        $env += '\\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($this->getDefaultEnv(), $env, 'strcasecmp') : $this->getDefaultEnv();
 
         if (\is_array($commandline = $this->commandline)) {
             $commandline = array_values(array_map(strval(...), $commandline));
@@ -314,7 +314,7 @@ class Process implements \IteratorAggregate
             $commandline = $this->replacePlaceholders($commandline, $env);
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $commandline = $this->prepareWindowsCommandLine($commandline, $env);
         } elseif ($this->isSigchildEnabled()) {
             // last exit code is output on the fourth pipe and caught to work around --enable-sigchild
@@ -448,8 +448,8 @@ class Process implements \IteratorAggregate
 
         do {
             $this->checkTimeout();
-            $running = $this->isRunning() && ('\' === \DIRECTORY_SEPARATOR || $this->processPipes->areOpen());
-            $this->readPipes($running, '\' !== \DIRECTORY_SEPARATOR || !$running);
+            $running = $this->isRunning() && ('\\' === \DIRECTORY_SEPARATOR || $this->processPipes->areOpen());
+            $this->readPipes($running, '\\' !== \DIRECTORY_SEPARATOR || !$running);
         } while ($running);
 
         while ($this->isRunning()) {
@@ -489,8 +489,8 @@ class Process implements \IteratorAggregate
         $ready = false;
         while (true) {
             $this->checkTimeout();
-            $running = '\' === \DIRECTORY_SEPARATOR ? $this->isRunning() : $this->processPipes->areOpen();
-            $output = $this->processPipes->readAndWrite($running, '\' !== \DIRECTORY_SEPARATOR || !$running);
+            $running = '\\' === \DIRECTORY_SEPARATOR ? $this->isRunning() : $this->processPipes->areOpen();
+            $output = $this->processPipes->readAndWrite($running, '\\' !== \DIRECTORY_SEPARATOR || !$running);
 
             foreach ($output as $type => $data) {
                 if (3 !== $type) {
@@ -1040,7 +1040,7 @@ class Process implements \IteratorAggregate
      */
     public function setTty(bool $tty): static
     {
-        if ('\' === \DIRECTORY_SEPARATOR && $tty) {
+        if ('\\' === \DIRECTORY_SEPARATOR && $tty) {
             throw new RuntimeException('TTY mode is not supported on Windows platform.');
         }
 
@@ -1261,7 +1261,7 @@ class Process implements \IteratorAggregate
             return $result;
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             return $result = false;
         }
 
@@ -1276,7 +1276,7 @@ class Process implements \IteratorAggregate
         if ($this->input instanceof \Iterator) {
             $this->input->rewind();
         }
-        if ('\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $this->processPipes = new WindowsPipes($this->input, !$this->outputDisabled || $hasCallback);
         } else {
             $this->processPipes = new UnixPipes($this->isTty(), $this->isPty(), $this->input, !$this->outputDisabled || $hasCallback);
@@ -1328,7 +1328,7 @@ class Process implements \IteratorAggregate
         }
         $running = $this->processInformation['running'];
 
-        $this->readPipes($running && $blocking, '\' !== \DIRECTORY_SEPARATOR || !$running);
+        $this->readPipes($running && $blocking, '\\' !== \DIRECTORY_SEPARATOR || !$running);
 
         if ($this->fallbackStatus && $this->isSigchildEnabled()) {
             $this->processInformation = $this->fallbackStatus + $this->processInformation;
@@ -1492,7 +1492,7 @@ class Process implements \IteratorAggregate
             return false;
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             exec(\sprintf('taskkill /F /T /PID %d 2>&1', $pid), $output, $exitCode);
             if ($exitCode && $this->isRunning()) {
                 if ($throwException) {
@@ -1532,7 +1532,7 @@ class Process implements \IteratorAggregate
             return $commandline;
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR && isset($commandline[0][0]) && \strlen($commandline[0]) === strcspn($commandline[0], ':/\')) {
+        if ('\\' === \DIRECTORY_SEPARATOR && isset($commandline[0][0]) && \strlen($commandline[0]) === strcspn($commandline[0], ':/\\')) {
             // On Windows, we don't rely on the OS to find the executable if possible to avoid lookups
             // in the current directory which could be untrusted. Instead we use the ExecutableFinder.
             $commandline[0] = (self::$executables[$commandline[0]] ??= (new ExecutableFinder())->find($commandline[0])) ?? $commandline[0];
@@ -1570,7 +1570,7 @@ class Process implements \IteratorAggregate
                 }
 
                 $value = str_replace(['!LF!', '"^!"', '"^%"', '"^^"', '""'], ["\n", '!', '%', '^', '"'], $value);
-                $value = '"'.preg_replace('/(\\*)"/', '$1$1\"', $value).'"';
+                $value = '"'.preg_replace('/(\\\\*)"/', '$1$1\\"', $value).'"';
                 $var = $uid.++$varCount;
 
                 $env[$var] = $value;
@@ -1584,7 +1584,7 @@ class Process implements \IteratorAggregate
 
         if (!$comSpec && $comSpec = (new ExecutableFinder())->find('cmd.exe')) {
             // Escape according to CommandLineToArgvW rules
-            $comSpec = '"'.preg_replace('{(\\*+)"}', '$1$1\"', $comSpec).'"';
+            $comSpec = '"'.preg_replace('{(\\\\*+)"}', '$1$1\"', $comSpec).'"';
         }
 
         $cmd = ($comSpec ?? 'cmd').' /V:ON /E:ON /D /C ('.str_replace("\n", ' ', $cmd).')';
@@ -1627,8 +1627,8 @@ class Process implements \IteratorAggregate
         if ('' === $argument || null === $argument) {
             return '""';
         }
-        if ('\' !== \DIRECTORY_SEPARATOR) {
-            return "'".str_replace("'", "'\''", $argument)."'";
+        if ('\\' !== \DIRECTORY_SEPARATOR) {
+            return "'".str_replace("'", "'\\''", $argument)."'";
         }
         if (str_contains($argument, "\0")) {
             $argument = str_replace("\0", '?', $argument);
@@ -1636,7 +1636,7 @@ class Process implements \IteratorAggregate
         if (!preg_match('/[()%!^"<>&|\s]/', $argument)) {
             return $argument;
         }
-        $argument = preg_replace('/(\\+)$/', '$1$1', $argument);
+        $argument = preg_replace('/(\\\\+)$/', '$1$1', $argument);
 
         return '"'.str_replace(['"', '^', '%', '!', "\n"], ['""', '"^^"', '"^%"', '"^!"', '!LF!'], $argument).'"';
     }
@@ -1655,8 +1655,8 @@ class Process implements \IteratorAggregate
     private function getDefaultEnv(): array
     {
         $env = getenv();
-        $env = ('\' === \DIRECTORY_SEPARATOR ? array_intersect_ukey($env, $_SERVER, 'strcasecmp') : array_intersect_key($env, $_SERVER)) ?: $env;
+        $env = ('\\' === \DIRECTORY_SEPARATOR ? array_intersect_ukey($env, $_SERVER, 'strcasecmp') : array_intersect_key($env, $_SERVER)) ?: $env;
 
-        return $_ENV + ('\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($env, $_ENV, 'strcasecmp') : $env);
+        return $_ENV + ('\\' === \DIRECTORY_SEPARATOR ? array_diff_ukey($env, $_ENV, 'strcasecmp') : $env);
     }
 }

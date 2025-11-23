@@ -93,7 +93,7 @@ class PHPConsoleHandler extends AbstractProcessingHandler
      */
     private array $options = [
         'enabled' => true, // bool Is PHP Console server enabled
-        'classesPartialsTraceIgnore' => ['Monolog\'], // array Hide calls of classes started with...
+        'classesPartialsTraceIgnore' => ['Monolog\\'], // array Hide calls of classes started with...
         'debugTagsKeysInContext' => [0, 'tag'], // bool Is PHP Console server enabled
         'useOwnErrorsHandler' => false, // bool Enable errors handling
         'useOwnExceptionsHandler' => false, // bool Enable exceptions handling

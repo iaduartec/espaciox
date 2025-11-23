@@ -14,7 +14,7 @@ class Sanctum
      *
      * @var class-string<TToken>
      */
-    public static $personalAccessTokenModel = 'Laravel\Sanctum\PersonalAccessToken';
+    public static $personalAccessTokenModel = 'Laravel\\Sanctum\\PersonalAccessToken';
 
     /**
      * A callback that can get the token from the request.

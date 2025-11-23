@@ -96,7 +96,7 @@ class XliffUtils
             });
             $schema = '<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <xsd:include schemaLocation="file:///'.str_replace('\', '/', $tmpfile).'" />
+  <xsd:include schemaLocation="file:///'.str_replace('\\', '/', $tmpfile).'" />
 </xsd:schema>';
             file_put_contents($tmpfile, '<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -146,21 +146,21 @@ class XliffUtils
      */
     private static function fixXmlLocation(string $schemaSource, string $xmlUri): string
     {
-        $newPath = str_replace('\', '/', __DIR__).'/../Resources/schemas/xml.xsd';
+        $newPath = str_replace('\\', '/', __DIR__).'/../Resources/schemas/xml.xsd';
         $parts = explode('/', $newPath);
         $locationstart = 'file:///';
         if (0 === stripos($newPath, 'phar://')) {
             $tmpfile = tempnam(sys_get_temp_dir(), 'symfony');
             if ($tmpfile) {
                 copy($newPath, $tmpfile);
-                $parts = explode('/', str_replace('\', '/', $tmpfile));
+                $parts = explode('/', str_replace('\\', '/', $tmpfile));
             } else {
                 array_shift($parts);
                 $locationstart = 'phar:///';
             }
         }
 
-        $drive = '\' === \DIRECTORY_SEPARATOR ? array_shift($parts).'/' : '';
+        $drive = '\\' === \DIRECTORY_SEPARATOR ? array_shift($parts).'/' : '';
         $newPath = $locationstart.$drive.implode('/', array_map('rawurlencode', $parts));
 
         return str_replace($xmlUri, $newPath, $schemaSource);

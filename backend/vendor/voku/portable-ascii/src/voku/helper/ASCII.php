@@ -987,7 +987,7 @@ final class ASCII
 
         $str = (string) \preg_replace(
             [
-                '/[^' . $fallback_char_escaped . '.\-a-zA-Z\d\s]/', // 1) remove un-needed chars
+                '/[^' . $fallback_char_escaped . '.\\-a-zA-Z\d\\s]/', // 1) remove un-needed chars
                 '/\s+/u',                                             // 2) convert spaces to $fallback_char
                 '/[' . $fallback_char_escaped . ']+/u',               // 3) remove double $fallback_char's
             ],
@@ -1055,7 +1055,7 @@ final class ASCII
         $str = \str_replace('@', $separator, $str);
 
         $str = (string) \preg_replace(
-            '/[^a-zA-Z\d\s\-_' . \preg_quote($separator, '/') . ']/',
+            '/[^a-zA-Z\\d\\s\\-_' . \preg_quote($separator, '/') . ']/',
             '',
             $str
         );
@@ -1064,9 +1064,9 @@ final class ASCII
             $str = \strtolower($str);
         }
 
-        $str = (string) \preg_replace('/^[\'\s]+|[\'\s]+$/', '', $str);
-        $str = (string) \preg_replace('/\B([A-Z])/', '-\1', $str);
-        $str = (string) \preg_replace('/[\-_\s]+/', $separator, $str);
+        $str = (string) \preg_replace('/^[\'\\s]+|[\'\\s]+$/', '', $str);
+        $str = (string) \preg_replace('/\\B([A-Z])/', '-\1', $str);
+        $str = (string) \preg_replace('/[\\-_\\s]+/', $separator, $str);
 
         $l = \strlen($separator);
         if ($l && \strpos($str, $separator) === 0) {

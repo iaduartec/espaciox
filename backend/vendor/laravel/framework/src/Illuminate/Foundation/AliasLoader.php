@@ -23,7 +23,7 @@ class AliasLoader
      *
      * @var string
      */
-    protected static $facadeNamespace = 'Facades\';
+    protected static $facadeNamespace = 'Facades\\';
 
     /**
      * The singleton instance of the loader.
@@ -121,7 +121,7 @@ class AliasLoader
     protected function formatFacadeStub($alias, $stub)
     {
         $replacements = [
-            str_replace('/', '\', dirname(str_replace('\', '/', $alias))),
+            str_replace('/', '\\', dirname(str_replace('\\', '/', $alias))),
             class_basename($alias),
             substr($alias, strlen(static::$facadeNamespace)),
         ];
@@ -217,7 +217,7 @@ class AliasLoader
      */
     public static function setFacadeNamespace($namespace)
     {
-        static::$facadeNamespace = rtrim($namespace, '\').'\';
+        static::$facadeNamespace = rtrim($namespace, '\\').'\\';
     }
 
     /**

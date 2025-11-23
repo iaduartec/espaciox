@@ -121,11 +121,11 @@ class ComponentTagCompiler
                             )
                             |
                             (?:
-                                \{\{\s*\\$attributes(?:[^}]+?)?\s*\}\}
+                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
                             )
                             |
                             (?:
-                                (\:\\$)(\w+)
+                                (\:\\\$)(\w+)
                             )
                             |
                             (?:
@@ -133,11 +133,11 @@ class ComponentTagCompiler
                                 (
                                     =
                                     (?:
-                                        \\"[^\\"]*\\"
+                                        \\\"[^\\\"]*\\\"
                                         |
                                         \'[^\']*\'
                                         |
-                                        [^\'\\"=<>]+
+                                        [^\'\\\"=<>]+
                                     )
                                 )?
                             )
@@ -186,11 +186,11 @@ class ComponentTagCompiler
                             )
                             |
                             (?:
-                                \{\{\s*\\$attributes(?:[^}]+?)?\s*\}\}
+                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
                             )
                             |
                             (?:
-                                (\:\\$)(\w+)
+                                (\:\\\$)(\w+)
                             )
                             |
                             (?:
@@ -198,11 +198,11 @@ class ComponentTagCompiler
                                 (
                                     =
                                     (?:
-                                        \\"[^\\"]*\\"
+                                        \\\"[^\\\"]*\\\"
                                         |
                                         \'[^\']*\'
                                         |
-                                        [^\'\\"=<>]+
+                                        [^\'\\\"=<>]+
                                     )
                                 )?
                             )
@@ -246,7 +246,7 @@ class ComponentTagCompiler
         // can be accessed within the component and we can render out the view.
         if (! class_exists($class)) {
             $view = Str::startsWith($component, 'mail::')
-                ? "\$__env->getContainer()->make(Illuminate\View\Factory::class)->make('{$component}')"
+                ? "\$__env->getContainer()->make(Illuminate\\View\\Factory::class)->make('{$component}')"
                 : "'$class'";
 
             $parameters = [
@@ -261,7 +261,7 @@ class ComponentTagCompiler
 
         return "##BEGIN-COMPONENT-CLASS##@component('{$class}', '{$component}', [".$this->attributesToString($parameters, $escapeBound = false).'])
 <?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\'.$class.'::ignoredParameterNames()); ?>
+<?php $attributes = $attributes->except(\\'.$class.'::ignoredParameterNames()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['.$this->attributesToString($attributes->all(), $escapeAttributes = $class !== DynamicComponent::class).']); ?>';
     }
@@ -300,7 +300,7 @@ class ComponentTagCompiler
             return $class;
         }
 
-        if (class_exists($class = $class.'\'.Str::afterLast($class, '\'))) {
+        if (class_exists($class = $class.'\\'.Str::afterLast($class, '\\'))) {
             return $class;
         }
 
@@ -407,7 +407,7 @@ class ComponentTagCompiler
             return;
         }
 
-        if (class_exists($class = $this->namespaces[$prefix].'\'.$this->formatClassName($segments[1]))) {
+        if (class_exists($class = $this->namespaces[$prefix].'\\'.$this->formatClassName($segments[1]))) {
             return $class;
         }
     }
@@ -426,7 +426,7 @@ class ComponentTagCompiler
 
         $class = $this->formatClassName($component);
 
-        return $namespace.'View\Components\'.$class;
+        return $namespace.'View\\Components\\'.$class;
     }
 
     /**
@@ -441,7 +441,7 @@ class ComponentTagCompiler
             return ucfirst(Str::camel($componentPiece));
         }, explode('.', $component));
 
-        return implode('\', $componentPieces);
+        return implode('\\', $componentPieces);
     }
 
     /**
@@ -517,8 +517,8 @@ class ComponentTagCompiler
                 \s*
                 x[\-\:]slot
                 (?:\:(?<inlineName>\w+(?:-\w+)*))?
-                (?:\s+name=(?<name>(\"[^\"]+\"|\\'[^\\']+\\'|[^\s>]+)))?
-                (?:\s+\:name=(?<boundName>(\"[^\"]+\"|\\'[^\\']+\\'|[^\s>]+)))?
+                (?:\s+name=(?<name>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?
+                (?:\s+\:name=(?<boundName>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+)))?
                 (?<attributes>
                     (?:
                         \s+
@@ -532,7 +532,7 @@ class ComponentTagCompiler
                             )
                             |
                             (?:
-                                \{\{\s*\\$attributes(?:[^}]+?)?\s*\}\}
+                                \{\{\s*\\\$attributes(?:[^}]+?)?\s*\}\}
                             )
                             |
                             (?:
@@ -540,11 +540,11 @@ class ComponentTagCompiler
                                 (
                                     =
                                     (?:
-                                        \\"[^\\"]*\\"
+                                        \\\"[^\\\"]*\\\"
                                         |
                                         \'[^\']*\'
                                         |
-                                        [^\'\\"=<>]+
+                                        [^\'\\\"=<>]+
                                     )
                                 )?
                             )
@@ -607,7 +607,7 @@ class ComponentTagCompiler
                     (
                         \"[^\"]+\"
                         |
-                        \\'[^\\']+\\'
+                        \\\'[^\\\']+\\\'
                         |
                         [^\s>]+
                     )
@@ -655,7 +655,7 @@ class ComponentTagCompiler
      */
     protected function parseShortAttributeSyntax(string $value)
     {
-        $pattern = "/\s\:\\$(\w+)/x";
+        $pattern = "/\s\:\\\$(\w+)/x";
 
         return preg_replace_callback($pattern, function (array $matches) {
             return " :{$matches[1]}=\"\${$matches[1]}\"";
@@ -672,7 +672,7 @@ class ComponentTagCompiler
     {
         $pattern = "/
             (?:^|\s+)                                        # start of the string or whitespace between attributes
-            \{\{\s*(\\$attributes(?:[^}]+?(?<!\s))?)\s*\}\} # exact match of attributes variable being echoed
+            \{\{\s*(\\\$attributes(?:[^}]+?(?<!\s))?)\s*\}\} # exact match of attributes variable being echoed
         /x";
 
         return preg_replace($pattern, ' :attributes="$1"', $attributeString);
@@ -772,7 +772,7 @@ class ComponentTagCompiler
             }
 
             return $token[0] === T_INLINE_HTML
-                        ? str_replace("'", "\'", $token[1])
+                        ? str_replace("'", "\\'", $token[1])
                         : $token[1];
         })->implode('');
     }

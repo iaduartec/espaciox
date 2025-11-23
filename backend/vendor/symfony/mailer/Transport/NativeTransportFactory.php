@@ -33,7 +33,7 @@ final class NativeTransportFactory extends AbstractTransportFactory
             return new SendmailTransport($sendMailPath, $this->dispatcher, $this->logger);
         }
 
-        if ('\' !== \DIRECTORY_SEPARATOR) {
+        if ('\\' !== \DIRECTORY_SEPARATOR) {
             throw new TransportException('sendmail_path is not configured in php.ini.');
         }
 

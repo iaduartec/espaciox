@@ -44,11 +44,11 @@ final class Psr4DirectoryLoader extends Loader implements DirectoryAwareLoaderIn
             return new RouteCollection();
         }
 
-        if (!preg_match('/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\)++$/', trim($resource['namespace'], '\').'\')) {
+        if (!preg_match('/^(?:[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+\\\)++$/', trim($resource['namespace'], '\\').'\\')) {
             throw new InvalidArgumentException(\sprintf('Namespace "%s" is not a valid PSR-4 prefix.', $resource['namespace']));
         }
 
-        return $this->loadFromDirectory($path, trim($resource['namespace'], '\'));
+        return $this->loadFromDirectory($path, trim($resource['namespace'], '\\'));
     }
 
     public function supports(mixed $resource, ?string $type = null): bool
@@ -80,11 +80,11 @@ final class Psr4DirectoryLoader extends Loader implements DirectoryAwareLoaderIn
         /** @var \SplFileInfo $file */
         foreach ($files as $file) {
             if ($file->isDir()) {
-                $collection->addCollection($this->loadFromDirectory($file->getPathname(), $psr4Prefix.'\'.$file->getFilename()));
+                $collection->addCollection($this->loadFromDirectory($file->getPathname(), $psr4Prefix.'\\'.$file->getFilename()));
 
                 continue;
             }
-            if ('php' !== $file->getExtension() || !class_exists($className = $psr4Prefix.'\'.$file->getBasename('.php')) || (new \ReflectionClass($className))->isAbstract()) {
+            if ('php' !== $file->getExtension() || !class_exists($className = $psr4Prefix.'\\'.$file->getBasename('.php')) || (new \ReflectionClass($className))->isAbstract()) {
                 continue;
             }
 

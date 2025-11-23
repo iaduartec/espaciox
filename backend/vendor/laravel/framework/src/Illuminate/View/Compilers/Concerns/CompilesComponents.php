@@ -34,7 +34,7 @@ trait CompilesComponents
             $component === AnonymousComponent::class ? $component.':'.trim($alias, '\'"') : $component
         );
 
-        if (Str::contains($component, ['::class', '\'])) {
+        if (Str::contains($component, ['::class', '\\'])) {
             return static::compileClassComponentOpening($component, $alias, $data, $hash);
         }
 
@@ -157,7 +157,7 @@ trait CompilesComponents
      */
     protected function compileProps($expression)
     {
-        return "<?php \$attributes ??= new \Illuminate\View\ComponentAttributeBag;
+        return "<?php \$attributes ??= new \\Illuminate\\View\\ComponentAttributeBag;
 
 \$__newAttributes = [];
 \$__propNames = \Illuminate\View\ComponentAttributeBag::extractPropNames({$expression});

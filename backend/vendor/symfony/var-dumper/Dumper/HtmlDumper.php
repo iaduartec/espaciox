@@ -152,7 +152,7 @@ class HtmlDumper extends CliDumper
 Sfdump = window.Sfdump || (function (doc) {
 doc.documentElement.classList.add('sf-js-enabled');
 
-var rxEsc = /([.*+?^${}()|\[\]\/\])/g,
+var rxEsc = /([.*+?^${}()|\[\]\/\\])/g,
     idRx = /\bsf-dump-\d+-ref[012]\w+\b/,
     keyHint = 0 <= navigator.platform.toUpperCase().indexOf('MAC') ? 'Cmd' : 'Ctrl',
     addEventListener = function (e, n, cb) {
@@ -286,7 +286,7 @@ function resetHighlightedNodes(root) {
 return function (root, x) {
     root = doc.getElementById(root);
 
-    var indentRx = new RegExp('^('+(root.getAttribute('data-indent-pad') || '  ').replace(rxEsc, '\$1')+')+', 'm'),
+    var indentRx = new RegExp('^('+(root.getAttribute('data-indent-pad') || '  ').replace(rxEsc, '\\$1')+')+', 'm'),
         options = {$options},
         elt = root.getElementsByTagName('A'),
         len = elt.length,
@@ -357,7 +357,7 @@ return function (root, x) {
                 f = f.firstChild.nodeValue.match(indentRx);
                 t = t.firstChild.nodeValue.match(indentRx);
                 if (f && t && f[0] !== t[0]) {
-                    r.innerHTML = r.innerHTML.replace(new RegExp('^'+f[0].replace(rxEsc, '\$1'), 'mg'), t[0]);
+                    r.innerHTML = r.innerHTML.replace(new RegExp('^'+f[0].replace(rxEsc, '\\$1'), 'mg'), t[0]);
                 }
                 if (/\bsf-dump-compact\b/.test(r.className)) {
                     toggle(s, isCtrlKey(e));
@@ -845,7 +845,7 @@ EOHTML
             $dumpTitle = empty($attr['dynamic']) ? 'Public property' : 'Runtime added dynamic property';
         } elseif ('str' === $style && 1 < $attr['length']) {
             $dumpTitle = \sprintf('%d%s characters', $attr['length'], $attr['binary'] ? ' binary or non-UTF-8' : '');
-        } elseif ('note' === $style && 0 < ($attr['depth'] ?? 0) && false !== $c = strrpos($value, '\')) {
+        } elseif ('note' === $style && 0 < ($attr['depth'] ?? 0) && false !== $c = strrpos($value, '\\')) {
             $attr += [
                 'ellipsis' => \strlen($value) - $c,
                 'ellipsis-type' => 'note',

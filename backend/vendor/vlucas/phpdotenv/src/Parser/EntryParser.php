@@ -235,7 +235,7 @@ final class EntryParser
                 if ($token === '"') {
                     /** @var \GrahamCampbell\ResultType\Result<array{string, bool, int}, string> */
                     return Success::create(['', false, self::WHITESPACE_STATE]);
-                } elseif ($token === '\') {
+                } elseif ($token === '\\') {
                     /** @var \GrahamCampbell\ResultType\Result<array{string, bool, int}, string> */
                     return Success::create(['', false, self::ESCAPE_SEQUENCE_STATE]);
                 } elseif ($token === '$') {
@@ -246,7 +246,7 @@ final class EntryParser
                     return Success::create([$token, false, self::DOUBLE_QUOTED_STATE]);
                 }
             case self::ESCAPE_SEQUENCE_STATE:
-                if ($token === '"' || $token === '\') {
+                if ($token === '"' || $token === '\\') {
                     /** @var \GrahamCampbell\ResultType\Result<array{string, bool, int}, string> */
                     return Success::create([$token, false, self::DOUBLE_QUOTED_STATE]);
                 } elseif ($token === '$') {
@@ -256,7 +256,7 @@ final class EntryParser
                     $first = Str::substr($token, 0, 1);
                     if (\in_array($first, ['f', 'n', 'r', 't', 'v'], true)) {
                         /** @var \GrahamCampbell\ResultType\Result<array{string, bool, int}, string> */
-                        return Success::create([\stripcslashes('\'.$first).Str::substr($token, 1), false, self::DOUBLE_QUOTED_STATE]);
+                        return Success::create([\stripcslashes('\\'.$first).Str::substr($token, 1), false, self::DOUBLE_QUOTED_STATE]);
                     } else {
                         /** @var \GrahamCampbell\ResultType\Result<array{string, bool, int}, string> */
                         return Error::create('an unexpected escape sequence');

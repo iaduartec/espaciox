@@ -179,16 +179,16 @@ final class TableParser extends AbstractBlockContinueParser implements BlockCont
 
         while (! $cursor->isAtEnd()) {
             switch ($c = $cursor->getCurrentCharacter()) {
-                case '\':
+                case '\\':
                     if ($cursor->peek() === '|') {
                         // Pipe is special for table parsing. An escaped pipe doesn't result in a new cell, but is
                         // passed down to inline parsing as an unescaped pipe. Note that that applies even for the `\|`
-                        // in an input like `\|` - in other words, table parsing doesn't support escaping backslashes.
+                        // in an input like `\\|` - in other words, table parsing doesn't support escaping backslashes.
                         $sb .= '|';
                         $cursor->advanceBy(1);
                     } else {
                         // Preserve backslash before other characters or at end of line.
-                        $sb .= '\';
+                        $sb .= '\\';
                     }
 
                     break;

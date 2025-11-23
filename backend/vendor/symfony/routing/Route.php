@@ -444,14 +444,14 @@ class Route implements \Serializable
         if ('' !== $regex) {
             if ('^' === $regex[0]) {
                 $regex = substr($regex, 1);
-            } elseif (str_starts_with($regex, '\A')) {
+            } elseif (str_starts_with($regex, '\\A')) {
                 $regex = substr($regex, 2);
             }
         }
 
         if (str_ends_with($regex, '$')) {
             $regex = substr($regex, 0, -1);
-        } elseif (\strlen($regex) - 2 === strpos($regex, '\z')) {
+        } elseif (\strlen($regex) - 2 === strpos($regex, '\\z')) {
             $regex = substr($regex, 0, -2);
         }
 

@@ -756,13 +756,13 @@ class BladeCompiler extends Compiler implements CompilerInterface
      */
     public function component($class, $alias = null, $prefix = '')
     {
-        if (! is_null($alias) && str_contains($alias, '\')) {
+        if (! is_null($alias) && str_contains($alias, '\\')) {
             [$class, $alias] = [$alias, $class];
         }
 
         if (is_null($alias)) {
-            $alias = str_contains($class, '\View\Components\')
-                            ? (new Collection(explode('\', Str::after($class, '\View\Components\'))))->map(function ($segment) {
+            $alias = str_contains($class, '\\View\\Components\\')
+                            ? (new Collection(explode('\\', Str::after($class, '\\View\\Components\\'))))->map(function ($segment) {
                                 return Str::kebab($segment);
                             })->implode(':')
                             : Str::kebab(class_basename($class));

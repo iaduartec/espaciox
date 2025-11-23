@@ -128,12 +128,12 @@ class Terminal
             return false;
         }
 
-        return self::$stty = (bool) shell_exec('stty 2> '.('\' === \DIRECTORY_SEPARATOR ? 'NUL' : '/dev/null'));
+        return self::$stty = (bool) shell_exec('stty 2> '.('\\' === \DIRECTORY_SEPARATOR ? 'NUL' : '/dev/null'));
     }
 
     private static function initDimensions(): void
     {
-        if ('\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $ansicon = getenv('ANSICON');
             if (false !== $ansicon && preg_match('/^(\d+)x(\d+)(?: \((\d+)x(\d+)\))?$/', trim($ansicon), $matches)) {
                 // extract [w, H] from "wxh (WxH)"

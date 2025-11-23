@@ -57,7 +57,7 @@ class EventGenerateCommand extends Command
      */
     protected function makeEventAndListeners($event, $listeners)
     {
-        if (! str_contains($event, '\')) {
+        if (! str_contains($event, '\\')) {
             return;
         }
 

@@ -36,12 +36,12 @@ class Gitignore
 
     private static function buildRegex(string $gitignoreFileContent, bool $inverted): string
     {
-        $gitignoreFileContent = preg_replace('~(?<!\\)#[^\n\r]*~', '', $gitignoreFileContent);
+        $gitignoreFileContent = preg_replace('~(?<!\\\\)#[^\n\r]*~', '', $gitignoreFileContent);
         $gitignoreLines = preg_split('~\r\n?|\n~', $gitignoreFileContent);
 
         $res = self::lineToRegex('');
         foreach ($gitignoreLines as $line) {
-            $line = preg_replace('~(?<!\\)[ \t]+$~', '', $line);
+            $line = preg_replace('~(?<!\\\\)[ \t]+$~', '', $line);
 
             if (str_starts_with($line, '!')) {
                 $line = substr($line, 1);
@@ -78,11 +78,11 @@ class Gitignore
             $isAbsolute = false;
         }
 
-        $regex = preg_quote(str_replace('\', '', $gitignoreLine), '~');
-        $regex = preg_replace_callback('~\\\[((?:\\!)?)([^\[\]]*)\\\]~', fn (array $matches): string => '['.('' !== $matches[1] ? '^' : '').str_replace('\-', '-', $matches[2]).']', $regex);
-        $regex = preg_replace('~(?:(?:\\\*){2,}(/?))+~', '(?:(?:(?!//).(?<!//))+$1)?', $regex);
-        $regex = preg_replace('~\\\*~', '[^/]*', $regex);
-        $regex = preg_replace('~\\\?~', '[^/]', $regex);
+        $regex = preg_quote(str_replace('\\', '', $gitignoreLine), '~');
+        $regex = preg_replace_callback('~\\\\\[((?:\\\\!)?)([^\[\]]*)\\\\\]~', fn (array $matches): string => '['.('' !== $matches[1] ? '^' : '').str_replace('\\-', '-', $matches[2]).']', $regex);
+        $regex = preg_replace('~(?:(?:\\\\\*){2,}(/?))+~', '(?:(?:(?!//).(?<!//))+$1)?', $regex);
+        $regex = preg_replace('~\\\\\*~', '[^/]*', $regex);
+        $regex = preg_replace('~\\\\\?~', '[^/]', $regex);
 
         return ($isAbsolute ? '' : '(?:[^/]+/)*')
             .$regex

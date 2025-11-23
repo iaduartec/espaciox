@@ -51,9 +51,9 @@ class ListenerMakeCommand extends GeneratorCommand
         if (! Str::startsWith($event, [
             $this->laravel->getNamespace(),
             'Illuminate',
-            '\',
+            '\\',
         ])) {
-            $event = $this->laravel->getNamespace().'Events\'.str_replace('/', '\', $event);
+            $event = $this->laravel->getNamespace().'Events\\'.str_replace('/', '\\', $event);
         }
 
         $stub = str_replace(
@@ -61,7 +61,7 @@ class ListenerMakeCommand extends GeneratorCommand
         );
 
         return str_replace(
-            ['DummyFullEvent', '{{ eventNamespace }}'], trim($event, '\'), $stub
+            ['DummyFullEvent', '{{ eventNamespace }}'], trim($event, '\\'), $stub
         );
     }
 

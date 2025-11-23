@@ -201,7 +201,7 @@ class Factory
         's' => '([0-5][0-9])',
         'u' => '([0-9]{1,6})',
         'v' => '([0-9]{1,3})',
-        'e' => '([a-zA-Z]{1,5})|([a-zA-Z]*\/[a-zA-Z]*)',
+        'e' => '([a-zA-Z]{1,5})|([a-zA-Z]*\\/[a-zA-Z]*)',
         'I' => '(0|1)',
         'O' => '([+-](1[0123]|0[0-9])[0134][05])',
         'P' => '([+-](1[0123]|0[0-9]):[0134][05])',
@@ -223,7 +223,7 @@ class Factory
     protected array $regexFormatModifiers = [
         '*' => '.+',
         ' ' => '[   ]',
-        '#' => '[;:\/.,()-]',
+        '#' => '[;:\\/.,()-]',
         '?' => '([^a]|[a])',
         '!' => '',
         '|' => '',
@@ -805,17 +805,17 @@ class Factory
     private function matchFormatPattern(string $date, string $format, array $replacements): bool
     {
         // Preg quote, but remove escaped backslashes since we'll deal with escaped characters in the format string.
-        $regex = str_replace('\\', '\', $format);
+        $regex = str_replace('\\\\', '\\', $format);
         // Replace not-escaped letters
         $regex = preg_replace_callback(
-            '/(?<!\\)((?:\\{2})*)(['.implode('', array_keys($replacements)).'])/',
+            '/(?<!\\\\)((?:\\\\{2})*)(['.implode('', array_keys($replacements)).'])/',
             static fn ($match) => $match[1].strtr($match[2], $replacements),
             $regex,
         );
         // Replace escaped letters by the letter itself
-        $regex = preg_replace('/(?<!\\)((?:\\{2})*)\\(\w)/', '$1$2', $regex);
+        $regex = preg_replace('/(?<!\\\\)((?:\\\\{2})*)\\\\(\w)/', '$1$2', $regex);
         // Escape not escaped slashes
-        $regex = preg_replace('#(?<!\\)((?:\\{2})*)/#', '$1\/', $regex);
+        $regex = preg_replace('#(?<!\\\\)((?:\\\\{2})*)/#', '$1\\/', $regex);
 
         return (bool) @preg_match('/^'.$regex.'$/', $date);
     }

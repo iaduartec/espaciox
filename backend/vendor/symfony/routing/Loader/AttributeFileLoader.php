@@ -90,7 +90,7 @@ class AttributeFileLoader extends FileLoader
             }
 
             if (true === $class && \T_STRING === $token[0]) {
-                return $namespace.'\'.$token[1];
+                return $namespace.'\\'.$token[1];
             }
 
             if (true === $namespace && isset($nsTokens[$token[0]])) {

@@ -331,7 +331,7 @@ class InstalledVersions
                     /** @var array{root: array{name: string, pretty_version: string, version: string, reference: string|null, type: string, install_path: string, aliases: string[], dev: bool}, versions: array<string, array{pretty_version?: string, version?: string, reference?: string|null, type?: string, install_path?: string, aliases?: string[], dev_requirement: bool, replaced?: string[], provided?: string[]}>} $required */
                     $required = require $vendorDir.'/composer/installed.php';
                     $installed[] = self::$installedByVendor[$vendorDir] = $required;
-                    if (null === self::$installed && strtr($vendorDir.'/composer', '\', '/') === strtr(__DIR__, '\', '/')) {
+                    if (null === self::$installed && strtr($vendorDir.'/composer', '\\', '/') === strtr(__DIR__, '\\', '/')) {
                         self::$installed = $installed[count($installed) - 1];
                     }
                 }

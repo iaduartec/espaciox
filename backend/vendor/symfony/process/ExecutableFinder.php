@@ -58,7 +58,7 @@ class ExecutableFinder
     public function find(string $name, ?string $default = null, array $extraDirs = []): ?string
     {
         // windows built-in commands that are present in cmd.exe should not be resolved using PATH as they do not exist as exes
-        if ('\' === \DIRECTORY_SEPARATOR && \in_array(strtolower($name), self::CMD_BUILTINS, true)) {
+        if ('\\' === \DIRECTORY_SEPARATOR && \in_array(strtolower($name), self::CMD_BUILTINS, true)) {
             return $name;
         }
 
@@ -68,7 +68,7 @@ class ExecutableFinder
         );
 
         $suffixes = $this->suffixes;
-        if ('\' === \DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $pathExt = getenv('PATHEXT');
             $suffixes = array_merge($suffixes, $pathExt ? explode(\PATH_SEPARATOR, $pathExt) : ['.exe', '.bat', '.cmd', '.com']);
         }
@@ -78,7 +78,7 @@ class ExecutableFinder
                 if ('' === $dir) {
                     $dir = '.';
                 }
-                if (@is_file($file = $dir.\DIRECTORY_SEPARATOR.$name.$suffix) && ('\' === \DIRECTORY_SEPARATOR || @is_executable($file))) {
+                if (@is_file($file = $dir.\DIRECTORY_SEPARATOR.$name.$suffix) && ('\\' === \DIRECTORY_SEPARATOR || @is_executable($file))) {
                     return $file;
                 }
 
@@ -88,7 +88,7 @@ class ExecutableFinder
             }
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR || !\function_exists('exec') || \strlen($name) !== strcspn($name, '/'.\DIRECTORY_SEPARATOR)) {
+        if ('\\' === \DIRECTORY_SEPARATOR || !\function_exists('exec') || \strlen($name) !== strcspn($name, '/'.\DIRECTORY_SEPARATOR)) {
             return $default;
         }
 

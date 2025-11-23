@@ -31,7 +31,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
         $typeName = strtolower($matches[1]);
         $fullyQualifiedClassName = $matches[2];
 
-        if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedClassName, '\')) {
+        if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedClassName, '\\')) {
             $className = substr($fullyQualifiedClassName, $namespaceSeparatorIndex + 1);
             $namespacePrefix = substr($fullyQualifiedClassName, 0, $namespaceSeparatorIndex);
             $message = \sprintf('Attempted to load %s "%s" from namespace "%s".', $typeName, $className, $namespacePrefix);
@@ -107,7 +107,7 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
 
     private function findClassInPath(string $path, string $class, string $prefix): array
     {
-        $path = realpath($path.'/'.strtr($prefix, '\_', '//')) ?: realpath($path.'/'.\dirname(strtr($prefix, '\_', '//'))) ?: realpath($path);
+        $path = realpath($path.'/'.strtr($prefix, '\\_', '//')) ?: realpath($path.'/'.\dirname(strtr($prefix, '\\_', '//'))) ?: realpath($path);
         if (!$path || !is_dir($path)) {
             return [];
         }
@@ -127,17 +127,17 @@ class ClassNotFoundErrorEnhancer implements ErrorEnhancerInterface
     {
         $candidates = [
             // namespaced class
-            $namespacedClass = str_replace([$path.\DIRECTORY_SEPARATOR, '.php', '/'], ['', '', '\'], $file),
+            $namespacedClass = str_replace([$path.\DIRECTORY_SEPARATOR, '.php', '/'], ['', '', '\\'], $file),
             // namespaced class (with target dir)
             $prefix.$namespacedClass,
             // namespaced class (with target dir and separator)
-            $prefix.'\'.$namespacedClass,
+            $prefix.'\\'.$namespacedClass,
             // PEAR class
-            str_replace('\', '_', $namespacedClass),
+            str_replace('\\', '_', $namespacedClass),
             // PEAR class (with target dir)
-            str_replace('\', '_', $prefix.$namespacedClass),
+            str_replace('\\', '_', $prefix.$namespacedClass),
             // PEAR class (with target dir and separator)
-            str_replace('\', '_', $prefix.'\'.$namespacedClass),
+            str_replace('\\', '_', $prefix.'\\'.$namespacedClass),
         ];
 
         if ($prefix) {

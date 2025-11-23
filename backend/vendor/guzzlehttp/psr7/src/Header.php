@@ -107,7 +107,7 @@ final class Header
                     continue;
                 }
 
-                if ($isQuoted && $value[$i] === '\') {
+                if ($isQuoted && $value[$i] === '\\') {
                     $isEscaped = true;
                     $v .= $value[$i];
 

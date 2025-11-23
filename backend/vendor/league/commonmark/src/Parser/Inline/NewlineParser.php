@@ -24,7 +24,7 @@ final class NewlineParser implements InlineParserInterface
 {
     public function getMatchDefinition(): InlineParserMatch
     {
-        return InlineParserMatch::regex('\n');
+        return InlineParserMatch::regex('\\n');
     }
 
     public function parse(InlineParserContext $inlineContext): bool

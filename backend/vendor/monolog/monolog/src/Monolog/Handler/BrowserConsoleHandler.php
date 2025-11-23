@@ -274,7 +274,7 @@ class BrowserConsoleHandler extends AbstractProcessingHandler
 
     private static function quote(string $arg): string
     {
-        return '"' . addcslashes($arg, "\"\n\") . '"';
+        return '"' . addcslashes($arg, "\"\n\\") . '"';
     }
 
     /**

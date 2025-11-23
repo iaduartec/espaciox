@@ -516,7 +516,7 @@ class ComponentAttributeBag implements ArrayAccess, IteratorAggregate, JsonSeria
                 $value = $key === 'x-data' || str_starts_with($key, 'wire:') ? '' : $key;
             }
 
-            $string .= ' '.$key.'="'.str_replace('"', '\"', trim($value)).'"';
+            $string .= ' '.$key.'="'.str_replace('"', '\\"', trim($value)).'"';
         }
 
         return trim($string);

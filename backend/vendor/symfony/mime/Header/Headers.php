@@ -141,7 +141,7 @@ final class Headers
         if (\is_array($headerClass)) {
             $headerClass = $headerClass[0];
         }
-        $parts = explode('\', $headerClass);
+        $parts = explode('\\', $headerClass);
         $method = 'add'.ucfirst(array_pop($parts));
         if ('addUnstructuredHeader' === $method) {
             $method = 'addTextHeader';

@@ -70,11 +70,11 @@ return [
 
     'diff_now' => 'Gerade eben',
     'diff_today' => 'heute',
-    'diff_today_regexp' => 'heute(?:\s+um)?',
+    'diff_today_regexp' => 'heute(?:\\s+um)?',
     'diff_yesterday' => 'Gestern',
-    'diff_yesterday_regexp' => 'gestern(?:\s+um)?',
+    'diff_yesterday_regexp' => 'gestern(?:\\s+um)?',
     'diff_tomorrow' => 'Morgen',
-    'diff_tomorrow_regexp' => 'morgen(?:\s+um)?',
+    'diff_tomorrow_regexp' => 'morgen(?:\\s+um)?',
     'diff_before_yesterday' => 'Vorgestern',
     'diff_after_tomorrow' => 'Übermorgen',
 

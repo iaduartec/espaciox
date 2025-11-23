@@ -52,7 +52,7 @@ final class Reflection
 				return $rcc->getValue();
 
 			} elseif (!defined($const)) {
-				$const = substr((string) strrchr($const, '\'), 1);
+				$const = substr((string) strrchr($const, '\\'), 1);
 				if (!defined($const)) {
 					$name = self::toString($param);
 					throw new \ReflectionException("Unable to resolve constant $orig used as default value of $name.");
@@ -172,18 +172,18 @@ final class Reflection
 				? $context->getParentClass()->name
 				: 'parent';
 
-		} elseif ($name[0] === '\') { // fully qualified name
-			return ltrim($name, '\');
+		} elseif ($name[0] === '\\') { // fully qualified name
+			return ltrim($name, '\\');
 		}
 
 		$uses = self::getUseStatements($context);
-		$parts = explode('\', $name, 2);
+		$parts = explode('\\', $name, 2);
 		if (isset($uses[$parts[0]])) {
 			$parts[0] = $uses[$parts[0]];
-			return implode('\', $parts);
+			return implode('\\', $parts);
 
 		} elseif ($context->inNamespace()) {
-			return $context->getNamespaceName() . '\' . $name;
+			return $context->getNamespaceName() . '\\' . $name;
 
 		} else {
 			return $name;
@@ -234,7 +234,7 @@ final class Reflection
 			next($tokens);
 			switch ($token->id) {
 				case T_NAMESPACE:
-					$namespace = ltrim(self::fetch($tokens, $nameTokens) . '\', '\');
+					$namespace = ltrim(self::fetch($tokens, $nameTokens) . '\\', '\\');
 					$uses = [];
 					break;
 
@@ -255,13 +255,13 @@ final class Reflection
 
 				case T_USE:
 					while (!$class && ($name = self::fetch($tokens, $nameTokens))) {
-						$name = ltrim($name, '\');
+						$name = ltrim($name, '\\');
 						if (self::fetch($tokens, '{')) {
 							while ($suffix = self::fetch($tokens, $nameTokens)) {
 								if (self::fetch($tokens, T_AS)) {
 									$uses[self::fetch($tokens, T_STRING)] = $name . $suffix;
 								} else {
-									$tmp = explode('\', $suffix);
+									$tmp = explode('\\', $suffix);
 									$uses[end($tmp)] = $name . $suffix;
 								}
 
@@ -273,7 +273,7 @@ final class Reflection
 							$uses[self::fetch($tokens, T_STRING)] = $name;
 
 						} else {
-							$tmp = explode('\', $name);
+							$tmp = explode('\\', $name);
 							$uses[end($tmp)] = $name;
 						}
 

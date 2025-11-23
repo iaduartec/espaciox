@@ -179,7 +179,7 @@ class RouteCompiler implements RouteCompilerInterface
             } else {
                 if (!preg_match('//u', $regexp)) {
                     $useUtf8 = false;
-                } elseif (!$needsUtf8 && preg_match('/[\x80-\xFF]|(?<!\\)\\(?:\\\\)*+(?-i:X|[pP][\{CLMNPSZ]|x\{[A-Fa-f0-9]{3})/', $regexp)) {
+                } elseif (!$needsUtf8 && preg_match('/[\x80-\xFF]|(?<!\\\\)\\\\(?:\\\\\\\\)*+(?-i:X|[pP][\{CLMNPSZ]|x\{[A-Fa-f0-9]{3})/', $regexp)) {
                     throw new \LogicException(\sprintf('Cannot use UTF-8 route requirements without setting the "utf8" option for variable "%s" in pattern "%s".', $varName, $pattern));
                 }
                 if (!$useUtf8 && $needsUtf8) {
@@ -319,7 +319,7 @@ class RouteCompiler implements RouteCompilerInterface
     private static function transformCapturingGroupsToNonCapturings(string $regexp): string
     {
         for ($i = 0; $i < \strlen($regexp); ++$i) {
-            if ('\' === $regexp[$i]) {
+            if ('\\' === $regexp[$i]) {
                 ++$i;
                 continue;
             }

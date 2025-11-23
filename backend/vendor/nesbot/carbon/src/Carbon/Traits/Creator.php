@@ -566,14 +566,14 @@ trait Creator
     public static function rawCreateFromFormat(string $format, string $time, $timezone = null): ?static
     {
         // Work-around for https://bugs.php.net/bug.php?id=80141
-        $format = preg_replace('/(?<!\\)((?:\\{2})*)c/', '$1Y-m-d\TH:i:sP', $format);
+        $format = preg_replace('/(?<!\\\\)((?:\\\\{2})*)c/', '$1Y-m-d\TH:i:sP', $format);
 
-        if (preg_match('/(?<!\\)(?:\\{2})*(a|A)/', $format, $aMatches, PREG_OFFSET_CAPTURE) &&
-            preg_match('/(?<!\\)(?:\\{2})*(h|g|H|G)/', $format, $hMatches, PREG_OFFSET_CAPTURE) &&
+        if (preg_match('/(?<!\\\\)(?:\\\\{2})*(a|A)/', $format, $aMatches, PREG_OFFSET_CAPTURE) &&
+            preg_match('/(?<!\\\\)(?:\\\\{2})*(h|g|H|G)/', $format, $hMatches, PREG_OFFSET_CAPTURE) &&
             $aMatches[1][1] < $hMatches[1][1] &&
             preg_match('/(am|pm|AM|PM)/', $time)
         ) {
-            $format = preg_replace('/^(.*)(?<!\\)((?:\\{2})*)(a|A)(.*)$/U', '$1$2$4 $3', $format);
+            $format = preg_replace('/^(.*)(?<!\\\\)((?:\\\\{2})*)(a|A)(.*)$/U', '$1$2$4 $3', $format);
             $time = preg_replace('/^(.*)(am|pm|AM|PM)(.*)$/U', '$1$3 $2', $time);
         }
 
@@ -590,7 +590,7 @@ trait Creator
         if ($mock && $date instanceof DateTimeInterface) {
             // Set timezone from mock if custom timezone was neither given directly nor as a part of format.
             // First let's skip the part that will be ignored by the parser.
-            $nonEscaped = '(?<!\\)(\\{2})*';
+            $nonEscaped = '(?<!\\\\)(\\\\{2})*';
 
             $nonIgnored = preg_replace("/^.*{$nonEscaped}!/s", '', $format);
 
@@ -688,7 +688,7 @@ trait Creator
         ?string $locale = CarbonInterface::DEFAULT_LOCALE,
         ?TranslatorInterface $translator = null
     ): ?static {
-        $format = preg_replace_callback('/(?<!\\)(\\{2})*(LTS|LT|[Ll]{1,4})/', function ($match) use ($locale, $translator) {
+        $format = preg_replace_callback('/(?<!\\\\)(\\\\{2})*(LTS|LT|[Ll]{1,4})/', function ($match) use ($locale, $translator) {
             [$code] = $match;
 
             static $formats = null;
@@ -713,7 +713,7 @@ trait Creator
             );
         }, $format);
 
-        $format = preg_replace_callback('/(?<!\\)(\\{2})*('.CarbonInterface::ISO_FORMAT_REGEXP.'|[A-Za-z])/', function ($match) {
+        $format = preg_replace_callback('/(?<!\\\\)(\\\\{2})*('.CarbonInterface::ISO_FORMAT_REGEXP.'|[A-Za-z])/', function ($match) {
             [$code] = $match;
 
             static $replacements = null;
@@ -828,14 +828,14 @@ trait Creator
     public static function createFromLocaleFormat(string $format, string $locale, string $time, $timezone = null): ?static
     {
         $format = preg_replace_callback(
-            '/(?:\\[a-zA-Z]|[bfkqCEJKQRV]){2,}/',
+            '/(?:\\\\[a-zA-Z]|[bfkqCEJKQRV]){2,}/',
             static function (array $match) use ($locale): string {
-                $word = str_replace('\', '', $match[0]);
+                $word = str_replace('\\', '', $match[0]);
                 $translatedWord = static::translateTimeString($word, $locale, static::DEFAULT_LOCALE);
 
                 return $word === $translatedWord
                     ? $match[0]
-                    : preg_replace('/[a-zA-Z]/', '\\$0', $translatedWord);
+                    : preg_replace('/[a-zA-Z]/', '\\\\$0', $translatedWord);
             },
             $format
         );

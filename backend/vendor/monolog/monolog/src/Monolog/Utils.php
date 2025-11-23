@@ -58,7 +58,7 @@ final class Utils
         }
 
         // already absolute
-        if (substr($streamUrl, 0, 1) === '/' || substr($streamUrl, 1, 1) === ':' || substr($streamUrl, 0, 2) === '\\') {
+        if (substr($streamUrl, 0, 1) === '/' || substr($streamUrl, 1, 1) === ':' || substr($streamUrl, 0, 2) === '\\\\') {
             return $prefix.$streamUrl;
         }
 

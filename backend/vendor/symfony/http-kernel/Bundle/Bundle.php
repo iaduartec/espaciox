@@ -132,7 +132,7 @@ abstract class Bundle implements BundleInterface
     {
         $basename = preg_replace('/Bundle$/', '', $this->getName());
 
-        return $this->getNamespace().'\DependencyInjection\'.$basename.'Extension';
+        return $this->getNamespace().'\\DependencyInjection\\'.$basename.'Extension';
     }
 
     /**
@@ -145,7 +145,7 @@ abstract class Bundle implements BundleInterface
 
     private function parseClassName(): void
     {
-        $pos = strrpos(static::class, '\');
+        $pos = strrpos(static::class, '\\');
         $this->namespace = false === $pos ? '' : substr(static::class, 0, $pos);
         $this->name ??= false === $pos ? static::class : substr(static::class, $pos + 1);
     }

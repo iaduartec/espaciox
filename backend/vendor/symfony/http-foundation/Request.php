@@ -315,7 +315,7 @@ class Request
         if (($part = $components['host'] ?? '') && !self::isHostValid($part)) {
             throw new BadRequestException('Invalid URI: Host is malformed.');
         }
-        if (false !== ($i = strpos($uri, '\')) && $i < strcspn($uri, '?#')) {
+        if (false !== ($i = strpos($uri, '\\')) && $i < strcspn($uri, '?#')) {
             throw new BadRequestException('Invalid URI: A URI cannot contain a backslash.');
         }
         if (\strlen($uri) !== strcspn($uri, "\r\n\t")) {
@@ -1879,8 +1879,8 @@ class Request
             $basePath = $baseUrl;
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR) {
-            $basePath = str_replace('\', '/', $basePath);
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            $basePath = str_replace('\\', '/', $basePath);
         }
 
         return rtrim($basePath, '/');

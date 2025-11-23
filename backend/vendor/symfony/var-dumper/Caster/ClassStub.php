@@ -56,7 +56,7 @@ class ClassStub extends ConstStub
             }
 
             if (str_contains($identifier, "@anonymous\0")) {
-                $this->value = $identifier = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)?[0-9a-fA-F]++/', fn ($m) => class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0], $identifier);
+                $this->value = $identifier = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)?[0-9a-fA-F]++/', fn ($m) => class_exists($m[0], false) ? (get_parent_class($m[0]) ?: key(class_implements($m[0])) ?: 'class').'@anonymous' : $m[0], $identifier);
             }
 
             if (null !== $callable && $r instanceof \ReflectionFunctionAbstract) {
@@ -72,7 +72,7 @@ class ClassStub extends ConstStub
         } catch (\ReflectionException) {
             return;
         } finally {
-            if (0 < $i = strrpos($this->value, '\')) {
+            if (0 < $i = strrpos($this->value, '\\')) {
                 $this->attr['ellipsis'] = \strlen($this->value) - $i;
                 $this->attr['ellipsis-type'] = 'class';
                 $this->attr['ellipsis-tail'] = 1;

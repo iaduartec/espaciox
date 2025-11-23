@@ -55,7 +55,7 @@ class HeaderUtils
                 (?!\s)
                     (?:
                         # quoted-string
-                        "(?:[^"\\]|\\.)*(?:"|\\|$)
+                        "(?:[^"\\\\]|\\\\.)*(?:"|\\\\|$)
                     |
                         # token
                         [^"'.$quotedSeparators.']+
@@ -135,7 +135,7 @@ class HeaderUtils
             return $s;
         }
 
-        return '"'.addcslashes($s, '"\"').'"';
+        return '"'.addcslashes($s, '"\\"').'"';
     }
 
     /**
@@ -146,7 +146,7 @@ class HeaderUtils
      */
     public static function unquote(string $s): string
     {
-        return preg_replace('/\\(.)|"/', '$1', $s);
+        return preg_replace('/\\\\(.)|"/', '$1', $s);
     }
 
     /**
@@ -183,8 +183,8 @@ class HeaderUtils
         }
 
         // path separators aren't allowed in either.
-        if (str_contains($filename, '/') || str_contains($filename, '\') || str_contains($filenameFallback, '/') || str_contains($filenameFallback, '\')) {
-            throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\" characters.');
+        if (str_contains($filename, '/') || str_contains($filename, '\\') || str_contains($filenameFallback, '/') || str_contains($filenameFallback, '\\')) {
+            throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
         }
 
         $params = ['filename' => $filenameFallback];

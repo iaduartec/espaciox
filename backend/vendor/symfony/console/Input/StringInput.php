@@ -24,8 +24,8 @@ use Symfony\Component\Console\Exception\InvalidArgumentException;
  */
 class StringInput extends ArgvInput
 {
-    public const REGEX_UNQUOTED_STRING = '([^\s\\]+?)';
-    public const REGEX_QUOTED_STRING = '(?:"([^"\\]*(?:\\.[^"\\]*)*)"|\'([^\'\\]*(?:\\.[^\'\\]*)*)\')';
+    public const REGEX_UNQUOTED_STRING = '([^\s\\\\]+?)';
+    public const REGEX_QUOTED_STRING = '(?:"([^"\\\\]*(?:\\\\.[^"\\\\]*)*)"|\'([^\'\\\\]*(?:\\\\.[^\'\\\\]*)*)\')';
 
     /**
      * @param string $input A string representing the parameters from the CLI
@@ -51,7 +51,7 @@ class StringInput extends ArgvInput
         $cursor = 0;
         $token = null;
         while ($cursor < $length) {
-            if ('\' === $input[$cursor]) {
+            if ('\\' === $input[$cursor]) {
                 $token .= $input[++$cursor] ?? '';
                 ++$cursor;
                 continue;

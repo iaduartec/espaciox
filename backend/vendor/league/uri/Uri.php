@@ -651,7 +651,7 @@ final class Uri implements Conditionable, UriInterface
             $root = substr($matches['root'], 0, -1).':';
             $path = substr($path, strlen($root));
         }
-        $path = str_replace('\', '/', $path);
+        $path = str_replace('\\', '/', $path);
         $path = implode('/', array_map(rawurlencode(...), explode('/', $path)));
 
         //Local Windows absolute path
@@ -1247,14 +1247,14 @@ final class Uri implements Conditionable, UriInterface
             $root = $matches['root'];
             $path = substr($path, strlen($root));
 
-            return $root.str_replace('/', '\', rawurldecode($path));
+            return $root.str_replace('/', '\\', rawurldecode($path));
         }
 
         $host = $this->host;
 
         return match (null) {
-            $host => str_replace('/', '\', rawurldecode($originalPath)),
-            default => '\\'.$host.'\'.str_replace('/', '\', rawurldecode($path)),
+            $host => str_replace('/', '\\', rawurldecode($originalPath)),
+            default => '\\\\'.$host.'\\'.str_replace('/', '\\', rawurldecode($path)),
         };
     }
 

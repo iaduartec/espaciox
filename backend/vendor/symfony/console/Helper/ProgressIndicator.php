@@ -58,7 +58,7 @@ class ProgressIndicator
         ?string $finishedIndicatorValue = null,
     ) {
         $format ??= $this->determineBestFormat();
-        $indicatorValues ??= ['-', '\', '|', '/'];
+        $indicatorValues ??= ['-', '\\', '|', '/'];
         $indicatorValues = array_values($indicatorValues);
         $finishedIndicatorValue ??= '✔';
 

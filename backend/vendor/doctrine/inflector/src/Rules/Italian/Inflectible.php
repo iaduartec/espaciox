@@ -15,7 +15,7 @@ class Inflectible
     public static function getSingular(): iterable
     {
         // Reverse of -sce → -scia (fasce → fascia)
-        yield new Transformation(new Pattern('([aeiou])sce$'), '\1scia');
+        yield new Transformation(new Pattern('([aeiou])sce$'), '\\1scia');
 
         // Reverse of -cie → -cia (farmacia → farmacie)
         yield new Transformation(new Pattern('cie$'), 'cia');
@@ -63,29 +63,29 @@ class Inflectible
     public static function getPlural(): iterable
     {
         // Words ending in -scia without stress on 'i' become -sce (e.g. fascia → fasce)
-        yield new Transformation(new Pattern('([aeiou])scia$'), '\1sce');
+        yield new Transformation(new Pattern('([aeiou])scia$'), '\\1sce');
 
         // Words ending in -cia/gia with stress on 'i' keep the 'i' in plural
         yield new Transformation(new Pattern('cia$'), 'cie'); // e.g. farmacia → farmacie
         yield new Transformation(new Pattern('gia$'), 'gie'); // e.g. bugia → bugie
 
         // Words ending in -cia/gia without stress on 'i' lose the 'i' in plural
-        yield new Transformation(new Pattern('([^aeiou])cia$'), '\1ce'); // e.g. arancia → arance
-        yield new Transformation(new Pattern('([^aeiou])gia$'), '\1ge'); // e.g. valigia → valige
+        yield new Transformation(new Pattern('([^aeiou])cia$'), '\\1ce'); // e.g. arancia → arance
+        yield new Transformation(new Pattern('([^aeiou])gia$'), '\\1ge'); // e.g. valigia → valige
 
         // Words ending in -co/-go with stress on 'o' become -chi/-ghi
-        yield new Transformation(new Pattern('([bcdfghjklmnpqrstvwxyz][aeiou])co$'), '\1chi'); // e.g. baco → bachi
-        yield new Transformation(new Pattern('([bcdfghjklmnpqrstvwxyz][aeiou])go$'), '\1ghi'); // e.g. lago → laghi
+        yield new Transformation(new Pattern('([bcdfghjklmnpqrstvwxyz][aeiou])co$'), '\\1chi'); // e.g. baco → bachi
+        yield new Transformation(new Pattern('([bcdfghjklmnpqrstvwxyz][aeiou])go$'), '\\1ghi'); // e.g. lago → laghi
 
         // Words ending in -co/-go with stress on the penultimate syllable become -ci/-gi
-        yield new Transformation(new Pattern('([aeiou][bcdfghjklmnpqrstvwxyz])co$'), '\1ci'); // e.g. medico → medici
-        yield new Transformation(new Pattern('([aeiou][bcdfghjklmnpqrstvwxyz])go$'), '\1gi'); // e.g. psicologo → psicologi
+        yield new Transformation(new Pattern('([aeiou][bcdfghjklmnpqrstvwxyz])co$'), '\\1ci'); // e.g. medico → medici
+        yield new Transformation(new Pattern('([aeiou][bcdfghjklmnpqrstvwxyz])go$'), '\\1gi'); // e.g. psicologo → psicologi
 
         // Words ending in -io with stress on 'i' keep the 'i' in plural
-        yield new Transformation(new Pattern('([^aeiou])io$'), '\1i'); // e.g. zio → zii
+        yield new Transformation(new Pattern('([^aeiou])io$'), '\\1i'); // e.g. zio → zii
 
         // Words ending in -io with stress on 'o' lose the 'i' in plural
-        yield new Transformation(new Pattern('([aeiou])io$'), '\1i'); // e.g. negozio → negozi
+        yield new Transformation(new Pattern('([aeiou])io$'), '\\1i'); // e.g. negozio → negozi
 
         // Standard ending rules
         yield new Transformation(new Pattern('a$'), 'e');  // -a → -e

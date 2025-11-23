@@ -33,7 +33,7 @@ trait CompilesJsonPaths
      */
     protected function wrapJsonPath($value, $delimiter = '->')
     {
-        $value = preg_replace("/([\\]+)?\'/", "''", $value);
+        $value = preg_replace("/([\\\\]+)?\\'/", "''", $value);
 
         $jsonPath = (new Collection(explode($delimiter, $value)))
             ->map(fn ($segment) => $this->wrapJsonPathSegment($segment))

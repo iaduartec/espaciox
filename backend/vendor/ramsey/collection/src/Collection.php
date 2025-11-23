@@ -25,7 +25,7 @@ namespace Ramsey\Collection;
  * Example usage:
  *
  * ```
- * $collection = new \Ramsey\Collection\Collection('My\Foo');
+ * $collection = new \Ramsey\Collection\Collection('My\\Foo');
  * $collection->add(new \My\Foo());
  * $collection->add(new \My\Foo());
  *
@@ -44,7 +44,7 @@ namespace Ramsey\Collection;
  * {
  *     public function getType()
  *     {
- *         return 'My\Foo';
+ *         return 'My\\Foo';
  *     }
  * }
  * ```

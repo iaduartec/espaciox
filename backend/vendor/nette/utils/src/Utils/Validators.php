@@ -323,9 +323,9 @@ class Validators
 		$alpha = "a-z\x80-\xFF"; // superset of IDN
 		return (bool) preg_match(<<<XX
 			(^(?n)
-				("([ !#-[\]-~]*|\\[ -~])+"|$atom+(\.$atom+)*)  # quoted or unquoted
+				("([ !#-[\\]-~]*|\\\\[ -~])+"|$atom+(\\.$atom+)*)  # quoted or unquoted
 				@
-				([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\.)+  # domain - RFC 1034
+				([0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)+  # domain - RFC 1034
 				[$alpha]([-0-9$alpha]{0,17}[$alpha])?              # top domain
 			$)Dix
 			XX, $value);
@@ -341,15 +341,15 @@ class Validators
 		return (bool) preg_match(<<<XX
 			(^(?n)
 				https?://(
-					(([-_0-9$alpha]+\.)*                       # subdomain
-						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\.)?  # domain
+					(([-_0-9$alpha]+\\.)*                       # subdomain
+						[0-9$alpha]([-0-9$alpha]{0,61}[0-9$alpha])?\\.)?  # domain
 						[$alpha]([-0-9$alpha]{0,17}[$alpha])?   # top domain
-					|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}  # IPv4
-					|\[[0-9a-f:]{3,39}\]                      # IPv6
-				)(:\d{1,5})?                                   # port
-				(/\S*)?                                        # path
-				(\?\S*)?                                      # query
-				(\#\S*)?                                      # fragment
+					|\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}  # IPv4
+					|\\[[0-9a-f:]{3,39}\\]                      # IPv6
+				)(:\\d{1,5})?                                   # port
+				(/\\S*)?                                        # path
+				(\\?\\S*)?                                      # query
+				(\\#\\S*)?                                      # fragment
 			$)Dix
 			XX, $value);
 	}
@@ -408,7 +408,7 @@ class Validators
 	{
 		return (bool) preg_match(<<<'XX'
 			~((?n)
-				\?? (?<type> \? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\ (?&name))* ) |
+				\?? (?<type> \\? (?<name> [a-zA-Z_\x7f-\xff][\w\x7f-\xff]*) (\\ (?&name))* ) |
 				(?<intersection> (?&type) (& (?&type))+ ) |
 				(?<upart> (?&type) | \( (?&intersection) \) )  (\| (?&upart))+
 			)$~xAD

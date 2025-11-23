@@ -65,13 +65,13 @@ class PhpExecutableFinder
             }
         }
 
-        if (@is_executable($php = \PHP_BINDIR.('\' === \DIRECTORY_SEPARATOR ? '\php.exe' : '/php')) && !@is_dir($php)) {
+        if (@is_executable($php = \PHP_BINDIR.('\\' === \DIRECTORY_SEPARATOR ? '\\php.exe' : '/php')) && !@is_dir($php)) {
             return $php;
         }
 
         $dirs = [\PHP_BINDIR];
-        if ('\' === \DIRECTORY_SEPARATOR) {
-            $dirs[] = 'C:\xampp\php\';
+        if ('\\' === \DIRECTORY_SEPARATOR) {
+            $dirs[] = 'C:\xampp\php\\';
         }
 
         if ($herdPath = getenv('HERD_HOME')) {

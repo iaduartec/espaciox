@@ -138,11 +138,11 @@ abstract class AbstractTranslator extends SymfonyTranslator
      */
     public function removeDirectory(string $directory): static
     {
-        $search = rtrim(strtr($directory, '\', '/'), '/');
+        $search = rtrim(strtr($directory, '\\', '/'), '/');
 
         return $this->setDirectories(array_filter(
             $this->getDirectories(),
-            static fn ($item) => rtrim(strtr($item, '\', '/'), '/') !== $search,
+            static fn ($item) => rtrim(strtr($item, '\\', '/'), '/') !== $search,
         ));
     }
 
@@ -170,7 +170,7 @@ abstract class AbstractTranslator extends SymfonyTranslator
         $this->assertValidLocale($locale);
 
         foreach ($this->getDirectories() as $directory) {
-            $file = \sprintf('%s/%s.php', rtrim($directory, '\/'), $locale);
+            $file = \sprintf('%s/%s.php', rtrim($directory, '\\/'), $locale);
             $data = @include $file;
 
             if ($data !== false) {
@@ -202,7 +202,7 @@ abstract class AbstractTranslator extends SymfonyTranslator
         $files = [];
 
         foreach ($this->getDirectories() as $directory) {
-            $directory = rtrim($directory, '\/');
+            $directory = rtrim($directory, '\\/');
 
             foreach (glob("$directory/$prefix*.php") as $file) {
                 $files[] = $file;

@@ -84,7 +84,7 @@ final class SourceContextProvider implements ContextProviderInterface
         }
 
         if (false === $name) {
-            $name = str_replace('\', '/', $file);
+            $name = str_replace('\\', '/', $file);
             $name = substr($name, strrpos($name, '/') + 1);
         }
 

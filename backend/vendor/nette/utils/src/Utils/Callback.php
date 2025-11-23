@@ -30,7 +30,7 @@ final class Callback
 				$msg = ini_get('html_errors')
 					? Html::htmlToText($message)
 					: $message;
-				$msg = preg_replace("#^$function\(.*?\): #", '', $msg);
+				$msg = preg_replace("#^$function\\(.*?\\): #", '', $msg);
 				if ($onError($msg, $severity) !== false) {
 					return null;
 				}

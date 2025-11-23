@@ -159,7 +159,7 @@ class StaticPrefixCollection
                             ++$n;
                         } elseif (')' === $prefix[$j]) {
                             --$n;
-                        } elseif ('\' === $prefix[$j] && (++$j === $end || $prefix[$j] !== $anotherPrefix[$j])) {
+                        } elseif ('\\' === $prefix[$j] && (++$j === $end || $prefix[$j] !== $anotherPrefix[$j])) {
                             --$j;
                             break;
                         }
@@ -176,7 +176,7 @@ class StaticPrefixCollection
                         break;
                     }
                     $i = $j - 1;
-                } elseif ('\' === $prefix[$i] && (++$i === $end || $prefix[$i] !== $anotherPrefix[$i])) {
+                } elseif ('\\' === $prefix[$i] && (++$i === $end || $prefix[$i] !== $anotherPrefix[$i])) {
                     --$i;
                     break;
                 }

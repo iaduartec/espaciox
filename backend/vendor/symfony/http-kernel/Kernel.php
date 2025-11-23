@@ -363,7 +363,7 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     {
         $class = static::class;
         $class = str_contains($class, "@anonymous\0") ? get_parent_class($class).str_replace('.', '_', ContainerBuilder::hash($class)) : $class;
-        $class = str_replace('\', '_', $class).ucfirst($this->environment).($this->debug ? 'Debug' : '').'Container';
+        $class = str_replace('\\', '_', $class).ucfirst($this->environment).($this->debug ? 'Debug' : '').'Container';
 
         if (!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $class)) {
             throw new \InvalidArgumentException(\sprintf('The environment "%s" contains invalid characters, it can only contain characters allowed in PHP class names.', $this->environment));

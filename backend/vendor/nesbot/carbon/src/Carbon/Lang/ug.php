@@ -28,8 +28,8 @@ return [
     'diff_today' => 'بۈگۈن',
     'diff_yesterday' => 'تۆنۈگۈن',
     'diff_tomorrow' => 'ئەتە',
-    'diff_tomorrow_regexp' => 'ئەتە(?:\s+سائەت)?',
-    'diff_today_regexp' => 'بۈگۈن(?:\s+سائەت)?',
+    'diff_tomorrow_regexp' => 'ئەتە(?:\\s+سائەت)?',
+    'diff_today_regexp' => 'بۈگۈن(?:\\s+سائەت)?',
     'formats' => [
         'LT' => 'HH:mm',
         'LTS' => 'HH:mm:ss',

@@ -105,7 +105,7 @@ class StreamOutput extends Output
             return false;
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($this->stream)) {
+        if ('\\' === \DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($this->stream)) {
             return true;
         }
 

@@ -46,7 +46,7 @@ final class LinkParserHelper
 
     public static function parseLinkLabel(Cursor $cursor): int
     {
-        $match = $cursor->match('/^\[(?:[^\\\[\]]|\\.){0,1000}\]/');
+        $match = $cursor->match('/^\[(?:[^\\\\\[\]]|\\\\.){0,1000}\]/');
         if ($match === null) {
             return 0;
         }
@@ -62,7 +62,7 @@ final class LinkParserHelper
 
     public static function parsePartialLinkLabel(Cursor $cursor): ?string
     {
-        return $cursor->match('/^(?:[^\\\[\]]++|\\.?)*+/');
+        return $cursor->match('/^(?:[^\\\\\[\]]++|\\\\.?)*+/');
     }
 
     /**
@@ -98,7 +98,7 @@ final class LinkParserHelper
         $len        = \strlen($remainder);
         for ($i = 0; $i < $len; $i++) {
             $c = $remainder[$i];
-            if ($c === '\' && $i + 1 < $len && RegexHelper::isEscapable($remainder[$i + 1])) {
+            if ($c === '\\' && $i + 1 < $len && RegexHelper::isEscapable($remainder[$i + 1])) {
                 $i++;
             } elseif ($c === '(') {
                 $openParens++;

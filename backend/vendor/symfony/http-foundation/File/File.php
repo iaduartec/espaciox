@@ -122,7 +122,7 @@ class File extends \SplFileInfo
             throw new FileException(\sprintf('Unable to write in the "%s" directory.', $directory));
         }
 
-        $target = rtrim($directory, '/\').\DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
+        $target = rtrim($directory, '/\\').\DIRECTORY_SEPARATOR.(null === $name ? $this->getBasename() : $this->getName($name));
 
         return new self($target, false);
     }
@@ -132,7 +132,7 @@ class File extends \SplFileInfo
      */
     protected function getName(string $name): string
     {
-        $originalName = str_replace('\', '/', $name);
+        $originalName = str_replace('\\', '/', $name);
         $pos = strrpos($originalName, '/');
 
         return false === $pos ? $originalName : substr($originalName, $pos + 1);

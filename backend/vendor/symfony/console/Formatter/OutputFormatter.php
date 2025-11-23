@@ -40,7 +40,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     public static function escape(string $text): string
     {
-        $text = preg_replace('/([^\\]|^)([<>])/', '$1\\$2', $text);
+        $text = preg_replace('/([^\\\\]|^)([<>])/', '$1\\\\$2', $text);
 
         return self::escapeTrailingBackslash($text);
     }
@@ -52,9 +52,9 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     public static function escapeTrailingBackslash(string $text): string
     {
-        if (str_ends_with($text, '\')) {
+        if (str_ends_with($text, '\\')) {
             $len = \strlen($text);
-            $text = rtrim($text, '\');
+            $text = rtrim($text, '\\');
             $text = str_replace("\0", '', $text);
             $text .= str_repeat("\0", $len - \strlen($text));
         }
@@ -125,7 +125,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
 
         $offset = 0;
         $output = '';
-        $openTagRegex = '[a-z](?:[^\\<>]*+ | \\.)*';
+        $openTagRegex = '[a-z](?:[^\\\\<>]*+ | \\\\.)*';
         $closeTagRegex = '[a-z][^<>]*+';
         $currentLineLength = 0;
         preg_match_all("#<(($openTagRegex) | /($closeTagRegex)?)>#ix", $message, $matches, \PREG_OFFSET_CAPTURE);
@@ -133,7 +133,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
             $pos = $match[1];
             $text = $match[0];
 
-            if (0 != $pos && '\' == $message[$pos - 1]) {
+            if (0 != $pos && '\\' == $message[$pos - 1]) {
                 continue;
             }
 
@@ -164,7 +164,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
 
         $output .= $this->applyCurrentStyle(Helper::substr($message, $offset), $output, $width, $currentLineLength);
 
-        return strtr($output, ["\0" => '\', '\<' => '<', '\>' => '>']);
+        return strtr($output, ["\0" => '\\', '\\<' => '<', '\\>' => '>']);
     }
 
     public function getStyleStack(): OutputFormatterStyleStack
@@ -195,7 +195,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
             } elseif ('bg' == $match[0]) {
                 $style->setBackground(strtolower($match[1]));
             } elseif ('href' === $match[0]) {
-                $url = preg_replace('{\\([<>])}', '$1', $match[1]);
+                $url = preg_replace('{\\\\([<>])}', '$1', $match[1]);
                 $style->setHref($url);
             } elseif ('options' === $match[0]) {
                 preg_match_all('([^,;]+)', strtolower($match[1]), $options);
@@ -245,7 +245,7 @@ class OutputFormatter implements WrappableOutputFormatterInterface
             $prefix = '';
         }
 
-        preg_match('~(\n)$~', $text, $matches);
+        preg_match('~(\\n)$~', $text, $matches);
         $text = $prefix.$this->addLineBreaks($text, $width);
         $text = rtrim($text, "\n").($matches[1] ?? '');
 

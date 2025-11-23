@@ -102,7 +102,7 @@ final class FileSystem
 	public static function delete(string $path): void
 	{
 		if (is_file($path) || is_link($path)) {
-			$func = DIRECTORY_SEPARATOR === '\' && is_dir($path) ? 'rmdir' : 'unlink';
+			$func = DIRECTORY_SEPARATOR === '\\' && is_dir($path) ? 'rmdir' : 'unlink';
 			if (!@$func($path)) { // @ is escalated to exception
 				throw new Nette\IOException(sprintf(
 					"Unable to delete '%s'. %s",
@@ -273,7 +273,7 @@ final class FileSystem
 	 */
 	public static function isAbsolute(string $path): bool
 	{
-		return (bool) preg_match('#([a-z]:)?[/\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
+		return (bool) preg_match('#([a-z]:)?[/\\\]|[a-z][a-z0-9+.-]*://#Ai', $path);
 	}
 
 
@@ -282,7 +282,7 @@ final class FileSystem
 	 */
 	public static function normalizePath(string $path): string
 	{
-		$parts = $path === '' ? [] : preg_split('~[/\\]+~', $path);
+		$parts = $path === '' ? [] : preg_split('~[/\\\]+~', $path);
 		$res = [];
 		foreach ($parts as $part) {
 			if ($part === '..' && $res && end($res) !== '..' && end($res) !== '') {
@@ -325,7 +325,7 @@ final class FileSystem
 	 */
 	public static function unixSlashes(string $path): string
 	{
-		return strtr($path, '\', '/');
+		return strtr($path, '\\', '/');
 	}
 
 
@@ -335,7 +335,7 @@ final class FileSystem
 	public static function platformSlashes(string $path): string
 	{
 		return DIRECTORY_SEPARATOR === '/'
-			? strtr($path, '\', '/')
-			: str_replace(':\\', '://', strtr($path, '/', '\')); // protocol://
+			? strtr($path, '\\', '/')
+			: str_replace(':\\\\', '://', strtr($path, '/', '\\')); // protocol://
 	}
 }

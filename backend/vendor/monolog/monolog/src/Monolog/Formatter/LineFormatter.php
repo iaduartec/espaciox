@@ -238,7 +238,7 @@ class LineFormatter extends NormalizerFormatter
     {
         if ($this->allowInlineLineBreaks) {
             if (0 === strpos($str, '{') || 0 === strpos($str, '[')) {
-                $str = preg_replace('/(?<!\\)\\[rn]/', "\n", $str);
+                $str = preg_replace('/(?<!\\\\)\\\\[rn]/', "\n", $str);
                 if (null === $str) {
                     $pcreErrorCode = preg_last_error();
 

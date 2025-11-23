@@ -27,7 +27,7 @@ abstract class SMime
             throw new RuntimeException(\sprintf('File does not exist: "%s".', $path));
         }
 
-        return 'file://'.str_replace('\', '/', realpath($path));
+        return 'file://'.str_replace('\\', '/', realpath($path));
     }
 
     protected function iteratorToFile(iterable $iterator, $stream): void

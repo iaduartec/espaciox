@@ -75,7 +75,7 @@ class BroadcastManager implements FactoryContract
         $this->app['router']->group($attributes, function ($router) {
             $router->match(
                 ['get', 'post'], '/broadcasting/auth',
-                '\'.BroadcastController::class.'@authenticate'
+                '\\'.BroadcastController::class.'@authenticate'
             )->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
         });
     }
@@ -97,7 +97,7 @@ class BroadcastManager implements FactoryContract
         $this->app['router']->group($attributes, function ($router) {
             $router->match(
                 ['get', 'post'], '/broadcasting/user-auth',
-                '\'.BroadcastController::class.'@authenticateUser'
+                '\\'.BroadcastController::class.'@authenticateUser'
             )->withoutMiddleware([\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class]);
         });
     }

@@ -144,7 +144,7 @@ class PhpSubprocess extends Process
 
             if (!isset($iniConfig[$name]) || $iniConfig[$name] !== $value) {
                 // Double-quote escape each value
-                $content .= $name.'="'.addcslashes($value, '\"')."\"\n";
+                $content .= $name.'="'.addcslashes($value, '\\"')."\"\n";
             }
         }
 

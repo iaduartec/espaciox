@@ -52,10 +52,10 @@ class SymfonyStyle extends OutputStyle
         private InputInterface $input,
         private OutputInterface $output,
     ) {
-        $this->bufferedOutput = new TrimmedBufferOutput(\DIRECTORY_SEPARATOR === '\' ? 4 : 2, $output->getVerbosity(), false, clone $output->getFormatter());
+        $this->bufferedOutput = new TrimmedBufferOutput(\DIRECTORY_SEPARATOR === '\\' ? 4 : 2, $output->getVerbosity(), false, clone $output->getFormatter());
         // Windows cmd wraps lines as soon as the terminal width is reached, whether there are following chars or not.
         $width = (new Terminal())->getWidth() ?: self::MAX_LINE_LENGTH;
-        $this->lineLength = min($width - (int) (\DIRECTORY_SEPARATOR === '\'), self::MAX_LINE_LENGTH);
+        $this->lineLength = min($width - (int) (\DIRECTORY_SEPARATOR === '\\'), self::MAX_LINE_LENGTH);
 
         parent::__construct($output);
     }
@@ -269,7 +269,7 @@ class SymfonyStyle extends OutputStyle
     {
         $progressBar = parent::createProgressBar($max);
 
-        if ('\' !== \DIRECTORY_SEPARATOR || 'Hyper' === getenv('TERM_PROGRAM')) {
+        if ('\\' !== \DIRECTORY_SEPARATOR || 'Hyper' === getenv('TERM_PROGRAM')) {
             $progressBar->setEmptyBarCharacter('░'); // light shade character \u2591
             $progressBar->setProgressCharacter('');
             $progressBar->setBarCharacter('▓'); // dark shade character \u2593

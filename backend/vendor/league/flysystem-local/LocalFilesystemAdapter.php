@@ -227,8 +227,8 @@ class LocalFilesystemAdapter implements FilesystemAdapter, ChecksumProvider
                 $permissions = octdec(substr(sprintf('%o', $fileInfo->getPerms()), -4));
                 $visibility = $isDirectory ? $this->visibility->inverseForDirectory($permissions) : $this->visibility->inverseForFile($permissions);
 
-                yield $isDirectory ? new DirectoryAttributes(str_replace('\', '/', $path), $visibility, $lastModified) : new FileAttributes(
-                    str_replace('\', '/', $path),
+                yield $isDirectory ? new DirectoryAttributes(str_replace('\\', '/', $path), $visibility, $lastModified) : new FileAttributes(
+                    str_replace('\\', '/', $path),
                     $fileInfo->getSize(),
                     $visibility,
                     $lastModified

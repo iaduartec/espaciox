@@ -282,7 +282,7 @@ class Route
         if (! $this->controller) {
             $class = $this->getControllerClass();
 
-            $this->controller = $this->container->make(ltrim($class, '\'));
+            $this->controller = $this->container->make(ltrim($class, '\\'));
         }
 
         return $this->controller;
@@ -953,8 +953,8 @@ class Route
     {
         $groupStack = last($this->router->getGroupStack());
 
-        if (isset($groupStack['namespace']) && ! str_starts_with($action, '\')) {
-            return $groupStack['namespace'].'\'.$action;
+        if (isset($groupStack['namespace']) && ! str_starts_with($action, '\\')) {
+            return $groupStack['namespace'].'\\'.$action;
         }
 
         return $action;
@@ -1019,8 +1019,8 @@ class Route
 
         return is_string($missing) &&
             Str::startsWith($missing, [
-                'O:47:"Laravel\SerializableClosure\SerializableClosure',
-                'O:55:"Laravel\SerializableClosure\UnsignedSerializableClosure',
+                'O:47:"Laravel\\SerializableClosure\\SerializableClosure',
+                'O:55:"Laravel\\SerializableClosure\\UnsignedSerializableClosure',
             ]) ? unserialize($missing) : $missing;
     }
 

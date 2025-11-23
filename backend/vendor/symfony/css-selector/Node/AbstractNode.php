@@ -27,6 +27,6 @@ abstract class AbstractNode implements NodeInterface
 
     public function getNodeName(): string
     {
-        return $this->nodeName ??= preg_replace('~.*\\([^\\]+)Node$~', '$1', static::class);
+        return $this->nodeName ??= preg_replace('~.*\\\\([^\\\\]+)Node$~', '$1', static::class);
     }
 }

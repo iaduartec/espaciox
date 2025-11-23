@@ -125,7 +125,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                 $erroredIds = 0;
                 foreach ($parameters as $p) {
                     /** @var \ReflectionParameter $p */
-                    $type = preg_replace('/(^|[(|&])\\/', '\1', $target = ltrim(ProxyHelper::exportType($p) ?? '', '?'));
+                    $type = preg_replace('/(^|[(|&])\\\\/', '\1', $target = ltrim(ProxyHelper::exportType($p) ?? '', '?'));
                     $invalidBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
                     $autowireAttributes = null;
                     $parsedName = $p->name;
@@ -153,7 +153,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                         $args[$p->name] = $bindingValue;
 
                         continue;
-                    } elseif (!$autowire || (!($autowireAttributes = $p->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF)) && (!$type || '\' !== $target[0]))) {
+                    } elseif (!$autowire || (!($autowireAttributes = $p->getAttributes(Autowire::class, \ReflectionAttribute::IS_INSTANCEOF)) && (!$type || '\\' !== $target[0]))) {
                         continue;
                     } elseif (!$autowireAttributes && is_subclass_of($type, \UnitEnum::class)) {
                         // do not attempt to register enum typed arguments if not already present in bindings
@@ -188,7 +188,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                         $message = \sprintf('Cannot determine controller argument for "%s::%s()": the $%s argument is type-hinted with the non-existent class or interface: "%s".', $class, $r->name, $p->name, $type);
 
                         // see if the type-hint lives in the same namespace as the controller
-                        if (0 === strncmp($type, $class, strrpos($class, '\'))) {
+                        if (0 === strncmp($type, $class, strrpos($class, '\\'))) {
                             $message .= ' Did you forget to add a use statement?';
                         }
 
@@ -198,7 +198,7 @@ class RegisterControllerArgumentLocatorsPass implements CompilerPassInterface
                         $args[$p->name] = new Reference($erroredId, ContainerInterface::RUNTIME_EXCEPTION_ON_INVALID_REFERENCE);
                         ++$erroredIds;
                     } else {
-                        $target = preg_replace('/(^|[(|&])\\/', '\1', $target);
+                        $target = preg_replace('/(^|[(|&])\\\\/', '\1', $target);
                         $args[$p->name] = $type ? new TypedReference($target, $type, $invalidBehavior, Target::parseName($p)) : new Reference($target, $invalidBehavior);
                     }
                 }

@@ -255,7 +255,7 @@ final class PseudoLocalizationTranslator implements TranslatorInterface, Transla
             'Y' => 'Ý',
             'Z' => 'Ž',
             '[' => '⁅',
-            '\' => '∖',
+            '\\' => '∖',
             ']' => '⁆',
             '^' => '˄',
             '_' => '‿',

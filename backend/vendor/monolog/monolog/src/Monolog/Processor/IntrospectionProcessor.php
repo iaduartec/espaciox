@@ -42,7 +42,7 @@ class IntrospectionProcessor implements ProcessorInterface
     ];
 
     protected const SKIP_CLASSES = [
-        'Monolog\',
+        'Monolog\\',
     ];
 
     /**

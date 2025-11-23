@@ -39,8 +39,8 @@ final class NotTaggedControllerValueResolver implements ValueResolverInterface
             return [];
         }
 
-        if ('\' === $controller[0]) {
-            $controller = ltrim($controller, '\');
+        if ('\\' === $controller[0]) {
+            $controller = ltrim($controller, '\\');
         }
 
         if (!$this->container->has($controller)) {

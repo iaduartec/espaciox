@@ -102,7 +102,7 @@ class RouteCollection extends AbstractRouteCollection
      */
     protected function addToActionList($action, $route)
     {
-        $this->actionList[trim($action['controller'], '\')] = $route;
+        $this->actionList[trim($action['controller'], '\\')] = $route;
     }
 
     /**

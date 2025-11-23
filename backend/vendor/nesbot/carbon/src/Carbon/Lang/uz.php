@@ -53,9 +53,9 @@ return [
     'before' => ':time олдин',
     'diff_now' => 'ҳозир',
     'diff_today' => 'Бугун',
-    'diff_today_regexp' => 'Бугун(?:\s+соат)?',
+    'diff_today_regexp' => 'Бугун(?:\\s+соат)?',
     'diff_yesterday' => 'Кеча',
-    'diff_yesterday_regexp' => 'Кеча(?:\s+соат)?',
+    'diff_yesterday_regexp' => 'Кеча(?:\\s+соат)?',
     'diff_tomorrow' => 'Эртага',
     'formats' => [
         'LT' => 'HH:mm',

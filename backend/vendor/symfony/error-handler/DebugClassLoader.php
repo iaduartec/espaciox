@@ -321,7 +321,7 @@ class DebugClassLoader
     {
         $exists = null === $file || class_exists($class, false) || interface_exists($class, false) || trait_exists($class, false);
 
-        if (null !== $file && $class && '\' === $class[0]) {
+        if (null !== $file && $class && '\\' === $class[0]) {
             $class = substr($class, 1);
         }
 
@@ -379,13 +379,13 @@ class DebugClassLoader
 
         // Don't trigger deprecations for classes in the same vendor
         if ($class !== $className) {
-            $vendor = preg_match('/^namespace ([^;\\\s]++)[;\\]/m', @file_get_contents($refl->getFileName()), $vendor) ? $vendor[1].'\' : '';
+            $vendor = preg_match('/^namespace ([^;\\\\\s]++)[;\\\\]/m', @file_get_contents($refl->getFileName()), $vendor) ? $vendor[1].'\\' : '';
             $vendorLen = \strlen($vendor);
-        } elseif (2 > $vendorLen = 1 + (strpos($class, '\') ?: strpos($class, '_'))) {
+        } elseif (2 > $vendorLen = 1 + (strpos($class, '\\') ?: strpos($class, '_'))) {
             $vendorLen = 0;
             $vendor = '';
         } else {
-            $vendor = str_replace('_', '\', substr($class, 0, $vendorLen));
+            $vendor = str_replace('_', '\\', substr($class, 0, $vendorLen));
         }
 
         $parent = get_parent_class($class) ?: null;
@@ -431,13 +431,13 @@ class DebugClassLoader
             if (!isset(self::$checkedClasses[$use])) {
                 $this->checkClass($use);
             }
-            if (isset(self::$deprecated[$use]) && strncmp($vendor, str_replace('_', '\', $use), $vendorLen) && !isset(self::$deprecated[$class])) {
+            if (isset(self::$deprecated[$use]) && strncmp($vendor, str_replace('_', '\\', $use), $vendorLen) && !isset(self::$deprecated[$class])) {
                 $type = class_exists($class, false) ? 'class' : (interface_exists($class, false) ? 'interface' : 'trait');
                 $verb = class_exists($use, false) || interface_exists($class, false) ? 'extends' : (interface_exists($use, false) ? 'implements' : 'uses');
 
                 $deprecations[] = \sprintf('The "%s" %s %s "%s" that is deprecated%s', $className, $type, $verb, $use, self::$deprecated[$use]);
             }
-            if (isset(self::$internal[$use]) && strncmp($vendor, str_replace('_', '\', $use), $vendorLen)) {
+            if (isset(self::$internal[$use]) && strncmp($vendor, str_replace('_', '\\', $use), $vendorLen)) {
                 $deprecations[] = \sprintf('The "%s" %s is considered internal%s It may change without further notice. You should not use it from "%s".', $use, class_exists($use, false) ? 'class' : (interface_exists($use, false) ? 'interface' : 'trait'), self::$internal[$use], $className);
             }
             if (isset(self::$method[$use])) {
@@ -448,8 +448,8 @@ class DebugClassLoader
                         self::$method[$class] = self::$method[$use];
                     }
                 } elseif (!$refl->isInterface()) {
-                    if (!strncmp($vendor, str_replace('_', '\', $use), $vendorLen)
-                        && str_starts_with($className, 'Symfony\')
+                    if (!strncmp($vendor, str_replace('_', '\\', $use), $vendorLen)
+                        && str_starts_with($className, 'Symfony\\')
                         && (!class_exists(InstalledVersions::class)
                             || 'symfony/symfony' !== InstalledVersions::getRootPackage()['name'])
                     ) {
@@ -501,7 +501,7 @@ class DebugClassLoader
                     $returnType = explode('|', $returnType);
                     foreach ($returnType as $i => $t) {
                         if ('?' !== $t && !isset(self::BUILTIN_RETURN_TYPES[$t])) {
-                            $returnType[$i] = '\'.$t;
+                            $returnType[$i] = '\\'.$t;
                         }
                     }
                     $returnType = implode('|', $returnType);
@@ -519,11 +519,11 @@ class DebugClassLoader
             if (null === $ns = self::$methodTraits[$method->getFileName()][$method->getStartLine()] ?? null) {
                 $ns = $vendor;
                 $len = $vendorLen;
-            } elseif (2 > $len = 1 + (strpos($ns, '\') ?: strpos($ns, '_'))) {
+            } elseif (2 > $len = 1 + (strpos($ns, '\\') ?: strpos($ns, '_'))) {
                 $len = 0;
                 $ns = '';
             } else {
-                $ns = str_replace('_', '\', substr($ns, 0, $len));
+                $ns = str_replace('_', '\\', substr($ns, 0, $len));
             }
 
             if ($parent && isset(self::$finalMethods[$parent][$method->name])) {
@@ -656,13 +656,13 @@ class DebugClassLoader
                 $doc = $this->parsePhpDoc($r);
 
                 foreach ($parentAndOwnInterfaces as $use) {
-                    if (isset(self::${$type}[$use][$r->name]) && !isset($doc['deprecated']) && ('finalConstants' === $type || substr($use, 0, strrpos($use, '\')) !== substr($use, 0, strrpos($class, '\')))) {
+                    if (isset(self::${$type}[$use][$r->name]) && !isset($doc['deprecated']) && ('finalConstants' === $type || substr($use, 0, strrpos($use, '\\')) !== substr($use, 0, strrpos($class, '\\')))) {
                         $msg = 'finalConstants' === $type ? '%s" constant' : '$%s" property';
                         $deprecations[] = \sprintf('The "%s::'.$msg.' is considered final. You should not override it in "%s".', self::${$type}[$use][$r->name], $r->name, $class);
                     }
                 }
 
-                if (isset($doc['final']) || ('finalProperties' === $type && str_starts_with($class, 'Symfony\') && !$r->hasType())) {
+                if (isset($doc['final']) || ('finalProperties' === $type && str_starts_with($class, 'Symfony\\') && !$r->hasType())) {
                     self::${$type}[$class][$r->name] = $class;
                 }
             }
@@ -673,7 +673,7 @@ class DebugClassLoader
 
     public function checkCase(\ReflectionClass $refl, string $file, string $class): ?array
     {
-        $real = explode('\', $class.strrchr($file, '.'));
+        $real = explode('\\', $class.strrchr($file, '.'));
         $tail = explode(\DIRECTORY_SEPARATOR, str_replace('/', \DIRECTORY_SEPARATOR, $file));
 
         $i = \count($tail) - 1;
@@ -897,7 +897,7 @@ class DebugClassLoader
                 return;
             }
 
-            if (!preg_match('/^(?:\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+$/', $n)) {
+            if (!preg_match('/^(?:\\\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+$/', $n)) {
                 // exclude any invalid PHP class name (e.g. `Cookie::SAMESITE_*`)
                 continue;
             }
@@ -933,9 +933,9 @@ class DebugClassLoader
     {
         if (isset(self::SPECIAL_RETURN_TYPES[$lcType = strtolower($type)])) {
             if ('parent' === $lcType = self::SPECIAL_RETURN_TYPES[$lcType]) {
-                $lcType = null !== $parent ? '\'.$parent : 'parent';
+                $lcType = null !== $parent ? '\\'.$parent : 'parent';
             } elseif ('self' === $lcType) {
-                $lcType = '\'.$class;
+                $lcType = '\\'.$class;
             }
 
             return $lcType;
@@ -952,7 +952,7 @@ class DebugClassLoader
             $type = $returnType->getName();
 
             if ('mixed' !== $type) {
-                return isset(self::SPECIAL_RETURN_TYPES[$type]) ? $type : '\'.$type;
+                return isset(self::SPECIAL_RETURN_TYPES[$type]) ? $type : '\\'.$type;
             }
         }
 
@@ -982,7 +982,7 @@ class DebugClassLoader
             return;
         }
 
-        $code[$startLine] .= "    #[\ReturnTypeWillChange]\n";
+        $code[$startLine] .= "    #[\\ReturnTypeWillChange]\n";
         self::$fileOffsets[$file] = 1 + $fileOffset;
         file_put_contents($file, $code);
     }
@@ -1017,25 +1017,25 @@ class DebugClassLoader
                 $format = null;
             }
 
-            if (isset(self::SPECIAL_RETURN_TYPES[$type]) || ('\' === $type[0] && !$p = strrpos($type, '\', 1))) {
+            if (isset(self::SPECIAL_RETURN_TYPES[$type]) || ('\\' === $type[0] && !$p = strrpos($type, '\\', 1))) {
                 continue;
             }
 
             [$namespace, $useOffset, $useMap] = $useStatements[$file] ??= self::getUseStatements($file);
 
-            if ('\' !== $type[0]) {
+            if ('\\' !== $type[0]) {
                 [$declaringNamespace, , $declaringUseMap] = $useStatements[$declaringFile] ??= self::getUseStatements($declaringFile);
 
-                $p = strpos($type, '\', 1);
+                $p = strpos($type, '\\', 1);
                 $alias = $p ? substr($type, 0, $p) : $type;
 
                 if (isset($declaringUseMap[$alias])) {
-                    $type = '\'.$declaringUseMap[$alias].($p ? substr($type, $p) : '');
+                    $type = '\\'.$declaringUseMap[$alias].($p ? substr($type, $p) : '');
                 } else {
-                    $type = '\'.$declaringNamespace.$type;
+                    $type = '\\'.$declaringNamespace.$type;
                 }
 
-                $p = strrpos($type, '\', 1);
+                $p = strrpos($type, '\\', 1);
             }
 
             $alias = substr($type, 1 + $p);
@@ -1104,7 +1104,7 @@ EOTXT;
             }
 
             if (str_starts_with($file[$i], 'namespace ')) {
-                $namespace = substr($file[$i], \strlen('namespace '), -2).'\';
+                $namespace = substr($file[$i], \strlen('namespace '), -2).'\\';
                 $useOffset = $i + 2;
             }
 
@@ -1115,7 +1115,7 @@ EOTXT;
                     $u = explode(' as ', substr($file[$i], 4, -2), 2);
 
                     if (1 === \count($u)) {
-                        $p = strrpos($u[0], '\');
+                        $p = strrpos($u[0], '\\');
                         $useMap[substr($u[0], false !== $p ? 1 + $p : 0)] = $u[0];
                     } else {
                         $useMap[$u[1]] = $u[0];
@@ -1157,7 +1157,7 @@ EOTXT;
         $i = (self::$fileOffsets[$file] ?? 0) + $method->getStartLine();
 
         if ('?' !== $returnType && 'docblock' !== $this->patchTypes['force']) {
-            $fixedCode[$i - 1] = preg_replace('/\)(?::[^;\n]++)?(;?\n)/', "): $returnType\1", $code[$i - 1]);
+            $fixedCode[$i - 1] = preg_replace('/\)(?::[^;\n]++)?(;?\n)/', "): $returnType\\1", $code[$i - 1]);
         }
 
         $end = $method->isGenerator() ? $i : $method->getEndLine();

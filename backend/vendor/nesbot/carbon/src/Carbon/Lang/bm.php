@@ -39,10 +39,10 @@ return [
     'from_now' => ':time kɔnɔ',
     'diff_today' => 'Bi',
     'diff_yesterday' => 'Kunu',
-    'diff_yesterday_regexp' => 'Kunu(?:\s+lɛrɛ)?',
+    'diff_yesterday_regexp' => 'Kunu(?:\\s+lɛrɛ)?',
     'diff_tomorrow' => 'Sini',
-    'diff_tomorrow_regexp' => 'Sini(?:\s+lɛrɛ)?',
-    'diff_today_regexp' => 'Bi(?:\s+lɛrɛ)?',
+    'diff_tomorrow_regexp' => 'Sini(?:\\s+lɛrɛ)?',
+    'diff_today_regexp' => 'Bi(?:\\s+lɛrɛ)?',
     'formats' => [
         'LT' => 'HH:mm',
         'LTS' => 'HH:mm:ss',

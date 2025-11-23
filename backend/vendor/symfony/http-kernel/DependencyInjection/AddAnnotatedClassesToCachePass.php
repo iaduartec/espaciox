@@ -62,9 +62,9 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
 
         // Explicit classes declared in the patterns are returned directly
         foreach ($patterns as $key => $pattern) {
-            if (!str_ends_with($pattern, '\') && !str_contains($pattern, '*')) {
+            if (!str_ends_with($pattern, '\\') && !str_contains($pattern, '*')) {
                 unset($patterns[$key]);
-                $expanded[] = ltrim($pattern, '\');
+                $expanded[] = ltrim($pattern, '\\');
             }
         }
 
@@ -72,7 +72,7 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
         $regexps = $this->patternsToRegexps($patterns);
 
         foreach ($classes as $class) {
-            $class = ltrim($class, '\');
+            $class = ltrim($class, '\\');
 
             if ($this->matchAnyRegexps($class, $regexps)) {
                 $expanded[] = $class;
@@ -109,17 +109,17 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
 
         foreach ($patterns as $pattern) {
             // Escape user input
-            $regex = preg_quote(ltrim($pattern, '\'));
+            $regex = preg_quote(ltrim($pattern, '\\'));
 
             // Wildcards * and **
-            $regex = strtr($regex, ['\*\*' => '.*?', '\*' => '[^\\]*?']);
+            $regex = strtr($regex, ['\\*\\*' => '.*?', '\\*' => '[^\\\\]*?']);
 
             // If this class does not end by a slash, anchor the end
-            if (!str_ends_with($regex, '\')) {
+            if (!str_ends_with($regex, '\\')) {
                 $regex .= '$';
             }
 
-            $regexps[] = '{^\\'.$regex.'}';
+            $regexps[] = '{^\\\\'.$regex.'}';
         }
 
         return $regexps;
@@ -134,7 +134,7 @@ class AddAnnotatedClassesToCachePass implements CompilerPassInterface
                 continue;
             }
 
-            if (preg_match($regex, '\'.$class)) {
+            if (preg_match($regex, '\\'.$class)) {
                 return true;
             }
         }

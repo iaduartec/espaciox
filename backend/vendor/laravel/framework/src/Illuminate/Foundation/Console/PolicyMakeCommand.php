@@ -92,7 +92,7 @@ class PolicyMakeCommand extends GeneratorCommand
         }
 
         if (! $config->get('auth.providers.'.$guardProvider.'.model')) {
-            return 'App\Models\User';
+            return 'App\\Models\\User';
         }
 
         return $config->get(
@@ -109,15 +109,15 @@ class PolicyMakeCommand extends GeneratorCommand
      */
     protected function replaceModel($stub, $model)
     {
-        $model = str_replace('/', '\', $model);
+        $model = str_replace('/', '\\', $model);
 
-        if (str_starts_with($model, '\')) {
-            $namespacedModel = trim($model, '\');
+        if (str_starts_with($model, '\\')) {
+            $namespacedModel = trim($model, '\\');
         } else {
             $namespacedModel = $this->qualifyModel($model);
         }
 
-        $model = class_basename(trim($model, '\'));
+        $model = class_basename(trim($model, '\\'));
 
         $dummyUser = class_basename($this->userProviderModel());
 

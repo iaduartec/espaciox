@@ -69,7 +69,7 @@ class CliDumper extends AbstractDumper
     {
         parent::__construct($output, $charset, $flags);
 
-        if ('\' === \DIRECTORY_SEPARATOR && !$this->isWindowsTrueColor()) {
+        if ('\\' === \DIRECTORY_SEPARATOR && !$this->isWindowsTrueColor()) {
             // Use only the base 16 xterm colors when using ANSICON or standard Windows 10 CLI
             $this->setStyles([
                 'default' => '31',
@@ -441,7 +441,7 @@ class CliDumper extends AbstractDumper
 
         if (isset($attr['ellipsis'], $attr['ellipsis-type'])) {
             $prefix = substr($value, 0, -$attr['ellipsis']);
-            if ('cli' === \PHP_SAPI && 'path' === $attr['ellipsis-type'] && isset($_SERVER[$pwd = '\' === \DIRECTORY_SEPARATOR ? 'CD' : 'PWD']) && str_starts_with($prefix, $_SERVER[$pwd])) {
+            if ('cli' === \PHP_SAPI && 'path' === $attr['ellipsis-type'] && isset($_SERVER[$pwd = '\\' === \DIRECTORY_SEPARATOR ? 'CD' : 'PWD']) && str_starts_with($prefix, $_SERVER[$pwd])) {
                 $prefix = '.'.substr($prefix, \strlen($_SERVER[$pwd]));
             }
             if (!empty($attr['ellipsis-tail'])) {
@@ -494,7 +494,7 @@ class CliDumper extends AbstractDumper
         if ($this->colors && $this->handlesHrefGracefully) {
             if (isset($attr['file']) && $href = $this->getSourceLink($attr['file'], $attr['line'] ?? 0)) {
                 if ('note' === $style) {
-                    $value .= "\033]8;;{$href}\033\^\033]8;;\033\";
+                    $value .= "\033]8;;{$href}\033\\^\033]8;;\033\\";
                 } else {
                     $attr['href'] = $href;
                 }
@@ -503,7 +503,7 @@ class CliDumper extends AbstractDumper
                 if ('label' === $style) {
                     $value .= '^';
                 }
-                $value = "\033]8;;{$attr['href']}\033\{$value}\033]8;;\033\";
+                $value = "\033]8;;{$attr['href']}\033\\{$value}\033]8;;\033\\";
             }
         }
 
@@ -609,7 +609,7 @@ class CliDumper extends AbstractDumper
             return false;
         }
 
-        if ('\' === \DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($stream)) {
+        if ('\\' === \DIRECTORY_SEPARATOR && @sapi_windows_vt100_support($stream)) {
             return true;
         }
 

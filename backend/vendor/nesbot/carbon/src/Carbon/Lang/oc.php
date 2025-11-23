@@ -17,7 +17,7 @@
 // @codeCoverageIgnoreStart
 use Symfony\Component\Translation\PluralizationRules;
 
-if (class_exists('Symfony\Component\Translation\PluralizationRules')) {
+if (class_exists('Symfony\\Component\\Translation\\PluralizationRules')) {
     PluralizationRules::set(static function ($number) {
         return $number == 1 ? 0 : 1;
     }, 'oc');
@@ -52,11 +52,11 @@ return [
     'before' => ':time abans',
     'diff_now' => 'ara meteis',
     'diff_today' => 'Uèi',
-    'diff_today_regexp' => 'Uèi(?:\s+a)?',
+    'diff_today_regexp' => 'Uèi(?:\\s+a)?',
     'diff_yesterday' => 'ièr',
-    'diff_yesterday_regexp' => 'Ièr(?:\s+a)?',
+    'diff_yesterday_regexp' => 'Ièr(?:\\s+a)?',
     'diff_tomorrow' => 'deman',
-    'diff_tomorrow_regexp' => 'Deman(?:\s+a)?',
+    'diff_tomorrow_regexp' => 'Deman(?:\\s+a)?',
     'diff_before_yesterday' => 'ièr delà',
     'diff_after_tomorrow' => 'deman passat',
     'period_recurrences' => ':count còp|:count còps',

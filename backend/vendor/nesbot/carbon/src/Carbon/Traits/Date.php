@@ -2240,7 +2240,7 @@ trait Date
         for ($i = 0; $i < $length; $i++) {
             $char = mb_substr($format, $i, 1);
 
-            if ($char === '\') {
+            if ($char === '\\') {
                 $result .= mb_substr($format, ++$i, 1);
 
                 continue;
@@ -2381,7 +2381,7 @@ trait Date
         for ($i = 0; $i < $length; $i++) {
             $char = mb_substr($format, $i, 1);
 
-            if ($char === '\') {
+            if ($char === '\\') {
                 $replacement = mb_substr($format, $i, 2);
                 $isoFormat .= $replacement;
                 $i++;
@@ -2390,7 +2390,7 @@ trait Date
             }
 
             if (!isset($replacements[$char])) {
-                $replacement = preg_match('/^[A-Za-z]$/', $char) ? "\$char" : $char;
+                $replacement = preg_match('/^[A-Za-z]$/', $char) ? "\\$char" : $char;
                 $isoFormat .= $replacement;
                 $context .= $replacement;
 

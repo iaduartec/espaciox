@@ -111,7 +111,7 @@ abstract class Factory
      *
      * @var string
      */
-    public static $namespace = 'Database\Factories\';
+    public static $namespace = 'Database\\Factories\\';
 
     /**
      * @deprecated use $modelNameResolvers
@@ -826,8 +826,8 @@ abstract class Factory
 
             $appNamespace = static::appNamespace();
 
-            return class_exists($appNamespace.'Models\'.$namespacedFactoryBasename)
-                        ? $appNamespace.'Models\'.$namespacedFactoryBasename
+            return class_exists($appNamespace.'Models\\'.$namespacedFactoryBasename)
+                        ? $appNamespace.'Models\\'.$namespacedFactoryBasename
                         : $appNamespace.$factoryBasename;
         };
 
@@ -905,8 +905,8 @@ abstract class Factory
         $resolver = static::$factoryNameResolver ?? function (string $modelName) {
             $appNamespace = static::appNamespace();
 
-            $modelName = Str::startsWith($modelName, $appNamespace.'Models\')
-                ? Str::after($modelName, $appNamespace.'Models\')
+            $modelName = Str::startsWith($modelName, $appNamespace.'Models\\')
+                ? Str::after($modelName, $appNamespace.'Models\\')
                 : Str::after($modelName, $appNamespace);
 
             return static::$namespace.$modelName.'Factory';
@@ -927,7 +927,7 @@ abstract class Factory
                 ->make(Application::class)
                 ->getNamespace();
         } catch (Throwable) {
-            return 'App\';
+            return 'App\\';
         }
     }
 
@@ -941,7 +941,7 @@ abstract class Factory
         static::$modelNameResolver = null;
         static::$modelNameResolvers = [];
         static::$factoryNameResolver = null;
-        static::$namespace = 'Database\Factories\';
+        static::$namespace = 'Database\\Factories\\';
     }
 
     /**

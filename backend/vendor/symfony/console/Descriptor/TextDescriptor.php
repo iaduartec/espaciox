@@ -268,7 +268,7 @@ class TextDescriptor extends Descriptor
             }
         }
 
-        return str_replace('\\', '\', json_encode($default, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
+        return str_replace('\\\\', '\\', json_encode($default, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
     }
 
     /**

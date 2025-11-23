@@ -14,7 +14,7 @@ final class PathPrefixer
 
     public function __construct(string $prefix, private string $separator = '/')
     {
-        $this->prefix = rtrim($prefix, '\/');
+        $this->prefix = rtrim($prefix, '\\/');
 
         if ($this->prefix !== '' || $prefix === $separator) {
             $this->prefix .= $separator;
@@ -23,7 +23,7 @@ final class PathPrefixer
 
     public function prefixPath(string $path): string
     {
-        return $this->prefix . ltrim($path, '\/');
+        return $this->prefix . ltrim($path, '\\/');
     }
 
     public function stripPrefix(string $path): string
@@ -34,12 +34,12 @@ final class PathPrefixer
 
     public function stripDirectoryPrefix(string $path): string
     {
-        return rtrim($this->stripPrefix($path), '\/');
+        return rtrim($this->stripPrefix($path), '\\/');
     }
 
     public function prefixDirectoryPath(string $path): string
     {
-        $prefixedPath = $this->prefixPath(rtrim($path, '\/'));
+        $prefixedPath = $this->prefixPath(rtrim($path, '\\/'));
 
         if ($prefixedPath === '' || substr($prefixedPath, -1) === $this->separator) {
             return $prefixedPath;

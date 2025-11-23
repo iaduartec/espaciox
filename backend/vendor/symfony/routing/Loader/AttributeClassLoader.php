@@ -259,7 +259,7 @@ abstract class AttributeClassLoader implements LoaderInterface
 
     public function supports(mixed $resource, ?string $type = null): bool
     {
-        return \is_string($resource) && preg_match('/^(?:\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/', $resource) && (!$type || 'attribute' === $type);
+        return \is_string($resource) && preg_match('/^(?:\\\\?[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)+$/', $resource) && (!$type || 'attribute' === $type);
     }
 
     public function setResolver(LoaderResolverInterface $resolver): void
@@ -278,7 +278,7 @@ abstract class AttributeClassLoader implements LoaderInterface
      */
     protected function getDefaultRouteName(\ReflectionClass $class, \ReflectionMethod $method)
     {
-        $name = str_replace('\', '_', $class->name).'_'.$method->name;
+        $name = str_replace('\\', '_', $class->name).'_'.$method->name;
         $name = \function_exists('mb_strtolower') && preg_match('//u', $name) ? mb_strtolower($name, 'UTF-8') : strtolower($name);
         if ($this->defaultRouteIndex > 0) {
             $name .= '_'.$this->defaultRouteIndex;

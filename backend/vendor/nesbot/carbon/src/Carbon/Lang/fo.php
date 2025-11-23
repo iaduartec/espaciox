@@ -37,10 +37,10 @@ return [
     'before' => ':time áðrenn',
     'diff_today' => 'Í',
     'diff_yesterday' => 'Í',
-    'diff_yesterday_regexp' => 'Í(?:\s+gjár)?(?:\s+kl.)?',
+    'diff_yesterday_regexp' => 'Í(?:\\s+gjár)?(?:\\s+kl.)?',
     'diff_tomorrow' => 'Í',
-    'diff_tomorrow_regexp' => 'Í(?:\s+morgin)?(?:\s+kl.)?',
-    'diff_today_regexp' => 'Í(?:\s+dag)?(?:\s+kl.)?',
+    'diff_tomorrow_regexp' => 'Í(?:\\s+morgin)?(?:\\s+kl.)?',
+    'diff_today_regexp' => 'Í(?:\\s+dag)?(?:\\s+kl.)?',
     'formats' => [
         'LT' => 'HH:mm',
         'LTS' => 'HH:mm:ss',

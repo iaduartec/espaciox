@@ -1204,7 +1204,7 @@ class Validator implements ValidatorContract
     {
         return (new Collection($this->rules))
             ->mapWithKeys(fn ($value, $key) => [
-                str_replace('__dot__'.static::$placeholderHash, '\.', $key) => $value,
+                str_replace('__dot__'.static::$placeholderHash, '\\.', $key) => $value,
             ])
             ->all();
     }

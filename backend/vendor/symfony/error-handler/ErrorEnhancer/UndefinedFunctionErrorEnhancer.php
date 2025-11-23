@@ -44,7 +44,7 @@ class UndefinedFunctionErrorEnhancer implements ErrorEnhancerInterface
         }
 
         $fullyQualifiedFunctionName = substr($message, $prefixLen, -$notFoundSuffixLen);
-        if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedFunctionName, '\')) {
+        if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedFunctionName, '\\')) {
             $functionName = substr($fullyQualifiedFunctionName, $namespaceSeparatorIndex + 1);
             $namespacePrefix = substr($fullyQualifiedFunctionName, 0, $namespaceSeparatorIndex);
             $message = \sprintf('Attempted to call undefined function "%s" from namespace "%s".', $functionName, $namespacePrefix);
@@ -56,14 +56,14 @@ class UndefinedFunctionErrorEnhancer implements ErrorEnhancerInterface
         $candidates = [];
         foreach (get_defined_functions() as $type => $definedFunctionNames) {
             foreach ($definedFunctionNames as $definedFunctionName) {
-                if (false !== $namespaceSeparatorIndex = strrpos($definedFunctionName, '\')) {
+                if (false !== $namespaceSeparatorIndex = strrpos($definedFunctionName, '\\')) {
                     $definedFunctionNameBasename = substr($definedFunctionName, $namespaceSeparatorIndex + 1);
                 } else {
                     $definedFunctionNameBasename = $definedFunctionName;
                 }
 
                 if ($definedFunctionNameBasename === $functionName) {
-                    $candidates[] = '\'.$definedFunctionName;
+                    $candidates[] = '\\'.$definedFunctionName;
                 }
             }
         }

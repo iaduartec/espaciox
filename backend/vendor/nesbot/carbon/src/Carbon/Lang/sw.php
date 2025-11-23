@@ -43,10 +43,10 @@ return [
     'before' => ':time kabla',
     'diff_now' => 'sasa hivi',
     'diff_today' => 'leo',
-    'diff_today_regexp' => 'leo(?:\s+saa)?',
+    'diff_today_regexp' => 'leo(?:\\s+saa)?',
     'diff_yesterday' => 'jana',
     'diff_tomorrow' => 'kesho',
-    'diff_tomorrow_regexp' => 'kesho(?:\s+saa)?',
+    'diff_tomorrow_regexp' => 'kesho(?:\\s+saa)?',
     'formats' => [
         'LT' => 'HH:mm',
         'LTS' => 'HH:mm:ss',
