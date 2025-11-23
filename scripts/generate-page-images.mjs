@@ -1,34 +1,34 @@
-import { GoogleGenAI } from "@google/genai";
 import "dotenv/config";
+import { GoogleGenAI } from "@google/genai";
 import * as fs from "node:fs";
 import * as path from "node:path";
 
 async function main() {
-  const apiKey = process.env.GOOGLE_API_KEY;
+  const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
-    console.error("Falta GOOGLE_API_KEY en el entorno (.env o variables de entorno).");
+    console.error("Falta OPENAI_API_KEY en el entorno (.env o variables de entorno).");
     process.exit(1);
   }
 
-  const ai = new GoogleGenAI({ apiKey });
+  const openai = new OpenAI({ apiKey });
 
   const baseDir = path.resolve(new URL("../assets/img", import.meta.url).pathname, "instalaciones");
 
   const imagesToGenerate = [
     {
-      fileName: "office-barra.jpg",
+      fileName: "office-barra.png",
       prompt:
-        "Fotografía realista de un office moderno y luminoso en un salón privado, con encimera de mármol, ollas de acero, frutero con limones y pequeños toques de color, pensado para eventos familiares y de empresa.",
+        "Photo-realistic image of a modern, bright kitchenette in a private event venue, with marble countertop, steel pots, a bowl of lemons and colorful details, styled for small parties and corporate events.",
     },
     {
-      fileName: "salon-evento.jpg",
+      fileName: "salon-evento.png",
       prompt:
-        "Fotografía realista de un salón de celebraciones elegante con mesas redondas vestidas de blanco, sillas doradas y grandes lámparas de cristal encendidas, listo para un banquete o comunión.",
+        "Photo-realistic image of an elegant event hall with round tables dressed in white, golden chairs and large crystal chandeliers turned on, ready for a family celebration or corporate dinner.",
     },
     {
-      fileName: "zona-infantil.jpg",
+      fileName: "zona-infantil.png",
       prompt:
-        "Fotografía realista de una zona infantil interior acolchada, con aros de colores, colchonetas y un monitor adulto acompañando a una niña pequeña que juega, ambiente seguro y alegre.",
+        "Photo-realistic indoor kids play area with padded floor, colorful hoops and soft blocks, with an adult monitor nearby helping a small child, safe and joyful atmosphere.",
     },
   ];
 
@@ -38,22 +38,20 @@ async function main() {
     console.log(`Generando imagen para ${fileName}...`);
 
     const response = await ai.models.generateImages({
-      model: "gemini-2.5-flash-image",
+      model: "imagen-4.0-generate-001",
       prompt,
-      config: {
-        numberOfImages: 1,
-      },
+      n: 1,
+      size: "1024x1024",
     });
 
-    const generatedImage = response.generatedImages[0];
-    const imgBytes = generatedImage.image.imageBytes;
-    const buffer = Buffer.from(imgBytes, "base64");
+    const imageBase64 = response.data[0].b64_json;
+    const buffer = Buffer.from(imageBase64, "base64");
     const outPath = path.join(baseDir, fileName);
     fs.writeFileSync(outPath, buffer);
     console.log(`→ Guardada ${outPath}`);
   }
 
-  console.log("Imágenes generadas. Asegúrate de que las rutas en las páginas HTML apunten a estos archivos.");
+  console.log("Imágenes generadas con OpenAI. Actualiza las rutas en las páginas HTML para usar los nuevos .png si lo deseas.");
 }
 
 main().catch((err) => {
