@@ -32,6 +32,8 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
 }
 
 /* Glassmorphism Utility */
@@ -85,10 +87,15 @@ textarea {
 }
 
 .btn {
+  display: -ms-inline-flexbox;
   display: inline-flex;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-pack: center;
   justify-content: center;
   gap: 10px;
+  /* Fallback for gap in flexbox for older browsers */
+  margin-right: 10px;
   padding: 14px 28px;
   border-radius: 999px;
   border: 1px solid transparent;
@@ -101,6 +108,13 @@ textarea {
   position: relative;
   overflow: hidden;
   z-index: 1;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.btn>*:last-child {
+  margin-right: 0;
 }
 
 .btn::before {
@@ -172,8 +186,11 @@ header.scrolled {
 }
 
 .navbar {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-align: center;
   align-items: center;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   padding: 16px 0;
 }
@@ -184,9 +201,15 @@ header.scrolled {
   font-weight: 700;
   color: var(--color-primary);
   letter-spacing: 0.2px;
+  display: -ms-inline-flexbox;
   display: inline-flex;
+  -ms-flex-align: center;
   align-items: center;
   gap: 12px;
+}
+
+.logo>*:not(:last-child) {
+  margin-right: 12px;
 }
 
 .logo .logo-mark {
@@ -199,9 +222,15 @@ header.scrolled {
 
 nav ul {
   list-style: none;
+  display: -ms-flexbox;
   display: flex;
   gap: 18px;
+  -ms-flex-align: center;
   align-items: center;
+}
+
+nav ul>*:not(:last-child) {
+  margin-right: 18px;
 }
 
 nav a {
@@ -259,13 +288,18 @@ nav a.active {
   padding: 160px 0 120px;
   overflow: hidden;
   min-height: 90vh;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-align: center;
   align-items: center;
 }
 
 .hero-bg-parallax {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: url('../img/salon-celebraciones.webp') center/cover no-repeat;
   opacity: 0;
   z-index: -1;
@@ -275,7 +309,10 @@ nav a.active {
 .hero::before {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   background: linear-gradient(90deg, rgba(253, 251, 247, 0.95) 0%, rgba(253, 251, 247, 0.8) 50%, rgba(253, 251, 247, 0.4) 100%);
   z-index: 0;
 }
@@ -288,6 +325,7 @@ nav a.active {
 .hero-content-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  -ms-flex-align: center;
   align-items: center;
   gap: 60px;
 }
@@ -309,7 +347,9 @@ nav a.active {
 }
 
 .eyebrow {
+  display: -ms-inline-flexbox;
   display: inline-flex;
+  -ms-flex-align: center;
   align-items: center;
   gap: 10px;
   padding: 8px 16px;
@@ -367,13 +407,27 @@ nav a.active {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 @keyframes fadeInZoom {
-  from { opacity: 0; transform: scale(1.1); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 @media (max-width: 900px) {
@@ -423,11 +477,14 @@ nav a.active {
 
 .gifts-grid {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  -ms-flex-align: stretch;
   align-items: stretch;
 }
 
 .gift-card {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-direction: column;
   flex-direction: column;
   gap: 12px;
   height: 500px;
@@ -460,6 +517,8 @@ nav a.active {
   -webkit-line-clamp: 3;
   line-clamp: 3;
   overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .gift-card .btn {
@@ -523,7 +582,9 @@ nav a.active {
 .blog-card {
   border-radius: var(--radius);
   overflow: hidden;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-direction: column;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -547,13 +608,21 @@ nav a.active {
 
 .blog-card .content {
   padding: 18px;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-direction: column;
   flex-direction: column;
   gap: 10px;
+  -ms-flex-positive: 1;
   flex: 1;
 }
 
+.blog-card .content>*:not(:last-child) {
+  margin-bottom: 10px;
+}
+
 .badge {
+  -ms-flex-item-align: start;
   align-self: flex-start;
   padding: 6px 12px;
   background: rgba(31, 47, 61, 0.07);
@@ -574,12 +643,19 @@ nav a.active {
 }
 
 .newsletter form {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   gap: 12px;
 }
 
+.newsletter form>*:not(:last-child) {
+  margin-right: 12px;
+}
+
 .newsletter input[type='email'] {
+  -ms-flex: 1 1 240px;
   flex: 1 1 240px;
   padding: 12px 14px;
   border-radius: 12px;
@@ -595,7 +671,9 @@ nav a.active {
 
 /* Forms */
 form .field {
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-direction: column;
   flex-direction: column;
   gap: 8px;
 }
@@ -735,10 +813,16 @@ footer h3 {
 
 footer a {
   color: #f4f0eb;
+  display: -ms-inline-flexbox;
   display: inline-flex;
   gap: 8px;
+  -ms-flex-align: center;
   align-items: center;
   margin-bottom: 8px;
+}
+
+footer a>*:not(:last-child) {
+  margin-right: 8px;
 }
 
 footer a:hover,
@@ -751,11 +835,17 @@ footer ul {
 }
 
 footer .legal {
+  display: -ms-flexbox;
   display: flex;
   gap: 10px;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-top: 18px;
   font-size: 0.95rem;
+}
+
+footer .legal>*:not(:last-child) {
+  margin-right: 10px;
 }
 
 /* Hero simple */
@@ -777,10 +867,16 @@ footer .legal {
 
 /* Filters */
 .filters {
+  display: -ms-flexbox;
   display: flex;
   gap: 10px;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   margin-bottom: 20px;
+}
+
+.filters>*:not(:last-child) {
+  margin-right: 10px;
 }
 
 .filter-btn {
