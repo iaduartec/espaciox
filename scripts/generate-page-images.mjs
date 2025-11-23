@@ -8,67 +8,67 @@ const repoRoot = path.resolve(new URL("..", import.meta.url).pathname);
 
 const imagesToGenerate = [
   {
-    filePath: "assets/img/salon-celebraciones.jpg",
+    filePath: "assets/img/salon-celebraciones.webp",
     prompt:
       "Warm, photo-realistic celebration lounge with sofas, round tables styled for a family gathering, candles and string lights for an intimate event.",
   },
   {
-    filePath: "assets/img/zonas-polivalentes.jpg",
+    filePath: "assets/img/zonas-polivalentes.webp",
     prompt:
       "Bright multipurpose studio with modular tables, craft supplies and a casual meeting area ready for workshops or kids parties.",
   },
   {
-    filePath: "assets/img/instalaciones/office-barra.jpg",
+    filePath: "assets/img/instalaciones/office-barra.webp",
     prompt:
       "Modern catering kitchenette with marble island, coffee machine, stacked plates and fruit bowls ready for events.",
   },
   {
-    filePath: "assets/img/instalaciones/salon-evento.jpg",
+    filePath: "assets/img/instalaciones/salon-evento.webp",
     prompt:
       "Panoramic banquet hall with long tables, gold chairs and ceiling chandeliers ready for a formal dinner.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-candybar-bodas.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-candybar-bodas.webp",
     prompt:
       "Elegant wedding dessert table with white florals, glass jars of sweets and pastel cakes.",
   },
   {
-    filePath: "assets/img/instalaciones/zona-infantil.jpg",
+    filePath: "assets/img/instalaciones/zona-infantil.webp",
     prompt:
       "Soft indoor play zone with foam blocks, ball pit and kids having fun under adult supervision.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-sonido-luces.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-sonido-luces.webp",
     prompt:
       "DJ booth with mixer, speakers and colorful stage lighting prepared for a party.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-salon-familiar.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-salon-familiar.webp",
     prompt:
       "Family lounge area with sofas, coffee tables and decor for a relaxed gathering.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-office-isla.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-office-isla.webp",
     prompt:
       "Kitchen island setup with stools, espresso machine and snacks ready for self-service.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-office-frigo.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-office-frigo.webp",
     prompt:
       "Event beverage station with display fridge full of drinks and countertop accessories.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-candybar-infantil.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-candybar-infantil.webp",
     prompt:
       "Colorful kids candy bar with cupcakes, balloons and themed decorations.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-salon-azul.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-salon-azul.webp",
     prompt:
       "Large reception room decorated in blue tones with banquet tables and ambient lighting.",
   },
   {
-    filePath: "assets/img/instalaciones/instalaciones-sala-empresarial.jpg",
+    filePath: "assets/img/instalaciones/instalaciones-sala-empresarial.webp",
     prompt:
       "Corporate training room with triangular tables, notepads and projector ready for workshops.",
   },
@@ -106,7 +106,7 @@ async function main() {
       pipeline = pipeline.resize(1400, 900, { fit: "cover" });
     }
 
-    const finalBuffer = await pipeline.jpeg({ quality: imageDef.quality ?? 80 }).toBuffer();
+    const finalBuffer = await pipeline.webp({ quality: imageDef.quality ?? 80 }).toBuffer();
     await fs.promises.writeFile(outPath, finalBuffer);
     console.log(`→ Guardada ${imageDef.filePath}`);
   }
@@ -118,4 +118,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-
