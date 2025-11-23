@@ -603,3 +603,11 @@
 #34 /home/kiri_/code/espaciox/backend/public/index.php(11): Illuminate\\Foundation\\Http\\Kernel->handle()
 #35 {main}
 "} 
+[2025-11-23 23:39:07] local.ERROR: Command "tinker" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"tinker\" is not defined. at /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php:740)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(298): Symfony\\Component\\Console\\Application->find()
+#1 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#3 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 {main}
+"} 
