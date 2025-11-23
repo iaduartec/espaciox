@@ -550,3 +550,17 @@
 #33 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
 #34 {main}
 "} 
+[2025-11-23 23:13:42] local.ERROR: No arguments expected for "route:list" command, got "o". {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): No arguments expected for \"route:list\" command, got \"o\". at /home/kiri_/code/espaciox/backend/vendor/symfony/console/Input/ArgvInput.php:199)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Input/ArgvInput.php(92): Symfony\\Component\\Console\\Input\\ArgvInput->parseArgument()
+#1 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Input/ArgvInput.php(77): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken()
+#2 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Input/Input.php(53): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#3 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Command/Command.php(276): Symfony\\Component\\Console\\Input\\Input->bind()
+#4 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#5 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(1073): Illuminate\\Console\\Command->run()
+#6 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(356): Symfony\\Component\\Console\\Application->doRunCommand()
+#7 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#8 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#9 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#10 {main}
+"} 
