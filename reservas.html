@@ -82,6 +82,11 @@
         <div class="card" style="margin-bottom:30px;">
           <h2>Disponibilidad</h2>
           <p>Consulta el calendario del mes. Las fechas ocupadas o bloqueadas se actualizan desde la API.</p>
+          <div class="calendar-nav">
+            <button id="mes-anterior" type="button" aria-label="Mes anterior">←</button>
+            <span id="mes-actual"></span>
+            <button id="mes-siguiente" type="button" aria-label="Mes siguiente">→</button>
+          </div>
           <div id="calendario-disponibilidad" class="calendar" aria-label="Calendario de disponibilidad">
             <p>Cargando disponibilidad...</p>
           </div>
