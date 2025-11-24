@@ -14,7 +14,7 @@ if (navToggle && navMenu) {
 }
 
 // -------- API helpers --------
-const API_BASE = 'http://localhost:8000/api';
+const API_BASE = 'https://espaciox.infinityfreeapp.com/api';
 let spaceId = null;
 let availabilityCache = {};
 let currentMonthDate = new Date();
