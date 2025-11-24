@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservas | El Santuario</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header>
+    <div class="container navbar">
+      <a class="logo" href="index.html">
+        <img class="logo-mark" src="assets/img/el-santuario-logo.svg" alt="El Santuario">
+        <span>El Santuario</span>
+      </a>
+      <nav aria-label="Menú principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a class="active" href="reservas.html">Reservas</a></li>
+          <li><a href="tarifas.html">Tarifas</a></li>
+          <li><a href="instalaciones.html">Instalaciones</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="regalos.html">Regalos</a></li>
+        </ul>
+      </nav>
+      <button class="hamburger" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="container mobile-nav" aria-label="Menú móvil">
+      <a href="index.html">Inicio</a>
+      <a class="active" href="reservas.html">Reservas</a>
+      <a href="tarifas.html">Tarifas</a>
+      <a href="instalaciones.html">Instalaciones</a>
+      <a href="blog.html">Blog</a>
+      <a href="regalos.html">Regalos</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-simple">
+      <div class="container">
+        <h1>Reservas</h1>
+        <p class="lead">Fianza de 100 € para confirmar tu fecha. Te pediremos datos básicos y confirmaremos disponibilidad al instante.</p>
+      </div>
+    </section>
+
+    <section class="main-content">
+      <div class="container">
+        <div class="card" style="margin-bottom:30px;">
+          <h2>¿Qué necesitamos?</h2>
+          <p>Indica nombre y apellidos, email y teléfono de contacto, tipo de evento, fecha, franja horaria y número aproximado de asistentes. La fianza de 100 € asegura que el día queda bloqueado para ti.</p>
+        </div>
+
+        <div class="grid" style="margin-bottom:30px;">
+          <article class="card">
+            <figure style="margin-bottom:14px;">
+              <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy" alt="Sala polivalente luminosa con mesas modulares y material creativo">
+            </figure>
+            <h3>Bloquea tu fecha en minutos</h3>
+            <p>Elige la franja horaria y dinos si necesitas la zona infantil o mesas adicionales. Te confirmamos por email y WhatsApp para que tengas todo por escrito.</p>
+            <ul style="margin-left:18px;">
+              <li>Respuesta en menos de 2 horas en horario laboral.</li>
+              <li>Flexibilidad para ajustar la duración si tu evento se alarga.</li>
+              <li>Recordatorio automático 48 horas antes del evento.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <figure style="margin-bottom:14px;">
+              <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy" alt="Salón acogedor con sofás, mesas decoradas y luces cálidas para eventos">
+            </figure>
+            <h3>Te ayudamos con la logística</h3>
+            <p>Indicaciones de acceso, recomendaciones de catering local y cómo configurar el espacio según tu evento. Te enviamos un plano con enchufes y puntos de luz.</p>
+            <ul style="margin-left:18px;">
+              <li>Guía rápida para conectar proyector y altavoces.</li>
+              <li>Checklist de limpieza y recogida para facilitar la salida.</li>
+              <li>Contacto de apoyo durante tu reserva para emergencias.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="card" style="margin-bottom:30px;">
+          <h2>Disponibilidad</h2>
+          <p>Consulta el calendario del mes. Las fechas ocupadas o bloqueadas se actualizan desde la API.</p>
+          <div class="calendar-nav">
+            <button id="mes-anterior" type="button" aria-label="Mes anterior">←</button>
+            <span id="mes-actual"></span>
+            <button id="mes-siguiente" type="button" aria-label="Mes siguiente">→</button>
+          </div>
+          <div id="calendario-disponibilidad" class="calendar" aria-label="Calendario de disponibilidad">
+            <p>Cargando disponibilidad...</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Formulario de reserva</h2>
+          <form id="form-reserva" novalidate>
+            <div class="form-grid">
+              <div class="field">
+                <label for="nombre">Nombre y apellidos *</label>
+                <input id="nombre" name="nombre" type="text" required>
+              </div>
+              <div class="field">
+                <label for="email">Email *</label>
+                <input id="email" name="email" type="email" required>
+              </div>
+              <div class="field">
+                <label for="telefono">Teléfono *</label>
+                <input id="telefono" name="telefono" type="tel" required>
+              </div>
+              <div class="field">
+                <label for="password">Contraseña (para tu acceso) *</label>
+                <input id="password" name="password" type="password" minlength="8" required>
+              </div>
+              <div class="field">
+                <label for="tipo">Tipo de evento</label>
+                <select id="tipo" name="tipo">
+                  <option>Cumpleaños infantil</option>
+                  <option>Cumpleaños adulto</option>
+                  <option>Reunión familiar</option>
+                  <option>Evento empresa</option>
+                  <option>Curso/taller</option>
+                  <option>Otros</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="fecha">Fecha</label>
+                <input id="fecha" name="fecha" type="date">
+              </div>
+              <div class="field">
+                <label for="hora">Hora de inicio *</label>
+                <select id="hora" name="hora" required>
+                  <option value="">Selecciona fecha primero</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="duracion">Duración (horas)</label>
+                <select id="duracion" name="duracion">
+                  <option value="2">2 horas</option>
+                  <option value="3">3 horas</option>
+                  <option value="4">4 horas</option>
+                  <option value="5">5 horas</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="franja">Franja horaria</label>
+                <select id="franja" name="franja">
+                  <option>Mañana</option>
+                  <option>Tarde</option>
+                  <option>Noche</option>
+                  <option>Día completo</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="asistentes">Número aproximado de asistentes</label>
+                <input id="asistentes" name="asistentes" type="number" min="1">
+              </div>
+              <div class="field">
+                <label for="comentarios">Comentarios adicionales</label>
+                <textarea id="comentarios" name="comentarios"></textarea>
+              </div>
+            </div>
+            <div class="field" style="margin-top:12px;">
+              <label><input id="normas" type="checkbox"> He leído y acepto las <a href="normas-uso.html">normas de uso</a> *</label>
+            </div>
+            <div class="form-actions">
+              <button class="btn" type="submit">Enviar reserva</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <h3>El Santuario</h3>
+        <p>C/ Río Arlanzón, 12 – 09005 Burgos, España</p>
+        <p>Tel: <a href="tel:+34612345678">+34 612 345 678</a></p>
+        <p>Email: <a href="mailto:hola@elsantuario.com">hola@elsantuario.com</a></p>
+      </div>
+      <div>
+        <h3>Horario</h3>
+        <ul>
+          <li>L–J: 9:00–21:00</li>
+          <li>V: 9:00–23:00</li>
+          <li>S: 10:00–23:00</li>
+          <li>D: 10:00–22:00</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Legal</h3>
+        <ul>
+          <li><a href="aviso-legal.html">Aviso legal</a></li>
+          <li><a href="politica-privacidad.html">Política de privacidad</a></li>
+          <li><a href="normas-uso.html">Normas de uso</a></li>
+          <li><a href="politica-cookies.html">Política de cookies</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Redes</h3>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container legal">
+      <p>© 2025 El Santuario. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
