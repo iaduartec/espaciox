@@ -17,6 +17,7 @@ if (navToggle && navMenu) {
 const API_BASE = 'http://localhost:8000/api';
 let spaceId = null;
 let availabilityCache = {};
+let currentMonthDate = new Date();
 
 async function apiFetch(path, options = {}) {
   const resp = await fetch(`${API_BASE}${path}`, {
@@ -99,6 +100,16 @@ function renderCalendar(container, days) {
     container.appendChild(div);
   });
 
+  if (days.length) {
+    const firstDay = new Date(days[0].date);
+    const offset = ((firstDay.getDay() || 7) - 1 + 7) % 7; // lunes=0
+    for (let i = 0; i < offset; i++) {
+      const empty = document.createElement('div');
+      empty.className = 'day empty';
+      container.appendChild(empty);
+    }
+  }
+
   days.forEach((day) => {
     const div = document.createElement('div');
     div.className = 'day';
@@ -106,6 +117,13 @@ function renderCalendar(container, days) {
     div.textContent = new Date(day.date).getDate();
     if (day.status === 'booked') div.classList.add('ocupado');
     if (day.status === 'blocked') div.classList.add('bloqueado');
+    div.addEventListener('click', () => {
+      const form = document.querySelector('#form-reserva');
+      if (form && form.fecha) {
+        form.fecha.value = day.date;
+        populateTimeSlots(day.date);
+      }
+    });
     container.appendChild(div);
   });
 }
@@ -234,6 +252,37 @@ function inicializarFiltrosBlog() {
       });
     });
   });
+}
+
+function initCalendarNav() {
+  const label = document.querySelector('#mes-actual');
+  const prev = document.querySelector('#mes-anterior');
+  const next = document.querySelector('#mes-siguiente');
+  const updateLabel = () => {
+    const formatter = new Intl.DateTimeFormat('es-ES', { month: 'long', year: 'numeric' });
+    label.textContent = formatter.format(currentMonthDate);
+  };
+  const load = async () => {
+    const month = currentMonthDate.toISOString().slice(0, 7);
+    availabilityCache = {};
+    await loadCalendar(month);
+  };
+  if (prev && next && label) {
+    prev.addEventListener('click', () => {
+      currentMonthDate.setMonth(currentMonthDate.getMonth() - 1);
+      updateLabel();
+      load();
+    });
+    next.addEventListener('click', () => {
+      currentMonthDate.setMonth(currentMonthDate.getMonth() + 1);
+      updateLabel();
+      load();
+    });
+    updateLabel();
+  } else {
+    loadCalendar(new Date().toISOString().slice(0, 7));
+  }
+  load();
 }
 
 // Inicialización
