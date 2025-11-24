@@ -81,37 +81,9 @@
 
         <div class="card" style="margin-bottom:30px;">
           <h2>Disponibilidad</h2>
-          <p>Consulta el calendario del mes. Las fechas marcadas como ocupadas ya no están disponibles.</p>
-          <div class="calendar" aria-label="Calendario de disponibilidad febrero 2025">
-            <div class="weekday">L</div><div class="weekday">M</div><div class="weekday">X</div><div class="weekday">J</div><div class="weekday">V</div><div class="weekday">S</div><div class="weekday">D</div>
-            <div class="day" data-date="2025-02-01">1</div>
-            <div class="day" data-date="2025-02-02">2</div>
-            <div class="day" data-date="2025-02-03">3</div>
-            <div class="day" data-date="2025-02-04">4</div>
-            <div class="day" data-date="2025-02-05">5</div>
-            <div class="day" data-date="2025-02-06">6</div>
-            <div class="day" data-date="2025-02-07">7</div>
-            <div class="day" data-date="2025-02-08">8</div>
-            <div class="day" data-date="2025-02-09">9</div>
-            <div class="day" data-date="2025-02-10">10</div>
-            <div class="day" data-date="2025-02-11">11</div>
-            <div class="day" data-date="2025-02-12">12</div>
-            <div class="day" data-date="2025-02-13">13</div>
-            <div class="day" data-date="2025-02-14">14</div>
-            <div class="day" data-date="2025-02-15">15</div>
-            <div class="day" data-date="2025-02-16">16</div>
-            <div class="day" data-date="2025-02-17">17</div>
-            <div class="day" data-date="2025-02-18">18</div>
-            <div class="day" data-date="2025-02-19">19</div>
-            <div class="day" data-date="2025-02-20">20</div>
-            <div class="day" data-date="2025-02-21">21</div>
-            <div class="day" data-date="2025-02-22">22</div>
-            <div class="day" data-date="2025-02-23">23</div>
-            <div class="day" data-date="2025-02-24">24</div>
-            <div class="day" data-date="2025-02-25">25</div>
-            <div class="day" data-date="2025-02-26">26</div>
-            <div class="day" data-date="2025-02-27">27</div>
-            <div class="day" data-date="2025-02-28">28</div>
+          <p>Consulta el calendario del mes. Las fechas ocupadas o bloqueadas se actualizan desde la API.</p>
+          <div id="calendario-disponibilidad" class="calendar" aria-label="Calendario de disponibilidad">
+            <p>Cargando disponibilidad...</p>
           </div>
         </div>
 
@@ -132,6 +104,10 @@
                 <input id="telefono" name="telefono" type="tel" required>
               </div>
               <div class="field">
+                <label for="password">Contraseña (para tu acceso) *</label>
+                <input id="password" name="password" type="password" minlength="8" required>
+              </div>
+              <div class="field">
                 <label for="tipo">Tipo de evento</label>
                 <select id="tipo" name="tipo">
                   <option>Cumpleaños infantil</option>
@@ -145,6 +121,21 @@
               <div class="field">
                 <label for="fecha">Fecha</label>
                 <input id="fecha" name="fecha" type="date">
+              </div>
+              <div class="field">
+                <label for="hora">Hora de inicio *</label>
+                <select id="hora" name="hora" required>
+                  <option value="">Selecciona fecha primero</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="duracion">Duración (horas)</label>
+                <select id="duracion" name="duracion">
+                  <option value="2">2 horas</option>
+                  <option value="3">3 horas</option>
+                  <option value="4">4 horas</option>
+                  <option value="5">5 horas</option>
+                </select>
               </div>
               <div class="field">
                 <label for="franja">Franja horaria</label>
