@@ -27,11 +27,23 @@ async function apiFetch(path, options = {}) {
     },
     ...options,
   });
-  if (!resp.ok) {
-    const error = await resp.json().catch(() => ({}));
-    throw new Error(error.message || 'Error de servidor');
+  const raw = await resp.text();
+  let data = null;
+  try {
+    data = raw ? JSON.parse(raw) : null;
+  } catch {
+    data = null;
   }
-  return resp.json();
+
+  if (!resp.ok) {
+    throw new Error(data?.message || 'Error de servidor');
+  }
+
+  if (data === null) {
+    throw new Error('Respuesta no válida del servidor');
+  }
+
+  return data;
 }
 
 function setToken(token) {
