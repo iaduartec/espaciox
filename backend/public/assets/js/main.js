@@ -289,6 +289,7 @@ function initCalendarNav() {
 window.addEventListener('DOMContentLoaded', () => {
   initReservaForm();
   inicializarFiltrosBlog();
+  initCalendarNav();
 
   // Initialize AOS
   if (window.AOS) {
@@ -307,15 +308,6 @@ window.addEventListener('DOMContentLoaded', () => {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
-    }
-  });
-
-  // Cargar calendario dinámico del mes actual
-  const month = new Date().toISOString().slice(0, 7);
-  loadCalendar(month).then(() => {
-    const form = document.querySelector('#form-reserva');
-    if (form && form.fecha.value) {
-      populateTimeSlots(form.fecha.value);
     }
   });
 });
