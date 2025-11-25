@@ -36,6 +36,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 
 # Copia el código de la app
 COPY backend ./
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
