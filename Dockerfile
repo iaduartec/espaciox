@@ -1,5 +1,6 @@
-# Stage 1 - Build frontend (static/Vite-ready)
-FROM node:20-slim AS frontend
+# Stage 1 - Build frontend (Vite/static)
+FROM node:18 AS frontend
+RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Si existiera un proyecto Vite, instala dependencias; para el front estático actual basta con copiar los assets.
@@ -8,8 +9,8 @@ RUN if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm
 
 # Copia el front estático actual (HTML + assets). Si añades Vite, ajusta el comando de build.
 COPY assets ./assets
-COPY *.html ./
-RUN mkdir -p dist && cp -r assets dist/ && cp ./*.html dist/
+COPY *.html ./public/
+RUN mkdir -p public/dist && npm run build --if-present || (cp -r assets public/dist/assets && cp public/*.html public/dist/)
 
 # Stage 2 - Backend Laravel (PHP-FPM + Composer)
 FROM php:8.2-fpm AS backend
