@@ -52,3 +52,15 @@ El `.env` ya apunta a `DB_CONNECTION=sqlite` en `database/database.sqlite`.
 - Anti-solape general mediante `Booking::overlaps`
 - Horario definido por día vía `config/spaces.php`
 - Reglas de capacidad, duración (1-12h) y bloques administrativos
+
+## Contenedor Docker (Apache)
+
+Se incluye un `Dockerfile` multi-stage en la raíz del repo:
+
+```bash
+docker build -t espaciox .
+# Define APP_KEY y credenciales de DB al ejecutar; Apache escucha en $PORT (por defecto 80).
+docker run --rm -p 8080:8080 -e PORT=8080 -e APP_KEY=base64:... -e DB_HOST=... espaciox
+```
+
+El stage `frontend` copia los HTML y assets estáticos a `public/dist`. El stage final instala dependencias PHP, ajusta Apache para servir `backend/public` y limpia caches de Laravel antes de arrancar el servidor.
