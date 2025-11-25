@@ -31,6 +31,11 @@ python -m http.server 8000
 # Luego abre http://localhost:8000 en el navegador
 ```
 
+## Requisitos de hosting
+
+- **Front:** cualquier hosting estático que sirva los `.html` y la carpeta `assets` con HTTPS habilitado.
+- **API:** hosting con PHP 8.3, Composer, web server apuntando a `backend/public` y base de datos (SQLite o MySQL). Consulta `backend/HOSTING.md` para el detalle de configuración recomendada.
+
 ## Mantenimiento rápido
 
 - Mantén la navegación en `header` sincronizada en todas las páginas.
