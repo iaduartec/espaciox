@@ -10,7 +10,11 @@ RUN if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm
 # Copia el front estático actual (HTML + assets). Si añades Vite, ajusta el comando de build.
 COPY assets ./assets
 COPY *.html ./public/
-RUN mkdir -p public/dist && npm run build --if-present || (cp -r assets public/dist/assets && cp public/*.html public/dist/)
+RUN mkdir -p public/dist && \
+    npm run build --if-present || true && \
+    if [ -z "$(ls -A public/dist 2>/dev/null)" ]; then \
+      cp -r assets public/dist/assets && cp public/*.html public/dist/; \
+    fi
 
 # Stage 2 - Backend Laravel (PHP-FPM + Composer)
 FROM php:8.2-fpm AS backend
@@ -34,7 +38,7 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --no-script
 COPY backend ./
 
 # Copia el front compilado al public de Laravel
-COPY --from=frontend /app/dist ./public/dist
+COPY --from=frontend /app/public/dist ./public/dist
 
 # Opcional: limpia caches de artisan (no requiere APP_KEY)
 RUN php artisan config:clear && \
