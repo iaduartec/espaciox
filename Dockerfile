@@ -57,4 +57,7 @@ RUN php artisan config:clear && \
 # Permisos para logs y cachés
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-CMD ["apache2-foreground"]
+COPY backend/bin/apache-render-entrypoint.sh /usr/local/bin/apache-render-entrypoint.sh
+RUN chmod +x /usr/local/bin/apache-render-entrypoint.sh
+
+CMD ["apache-render-entrypoint.sh"]
