@@ -18,6 +18,7 @@ RUN mkdir -p public/dist && \
 
 # Stage 2 - Backend Laravel (Apache + Composer)
 FROM php:8.2-apache-bookworm AS backend
+ARG GITHUB_TOKEN
 
 # Dependencias de sistema y extensiones PHP
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -44,11 +45,17 @@ WORKDIR /var/www/html
 
 # Instala dependencias PHP aprovechando la cache
 COPY backend/composer.json backend/composer.lock ./
+RUN if [ -n "${GITHUB_TOKEN:-}" ]; then \
+      composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
+    fi
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el código de la app
 COPY backend ./
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
+RUN if [ -n "${GITHUB_TOKEN:-}" ]; then \
+      composer config --global --unset github-oauth.github.com || true; \
+    fi
 
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
