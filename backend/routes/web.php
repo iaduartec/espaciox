@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 Route::get('/', function () {
     try {
@@ -31,4 +32,16 @@ Route::get('/healthz', function () {
         'app_debug' => config('app.debug'),
         'has_dotenv' => file_exists(base_path('.env')),
     ]);
+});
+
+Route::get('/logs', function () {
+    $path = storage_path('logs/laravel.log');
+    if (! File::exists($path)) {
+        return response('laravel.log not found', 404);
+    }
+
+    $lines = explode("\n", File::get($path));
+    $tail = array_slice($lines, -200);
+
+    return response(implode("\n", $tail), 200, ['Content-Type' => 'text/plain']);
 });
