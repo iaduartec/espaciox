@@ -35,11 +35,14 @@ python -m http.server 8000
 
 - **Front:** cualquier hosting estático que sirva los `.html` y la carpeta `assets` con HTTPS habilitado.
 - **API:** hosting con PHP 8.3, Composer, web server apuntando a `backend/public` y base de datos (SQLite o MySQL). Consulta `backend/HOSTING.md` para el detalle de configuración recomendada.
-<<<<<<< HEAD
-=======
 - **Opciones gratuitas rápidas:** front en GitHub Pages/Vercel/Netlify/Cloudflare Pages y API PHP en AlwaysData, InfinityFree o HelioHost. Detalle de límites y pasos en `backend/HOSTING.md`.
+- **Builds más estables:** si Docker/Render necesita descargar dependencias PHP desde GitHub, define un token (lectura) y pásalo como argumento `GITHUB_TOKEN` para evitar timeouts de Composer.
 
->>>>>>> 6f69a3e (Update .env.example)
+  ```bash
+  docker build --build-arg GITHUB_TOKEN=ghp_xxx -t espaciox .
+  ```
+
+  En Render añade `GITHUB_TOKEN` como variable de entorno en la sección **Build Command** y se aplicará automáticamente durante `composer install`.
 
 ## Mantenimiento rápido
 
