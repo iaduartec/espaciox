@@ -1,5 +1,5 @@
 # Stage 1 - Build frontend (static/Vite-ready)
-FROM node:18 AS frontend
+FROM node:20-slim AS frontend
 WORKDIR /app
 
 # Si existiera un proyecto Vite, instala dependencias; para el front estático actual basta con copiar los assets.
