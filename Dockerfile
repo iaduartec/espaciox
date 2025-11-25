@@ -33,18 +33,22 @@ RUN a2enmod rewrite && \
     printf "<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All\n</Directory>\n" > /etc/apache2/conf-available/laravel.conf && \
     a2enconf laravel
 
-# Composer
+# Composer y opciones para descargas más estables
+ENV COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_MEMORY_LIMIT=-1 \
+    COMPOSER_HTTP_TIMEOUT=600 \
+    COMPOSER_PROCESS_TIMEOUT=600
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
 # Instala dependencias PHP aprovechando la cache
 COPY backend/composer.json backend/composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el código de la app
 COPY backend ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
