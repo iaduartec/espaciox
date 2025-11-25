@@ -9,20 +9,23 @@ if [ ! -f .env ] && [ -f .env.example ]; then
   cp .env.example .env
 fi
 
+# Populate APP_KEY if missing or placeholder.
 if [ -z "${APP_KEY:-}" ]; then
-  # Try to read existing key from .env; otherwise, generate one.
   EXISTING_KEY=$(grep '^APP_KEY=' .env 2>/dev/null | cut -d= -f2- || true)
-  if [ -n "${EXISTING_KEY}" ]; then
-    export APP_KEY="${EXISTING_KEY}"
-  else
-    NEW_KEY=$(php -r "echo 'base64:'.base64_encode(random_bytes(32));")
-    export APP_KEY="${NEW_KEY}"
-    if grep -q '^APP_KEY=' .env 2>/dev/null; then
-      sed -i "s/^APP_KEY=.*/APP_KEY=${NEW_KEY}/" .env
-    else
-      echo "APP_KEY=${NEW_KEY}" >> .env
-    fi
-  fi
+  case "${EXISTING_KEY}" in
+    ""|"base64:GENERATE_KEY")
+      NEW_KEY=$(php -r "echo 'base64:'.base64_encode(random_bytes(32));")
+      export APP_KEY="${NEW_KEY}"
+      if grep -q '^APP_KEY=' .env 2>/dev/null; then
+        sed -i "s/^APP_KEY=.*/APP_KEY=${NEW_KEY}/" .env
+      else
+        echo "APP_KEY=${NEW_KEY}" >> .env
+      fi
+      ;;
+    *)
+      export APP_KEY="${EXISTING_KEY}"
+      ;;
+  esac
 fi
 
 # Ajusta Apache para escuchar en el puerto que Render inyecta.
