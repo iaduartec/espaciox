@@ -1,5 +1,7 @@
+# syntax=docker/dockerfile:1.7
+
 # Stage 1 - Build frontend (Vite/static)
-FROM node:18-bookworm-slim AS frontend
+FROM node:20-bookworm-slim AS frontend
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
@@ -18,7 +20,6 @@ RUN mkdir -p public/dist && \
 
 # Stage 2 - Backend Laravel (Apache + Composer)
 FROM php:8.2-apache-bookworm AS backend
-ARG GITHUB_TOKEN
 
 # Dependencias de sistema y extensiones PHP
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -28,7 +29,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Configuración de Apache para servir Laravel desde /public y permitir .htaccess
-ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN a2enmod rewrite && \
     sed -ri "s#/var/www/html#${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/000-default.conf && \
     printf "<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All\n</Directory>\n" > /etc/apache2/conf-available/laravel.conf && \
@@ -43,19 +44,19 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Instala dependencias PHP aprovechando la cache
+# Instala dependencias PHP aprovechando la cache.
+# Usa un secreto opcional GITHUB_TOKEN durante el build (BuildKit: --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN).
 COPY backend/composer.json backend/composer.lock ./
-RUN if [ -n "${GITHUB_TOKEN:-}" ]; then \
+RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+    if [ -n "${GITHUB_TOKEN:-}" ]; then \
       composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
-    fi
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
+    fi && \
+    composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el código de la app
 COPY backend ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
-RUN if [ -n "${GITHUB_TOKEN:-}" ]; then \
-      composer config --global --unset github-oauth.github.com || true; \
-    fi
+RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+    composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
