@@ -1,0 +1,18 @@
+providers = ["php"]
+
+[phases.setup]
+nixPkgs = [
+  "php83",
+  "php83Extensions.pdo_mysql",
+  "php83Extensions.sqlite3",
+  "php83Extensions.mbstring",
+  "composer"
+]
+
+[phases.install]
+cmds = [
+  "composer install --no-dev --optimize-autoloader"
+]
+
+[start]
+cmd = "./bin/railway-start.sh"
