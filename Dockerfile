@@ -16,8 +16,8 @@ RUN mkdir -p public/dist && \
       cp -r assets public/dist/assets && cp public/*.html public/dist/; \
     fi
 
-# Stage 2 - Backend Laravel (PHP-FPM + Composer)
-FROM php:8.2-fpm-bookworm AS backend
+# Stage 2 - Backend Laravel (Apache + Composer)
+FROM php:8.2-apache-bookworm AS backend
 
 # Dependencias de sistema y extensiones PHP
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -25,6 +25,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libzip-dev libonig-dev libxml2-dev libpq-dev libsqlite3-dev \
     && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring zip \
     && rm -rf /var/lib/apt/lists/*
+
+# Configuración de Apache para servir Laravel desde /public y permitir .htaccess
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN a2enmod rewrite && \
+    sed -ri 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/000-default.conf && \
+    printf '<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All\n</Directory>\n' > /etc/apache2/conf-available/laravel.conf && \
+    a2enconf laravel
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -50,5 +57,4 @@ RUN php artisan config:clear && \
 # Permisos para logs y cachés
 RUN chown -R www-data:www-data storage bootstrap/cache
 
-USER www-data
-CMD ["php-fpm"]
+CMD ["apache2-foreground"]
