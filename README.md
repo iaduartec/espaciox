@@ -35,6 +35,11 @@ python -m http.server 8000
 
 - **Front:** cualquier hosting estático que sirva los `.html` y la carpeta `assets` con HTTPS habilitado.
 - **API:** hosting con PHP 8.3, Composer, web server apuntando a `backend/public` y base de datos (SQLite o MySQL). Consulta `backend/HOSTING.md` para el detalle de configuración recomendada.
+<<<<<<< HEAD
+=======
+- **Opciones gratuitas rápidas:** front en GitHub Pages/Vercel/Netlify/Cloudflare Pages y API PHP en AlwaysData, InfinityFree o HelioHost. Detalle de límites y pasos en `backend/HOSTING.md`.
+
+>>>>>>> 6f69a3e (Update .env.example)
 
 ## Mantenimiento rápido
 
