@@ -23,6 +23,7 @@ La landing estática vive en la raíz del repositorio y puede servirse en cualqu
 - **Jobs y caché:** drivers por defecto son `file` y `sync`, por lo que no se necesita Redis/cola dedicada, pero puedes habilitarlos si tu hosting los ofrece.
 
 <<<<<<< HEAD
+
 ## Opciones gratuitas recomendadas
 
 Las opciones gratuitas suelen tener límites estrictos de CPU, memoria, tiempo de ejecución o certificados. Úsalas para pruebas o demos, no para producción.
