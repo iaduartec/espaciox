@@ -56,7 +56,7 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 
 # Copia el código de la app
 COPY backend ./
-RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+RUN --mount=type=secret,id=GITHUB_TOKEN \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el front compilado al public de Laravel
