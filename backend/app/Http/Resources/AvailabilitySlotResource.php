@@ -9,14 +9,15 @@ class AvailabilitySlotResource extends JsonResource
 {
     public function toArray($request): array
     {
-        $start = data_get($this, 'start');
-        $end = data_get($this, 'end');
+        // Resource may be an array, so use $this->resource to avoid property access errors.
+        $start = data_get($this->resource, 'start');
+        $end = data_get($this->resource, 'end');
 
         return [
             'start_time' => $start ? Carbon::parse($start)->format('H:i') : null,
             'end_time' => $end ? Carbon::parse($end)->format('H:i') : null,
-            'status' => data_get($this, 'status', 'free'),
-            'label' => data_get($this, 'label'),
+            'status' => data_get($this->resource, 'status', 'free'),
+            'label' => data_get($this->resource, 'label'),
         ];
     }
 }
