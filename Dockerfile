@@ -47,8 +47,9 @@ WORKDIR /var/www/html
 # Instala dependencias PHP aprovechando la cache.
 # Usa un secreto opcional GITHUB_TOKEN durante el build (BuildKit: --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN).
 COPY backend/composer.json backend/composer.lock ./
-RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
-    if [ -n "${GITHUB_TOKEN:-}" ]; then \
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+    if [ -f /run/secrets/GITHUB_TOKEN ] && [ -s /run/secrets/GITHUB_TOKEN ]; then \
+      export GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)"; \
       composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
     fi && \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
