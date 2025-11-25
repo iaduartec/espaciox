@@ -59,7 +59,8 @@ RUN php artisan config:clear && \
     if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi
 
 # Permisos para logs y cachés
-RUN chown -R www-data:www-data storage bootstrap/cache
+RUN mkdir -p storage bootstrap/cache && \
+    chown -R www-data:www-data storage bootstrap/cache
 
 COPY backend/bin/apache-render-entrypoint.sh /usr/local/bin/apache-render-entrypoint.sh
 RUN chmod +x /usr/local/bin/apache-render-entrypoint.sh
