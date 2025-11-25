@@ -1,0 +1,16 @@
+node_modules
+npm-debug.log
+pnpm-lock.yaml
+
+backend/vendor
+backend/storage
+backend/bootstrap/cache/*.php
+backend/.env
+backend/.env.*
+backend/database/database.sqlite
+
+.git
+.gitignore
+*.swp
+*.swo
+*.DS_Store
