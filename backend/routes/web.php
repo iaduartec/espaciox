@@ -8,6 +8,7 @@ Route::get('/', function () {
         'name' => config('app.name', 'EspacioX API'),
         'status' => 'ok',
         'env' => config('app.env'),
+        'app_key_set' => (bool) config('app.key'),
     ]);
 });
 
