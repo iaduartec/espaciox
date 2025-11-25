@@ -67,8 +67,12 @@ RUN php artisan config:clear && \
     php artisan route:clear && \
     if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi
 
-# Permisos para logs y cachés (aseguramos storage/logs para que Laravel pueda escribir)
-RUN mkdir -p storage/logs bootstrap/cache && \
+# Permisos para logs y cachés (aseguramos storage/* para que Laravel pueda escribir)
+RUN mkdir -p storage/logs \
+    storage/framework/cache/data \
+    storage/framework/sessions \
+    storage/framework/views \
+    bootstrap/cache && \
     chown -R www-data:www-data storage bootstrap/cache
 
 COPY backend/bin/apache-render-entrypoint.sh /usr/local/bin/apache-render-entrypoint.sh
