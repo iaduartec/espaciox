@@ -1,5 +1,5 @@
 # Stage 1 - Build frontend (Vite/static)
-FROM node:18 AS frontend
+FROM node:18-bookworm-slim AS frontend
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
@@ -17,11 +17,12 @@ RUN mkdir -p public/dist && \
     fi
 
 # Stage 2 - Backend Laravel (PHP-FPM + Composer)
-FROM php:8.2-fpm AS backend
+FROM php:8.2-fpm-bookworm AS backend
 
 # Dependencias de sistema y extensiones PHP
-RUN apt-get update && apt-get install -y \
-    git curl unzip libzip-dev libonig-dev libxml2-dev libpq-dev \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git curl unzip pkg-config \
+    libzip-dev libonig-dev libxml2-dev libpq-dev libsqlite3-dev \
     && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring zip \
     && rm -rf /var/lib/apt/lists/*
 
