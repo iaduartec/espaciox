@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 # Stage 1 - Build frontend (Vite/static)
-FROM node:20-bookworm-slim AS frontend
+FROM node:20.12.2-bookworm-slim AS frontend
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
