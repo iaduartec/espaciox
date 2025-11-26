@@ -25,9 +25,8 @@
     "postcss-cli": "^11.0.1"
   },
   "browserslist": [
+    "ie 11",
     ">0.5%",
-    "last 2 versions",
-    "not dead",
-    "not ie <= 11"
+    "last 2 versions"
   ]
 }
