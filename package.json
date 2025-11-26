@@ -29,5 +29,10 @@
     "last 2 versions",
     "not dead",
     "not ie <= 11"
-  ]
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prefix:css": "postcss assets/css/styles.css -o assets/css/styles.css",
+    "validate:headers": "node scripts/header-validator.js"
+  }
 }
