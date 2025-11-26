@@ -40,6 +40,7 @@ body {
 /* Glassmorphism Utility */
 .glass {
   background: rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(16px);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.4);
   -webkit-box-shadow: var(--shadow-glass);
@@ -177,6 +178,7 @@ textarea {
   border-color: rgba(31, 47, 61, 0.1);
   -webkit-box-shadow: none;
           box-shadow: none;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
@@ -220,6 +222,7 @@ header {
   top: 0;
   z-index: 1000;
   background: rgba(253, 251, 247, 0.8);
+  -webkit-backdrop-filter: blur(20px);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   -webkit-transition: background 0.3s ease, -webkit-box-shadow 0.3s ease;
@@ -447,6 +450,7 @@ nav a.active {
   text-transform: uppercase;
   font-size: 0.85rem;
   margin-bottom: 20px;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
