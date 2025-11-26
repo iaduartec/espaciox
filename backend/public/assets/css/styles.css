@@ -764,6 +764,15 @@ tbody tr:hover {
 }
 
 /* Calendar */
+.calendar-card {
+  transition: none;
+}
+
+.calendar-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-glass);
+}
+
 .calendar-panel {
   margin-top: 14px;
   padding: 16px;
