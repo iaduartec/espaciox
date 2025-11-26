@@ -92,6 +92,7 @@ class App {
     this.spaceId = null;
     this.availabilityCache = {};
     this.currentMonthDate = new Date();
+    this.submissionBtn = null;
 
     this.init();
   }
@@ -199,9 +200,18 @@ class App {
     const select = document.querySelector('#hora');
     if (!select) return;
 
+    if (!date) {
+      select.innerHTML = '<option value="">Selecciona fecha primero</option>';
+      return;
+    }
+
     select.innerHTML = '<option value="">Cargando horarios...</option>';
     try {
       const slots = await this.loadAvailability(date);
+      if (!Array.isArray(slots)) {
+        select.innerHTML = '<option value="">No hay horarios disponibles</option>';
+        return;
+      }
       const freeSlots = slots.filter((s) => s.status === 'free');
 
       if (!freeSlots.length) {
@@ -216,6 +226,7 @@ class App {
         opt.textContent = `${slot.start_time} - ${slot.end_time}`;
         select.appendChild(opt);
       });
+      select.selectedIndex = 0;
     } catch (e) {
       select.innerHTML = '<option value="">Error cargando horarios</option>';
     }
@@ -226,10 +237,46 @@ class App {
     if (!alert) {
       alert = document.createElement('div');
       alert.classList.add('alert');
+      alert.setAttribute('role', 'status');
+      alert.setAttribute('aria-live', 'polite');
       form.appendChild(alert);
     }
     alert.textContent = message;
     alert.className = `alert ${type}`;
+  }
+
+  toggleSubmitting(form, isSubmitting) {
+    if (!this.submissionBtn) {
+      this.submissionBtn = form.querySelector('button[type="submit"]');
+      if (this.submissionBtn) {
+        this.submissionBtn.dataset.originalText = this.submissionBtn.textContent;
+      }
+    }
+
+    if (this.submissionBtn) {
+      this.submissionBtn.disabled = isSubmitting;
+      this.submissionBtn.classList.toggle('loading', isSubmitting);
+      this.submissionBtn.textContent = isSubmitting
+        ? this.submissionBtn.dataset.loadingText || 'Enviando...'
+        : this.submissionBtn.dataset.originalText;
+    }
+  }
+
+  validateBooking(data) {
+    const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email);
+    const phoneDigits = data.telefono.replace(/\D/g, '');
+
+    if (data.honeypot) return 'Hemos detectado un envío automatizado.';
+    if (!data.nombre || !data.email || !data.telefono || !data.password) {
+      return 'Completa los campos obligatorios y acepta las normas.';
+    }
+    if (!emailValid) return 'Introduce un email válido.';
+    if (phoneDigits.length < 9) return 'Indica un teléfono de contacto con al menos 9 dígitos.';
+    if (data.password.length < 8) return 'La contraseña debe tener al menos 8 caracteres.';
+    if (!data.fecha || !data.hora || !data.normas) {
+      return 'Selecciona fecha, hora y acepta las normas para continuar.';
+    }
+    return null;
   }
 
   async handleBooking(event) {
@@ -248,14 +295,17 @@ class App {
       tipo: formData.get('tipo'),
       asistentes: formData.get('asistentes') ? Number(formData.get('asistentes')) : null,
       comentarios: formData.get('comentarios').trim(),
-      normas: form.querySelector('#normas').checked
+      normas: form.querySelector('#normas').checked,
+      honeypot: (formData.get('empresa') || '').trim(),
     };
 
-    if (!data.nombre || !data.email || !data.telefono || !data.password || !data.fecha || !data.hora || !data.normas) {
-      this.showAlert(form, 'Completa los campos obligatorios y acepta las normas.');
+    const validationError = this.validateBooking(data);
+    if (validationError) {
+      this.showAlert(form, validationError);
       return;
     }
 
+    this.toggleSubmitting(form, true);
     try {
       await this.loadSpaces();
 
@@ -289,9 +339,12 @@ class App {
 
       this.showAlert(form, 'Reserva enviada correctamente. ¡Gracias!', 'success');
       form.reset();
+      this.populateTimeSlots('');
     } catch (e) {
       console.error(e);
       this.showAlert(form, e.message || 'No se pudo enviar la reserva.');
+    } finally {
+      this.toggleSubmitting(form, false);
     }
   }
 

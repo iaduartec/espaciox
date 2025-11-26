@@ -13,6 +13,7 @@ Landing estática para el salón privado El Santuario en Burgos. Incluye página
 - `politica-privacidad.html`, `politica-cookies.html`, `normas-uso.html`, `aviso-legal.html`: páginas legales.
 - `assets/css/styles.css`: estilos globales y componentes (tipografías, colores, tarjetas, botones, rejillas responsive).
 - `assets/js/main.js`: interactividad mínima (menú móvil, simulación de disponibilidad, validación de reservas, filtro de blog).
+- `backend/`: API Laravel para persistir reservas, usuarios y disponibilidad.
 
 ## Funcionalidades destacadas
 
@@ -23,7 +24,9 @@ Landing estática para el salón privado El Santuario en Burgos. Incluye página
 
 ## Cómo ejecutar
 
-No hay dependencias ni build. Basta servir los archivos estáticos:
+### Front estático (marketing + reservas)
+
+No hay dependencias de build; sirve los archivos estáticos desde la raíz del repositorio:
 
 ```bash
 # Opción con Python 3
@@ -31,18 +34,36 @@ python -m http.server 8000
 # Luego abre http://localhost:8000 en el navegador
 ```
 
-## Requisitos de hosting
+### API Laravel (backend/)
 
-- **Front:** cualquier hosting estático que sirva los `.html` y la carpeta `assets` con HTTPS habilitado.
-- **API:** hosting con PHP 8.3, Composer, web server apuntando a `backend/public` y base de datos (SQLite o MySQL). Consulta `backend/HOSTING.md` para el detalle de configuración recomendada.
-- **Opciones gratuitas rápidas:** front en GitHub Pages/Vercel/Netlify/Cloudflare Pages y API PHP en AlwaysData, InfinityFree o HelioHost. Detalle de límites y pasos en `backend/HOSTING.md`.
-- **Builds más estables:** si Docker/Render necesita descargar dependencias PHP desde GitHub, define un token (lectura) y pásalo como argumento `GITHUB_TOKEN` para evitar timeouts de Composer.
+```bash
+cd backend
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan migrate --seed    # usa SQLite por defecto
+php artisan serve --host 0.0.0.0 --port 8001
+```
+
+El frontend consulta la API pública desplegada en Render (`https://espaciox.onrender.com/api`). Si quieres apuntar a la API local, sobrescribe `baseUrl` en `assets/js/main.js` o sirve un proxy inverso.
+
+## Entornos recomendados
+
+| Entorno   | Front estático                                      | API Laravel                               | Notas |
+|-----------|------------------------------------------------------|-------------------------------------------|-------|
+| Local     | `python -m http.server 8000`                         | `php artisan serve --port 8001`           | Usa `.env` con `APP_ENV=local`, DB SQLite. |
+| Staging   | Vercel/Netlify/Pages apuntando al branch de pruebas  | Render/AlwaysData con base SQLite/MySQL   | Añade `APP_ENV=staging`, `APP_DEBUG=false`. |
+| Producción | Hosting estático con HTTPS forzado                 | Render/Docker en servidor PHP 8.3         | `APP_ENV=production`, `APP_DEBUG=false`, habilita HTTPS y backups de DB. |
+
+Notas de hosting:
+
+- El front puede publicarse en GitHub Pages, Vercel, Netlify o Cloudflare Pages; solo necesita servir la carpeta raíz con HTTPS.
+- La API requiere PHP 8.3, Composer y un servidor web apuntando a `backend/public`. Consulta `backend/HOSTING.md` para configuración paso a paso.
+- Si Docker/Render necesita descargar dependencias de GitHub, pasa `GITHUB_TOKEN` como build-arg para evitar límites de rate:
 
   ```bash
   docker build --build-arg GITHUB_TOKEN=ghp_xxx -t espaciox .
   ```
-
-  En Render añade `GITHUB_TOKEN` como variable de entorno en la sección **Build Command** y se aplicará automáticamente durante `composer install`.
 
 ## Mantenimiento rápido
 
@@ -59,8 +80,14 @@ python -m http.server 8000
 
 ## Base de datos de prueba
 
-1. Copia el .env
+Para levantar datos ficticios en local:
 
 ```bash
+cd backend
 cp .env.example .env
 php artisan key:generate
+php artisan migrate --seed
+php artisan tinker # Opcional: crear reservas adicionales
+```
+
+Las migraciones crean un espacio inicial y reservas de ejemplo para validar el calendario.
