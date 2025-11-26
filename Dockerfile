@@ -25,7 +25,7 @@ FROM php:8.2-apache-bookworm AS backend
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git curl unzip pkg-config \
     libzip-dev libonig-dev libxml2-dev libpq-dev libsqlite3-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring zip \
+    && docker-php-ext-install pdo pdo_mysql pdo_sqlite pdo_pgsql mbstring zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Configuración de Apache para servir Laravel desde /public y permitir .htaccess
