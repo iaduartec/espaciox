@@ -12,6 +12,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance::class,
+        \App\Http\Middleware\SecurityHeaders::class,
     ];
 
     protected $middlewareGroups = [
