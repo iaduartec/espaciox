@@ -42,6 +42,7 @@ class StoreBookingRequest extends FormRequest
             }
 
             if (! $space) {
+                $validator->errors()->add('space_id', 'El espacio seleccionado no existe.');
                 return;
             }
 
@@ -64,7 +65,7 @@ class StoreBookingRequest extends FormRequest
                 }
 
                 if (Booking::overlaps($space->id, $start, $end)) {
-                    $validator->errors()->add('date', 'El espacio ya está reservado o bloqueado en ese rango horaria.');
+                    $validator->errors()->add('date', 'El espacio ya está reservado o bloqueado en ese rango horario.');
                 }
 
                 if ($start->lt(now())) {
