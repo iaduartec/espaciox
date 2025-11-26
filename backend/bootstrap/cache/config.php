@@ -34,14 +34,14 @@
       array (
         'driver' => 'single',
         'path' => '/home/kiri_/code/espaciox/backend/storage/logs/laravel.log',
-        'level' => 'debug',
+        'level' => 'info',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
         'path' => '/home/kiri_/code/espaciox/backend/storage/logs/laravel.log',
-        'level' => 'debug',
+        'level' => 'info',
         'days' => 14,
         'replace_placeholders' => true,
       ),
@@ -51,13 +51,13 @@
         'url' => NULL,
         'username' => 'Laravel Log',
         'emoji' => ':boom:',
-        'level' => 'debug',
+        'level' => 'info',
         'replace_placeholders' => true,
       ),
       'papertrail' => 
       array (
         'driver' => 'monolog',
-        'level' => 'debug',
+        'level' => 'info',
         'handler' => 'Monolog\\Handler\\SyslogUdpHandler',
         'handler_with' => 
         array (
@@ -73,7 +73,7 @@
       'stderr' => 
       array (
         'driver' => 'monolog',
-        'level' => 'debug',
+        'level' => 'info',
         'handler' => 'Monolog\\Handler\\StreamHandler',
         'formatter' => NULL,
         'with' => 
@@ -88,14 +88,14 @@
       'syslog' => 
       array (
         'driver' => 'syslog',
-        'level' => 'debug',
+        'level' => 'info',
         'facility' => 8,
         'replace_placeholders' => true,
       ),
       'errorlog' => 
       array (
         'driver' => 'errorlog',
-        'level' => 'debug',
+        'level' => 'info',
         'replace_placeholders' => true,
       ),
       'null' => 
@@ -400,7 +400,7 @@
     ),
     'cookie' => 'espaciox_session',
     'path' => '/',
-    'domain' => 'https://espaciox.onrender.com',
+    'domain' => 'iaduartec.github.io',
     'secure' => NULL,
     'http_only' => true,
     'same_site' => 'lax',
@@ -419,7 +419,7 @@
     'fallback_locale' => 'en',
     'faker_locale' => 'es_ES',
     'cipher' => 'AES-256-CBC',
-    'key' => 'base64:dmA1H+3vtbK5o+YPCorA9xcJjk3vCuYXpWfJaqI9GHg=',
+    'key' => 'base64:EDp2+9vg42JjWnHCTkdvlcNUSeL3vlNEEfl3tCBOqfI=',
     'previous_keys' => 
     array (
     ),
@@ -724,7 +724,7 @@
   array (
     'stateful' => 
     array (
-      0 => 'localhost',
+      0 => 'iaduartec.github.io',
     ),
     'guard' => 
     array (
