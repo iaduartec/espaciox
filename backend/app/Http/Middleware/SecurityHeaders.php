@@ -23,7 +23,11 @@ class SecurityHeaders
         // Add required security headers
         $response->headers->set('X-Content-Type-Options', 'nosniff', false);
         $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'", false);
-        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0', false);
+        if ($request->is('api/*')) {
+            $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0', false);
+        } else {
+            $response->headers->set('Cache-Control', 'public, max-age=31536000, immutable', false);
+        }
 
         return $response;
     }
