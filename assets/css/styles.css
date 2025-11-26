@@ -907,7 +907,7 @@ tbody tr:hover {
 
 .calendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, minmax(40px, 1fr));
   gap: 12px;
   margin-top: 12px;
   padding: 8px;
@@ -980,6 +980,41 @@ tbody tr:hover {
 .calendar .day.bloqueado:hover {
   background: #edf1f5;
   border-color: #d2dae4;
+}
+
+@media (max-width: 640px) {
+  .calendar-panel {
+    padding: 12px;
+  }
+
+  .calendar-nav {
+    gap: 8px;
+  }
+
+  #mes-actual {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .calendar-legend {
+    font-size: 0.9rem;
+  }
+
+  .calendar {
+    gap: 8px;
+    padding: 6px;
+    grid-template-columns: repeat(7, minmax(36px, 1fr));
+  }
+
+  .calendar .day,
+  .calendar .weekday {
+    padding: 10px 6px;
+    font-size: 0.95rem;
+  }
+
+  .calendar .weekday {
+    letter-spacing: 0.04em;
+  }
 }
 
 /* Footer */
