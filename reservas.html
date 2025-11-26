@@ -103,6 +103,11 @@
         <div class="card">
           <h2>Formulario de reserva</h2>
           <form id="form-reserva" novalidate>
+            <div class="field visually-hidden">
+              <label for="empresa">Empresa</label>
+              <input id="empresa" name="empresa" type="text" tabindex="-1" autocomplete="off"
+                aria-hidden="true">
+            </div>
             <div class="form-grid">
               <div class="field">
                 <label for="nombre">Nombre y apellidos *</label>
@@ -119,6 +124,7 @@
               <div class="field">
                 <label for="password">Contraseña (para tu acceso) *</label>
                 <input id="password" name="password" type="password" autocomplete="new-password" minlength="8" required>
+                <small>Usa 8 caracteres o más para proteger tu reserva.</small>
               </div>
               <div class="field">
                 <label for="tipo">Tipo de evento</label>
@@ -133,7 +139,7 @@
               </div>
               <div class="field">
                 <label for="fecha">Fecha</label>
-                <input id="fecha" name="fecha" type="date" autocomplete="off">
+                <input id="fecha" name="fecha" type="date" autocomplete="off" required>
               </div>
               <div class="field">
                 <label for="hora">Hora de inicio *</label>
@@ -173,7 +179,7 @@
                   uso</a> *</label>
             </div>
             <div class="form-actions">
-              <button class="btn" type="submit">Enviar reserva</button>
+              <button class="btn" type="submit" data-loading-text="Enviando reserva...">Enviar reserva</button>
             </div>
           </form>
         </div>
