@@ -3,7 +3,8 @@
  */
 class ApiService {
   constructor(baseUrl) {
-    this.baseUrl = (baseUrl || '').replace(/\/$/, '');
+    // Fallback to prod API if nothing is provided to avoid relative requests
+    this.baseUrl = (baseUrl || 'https://espaciox.onrender.com/api').replace(/\/$/, '');
   }
 
   buildUrl(path) {
@@ -117,12 +118,12 @@ class App {
   }
 
   resolveApiBaseUrl() {
-    if (typeof window !== 'undefined' && typeof window.ESPACIOX_API_BASE === 'string') {
-      return window.ESPACIOX_API_BASE;
+    if (typeof window !== 'undefined' && typeof window.ESPACIOX_API_BASE === 'string' && window.ESPACIOX_API_BASE.trim()) {
+      return window.ESPACIOX_API_BASE.trim();
     }
 
     const meta = document.querySelector('meta[name="api-base"]');
-    if (meta?.content) return meta.content;
+    if (meta?.content?.trim()) return meta.content.trim();
 
     return 'https://espaciox.onrender.com/api';
   }
