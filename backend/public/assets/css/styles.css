@@ -52,6 +52,7 @@ a {
 
 img {
   max-width: 100%;
+  height: auto;
   display: block;
   border-radius: var(--radius);
 }
@@ -595,7 +596,7 @@ nav a.active {
 }
 
 .blog-card figure {
-  height: 180px;
+  aspect-ratio: 4 / 3;
   background: #f3f6fb;
   overflow: hidden;
 }
@@ -1077,7 +1078,7 @@ figcaption {
   border-radius: var(--radius);
   background: #fff;
   box-shadow: var(--shadow-soft);
-  min-height: 220px;
+  aspect-ratio: 4 / 3;
   isolation: isolate;
 }
 
