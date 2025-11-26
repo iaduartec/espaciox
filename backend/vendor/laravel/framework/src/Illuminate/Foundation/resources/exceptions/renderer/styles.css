@@ -2,9 +2,15 @@
 @import 'tippy.js/themes/material.css';
 @import 'tippy.js/animations/scale.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Tailwind CSS not available; replace @tailwind with your needed base resets and utilities or include a built Tailwind CSS file. */
+/* Example minimal base: */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
 
 [x-cloak] {
     display: none;
@@ -34,6 +40,7 @@ pre code.hljs {
 
 .trace {
     -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 4rem), transparent);
+    mask-image: linear-gradient(180deg, #000 calc(100% - 4rem), transparent);
 }
 
 .scrollbar-hidden {
