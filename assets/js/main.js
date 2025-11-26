@@ -204,8 +204,20 @@ async function handleBooking(event) {
 
   try {
     if (!spaceId) await loadSpaces();
-    // Enviar siempre como invitado (el backend lo permite). Esto evita errores de red
-    // si el registro/login automático falla desde el front estático.
+
+    // 1. Autenticar o registrar
+    const token = await ensureAuthenticated({
+      name: nombre,
+      email: email,
+      phone: telefono,
+      password: password,
+    });
+
+    if (!token) {
+      throw new Error('No se pudo autenticar al usuario.');
+    }
+
+    // 2. Enviar reserva con token
     const start_time = hora;
     const payload = {
       space_id: spaceId,
@@ -215,6 +227,8 @@ async function handleBooking(event) {
       event_type: tipo,
       attendees: asistentes || null,
       comments: comentarios || null,
+      // El backend ya debería saber quién es por el token,
+      // pero enviamos los datos por si acaso o para actualizar contacto
       customer_name: nombre,
       customer_email: email,
       customer_phone: telefono,
@@ -222,13 +236,16 @@ async function handleBooking(event) {
 
     const booking = await apiFetch('/bookings', {
       method: 'POST',
-      headers: {},
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify(payload),
     });
 
-    showAlert(form, 'Reserva enviada. Recibirás confirmación por email.', 'success');
+    showAlert(form, 'Reserva enviada correctamente. ¡Gracias!', 'success');
     form.reset();
   } catch (e) {
+    console.error(e);
     showAlert(form, e.message || 'No se pudo enviar la reserva.');
   }
 }
