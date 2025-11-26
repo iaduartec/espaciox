@@ -3,17 +3,27 @@
  */
 class ApiService {
   constructor(baseUrl) {
-    this.baseUrl = baseUrl;
+    this.baseUrl = (baseUrl || '').replace(/\/$/, '');
+  }
+
+  buildUrl(path) {
+    return `${this.baseUrl}${path}`;
   }
 
   async fetch(path, options = {}) {
-    const resp = await fetch(`${this.baseUrl}${path}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.headers || {}),
-      },
-      ...options,
-    });
+    let resp;
+    try {
+      resp = await fetch(this.buildUrl(path), {
+        headers: {
+          'Content-Type': 'application/json',
+          ...(options.headers || {}),
+        },
+        ...options,
+      });
+    } catch (error) {
+      console.error('Network error', error);
+      throw new Error('No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.');
+    }
 
     const raw = await resp.text();
     let data = null;
@@ -87,7 +97,7 @@ class AuthManager {
  */
 class App {
   constructor() {
-    this.api = new ApiService('https://espaciox.onrender.com/api');
+    this.api = new ApiService(this.resolveApiBaseUrl());
     this.auth = new AuthManager(this.api);
     this.spaceId = null;
     this.availabilityCache = {};
@@ -104,6 +114,17 @@ class App {
     this.initCalendarNav();
     this.initAOS();
     this.initScrollEffect();
+  }
+
+  resolveApiBaseUrl() {
+    if (typeof window !== 'undefined' && typeof window.ESPACIOX_API_BASE === 'string') {
+      return window.ESPACIOX_API_BASE;
+    }
+
+    const meta = document.querySelector('meta[name="api-base"]');
+    if (meta?.content) return meta.content;
+
+    return 'https://espaciox.onrender.com/api';
   }
 
   initMobileNav() {
