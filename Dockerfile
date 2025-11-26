@@ -7,7 +7,8 @@ WORKDIR /app
 
 # Si existiera un proyecto Vite, instala dependencias; para el front estático actual basta con copiar los assets.
 COPY package*.json ./
-RUN if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi
+# Usa npm install si el lock está desincronizado (npm ci fallaría)
+RUN if [ -f package-lock.json ]; then npm ci || npm install --omit=dev; elif [ -f package.json ]; then npm install --omit=dev; fi
 
 # Copia el front estático actual (HTML + assets). Si añades Vite, ajusta el comando de build.
 COPY assets ./assets
