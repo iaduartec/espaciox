@@ -204,12 +204,8 @@ async function handleBooking(event) {
 
   try {
     if (!spaceId) await loadSpaces();
-    let token = null;
-    try {
-      token = await ensureAuthenticated({ name: nombre, email, phone: telefono, password });
-    } catch (e) {
-      console.warn('Autenticación omitida, usando modo invitado', e);
-    }
+    // Enviar siempre como invitado (el backend lo permite). Esto evita errores de red
+    // si el registro/login automático falla desde el front estático.
     const start_time = hora;
     const payload = {
       space_id: spaceId,
@@ -226,11 +222,7 @@ async function handleBooking(event) {
 
     const booking = await apiFetch('/bookings', {
       method: 'POST',
-      headers: token
-        ? {
-            Authorization: `Bearer ${token}`,
-          }
-        : {},
+      headers: {},
       body: JSON.stringify(payload),
     });
 
