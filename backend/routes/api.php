@@ -14,11 +14,13 @@ Route::get('spaces', [SpaceController::class, 'index']);
 Route::get('spaces/{space}/calendar', [SpaceController::class, 'calendar']);
 Route::get('spaces/{space}/availability', [SpaceController::class, 'availability']);
 
+// Permitir reservas aunque no haya autenticación (para demo pública).
+Route::post('bookings', [ClientBookingController::class, 'store']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
 
-    Route::post('bookings', [ClientBookingController::class, 'store']);
     Route::get('bookings/my', [ClientBookingController::class, 'index']);
     Route::get('bookings/{booking}', [ClientBookingController::class, 'show']);
     Route::patch('bookings/{booking}/cancel', [ClientBookingController::class, 'cancel']);
