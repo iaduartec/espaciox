@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Bookings\StoreBookingRequest;
 use App\Http\Resources\BookingResource;
 use App\Models\Booking;
+use App\Models\Space;
 use App\Notifications\BookingReceivedNotification;
 use App\Notifications\BookingStatusNotification;
 use Carbon\Carbon;
@@ -21,6 +22,21 @@ class BookingController extends Controller
         $customerPhone = $user->phone ?? $request->input('customer_phone') ?? $request->input('phone') ?? '';
         $start = Carbon::createFromFormat('Y-m-d H:i', "{$request->date} {$request->start_time}");
         $end = $start->copy()->addHours($request->duration_hours);
+
+        $space = null;
+        try {
+            $space = Space::find($request->space_id);
+        } catch (\Throwable $e) {
+            // Si la base de datos no está disponible, seguimos al modo demo.
+        }
+
+        if ($space?->is_active === false) {
+            return response()->json(['message' => 'El espacio no está disponible para reservas.'], 422);
+        }
+
+        if ($space && Booking::overlaps($space->id, $start, $end)) {
+            return response()->json(['message' => 'Ese horario se acaba de ocupar. Elige otro intervalo.'], 409);
+        }
 
         try {
             $booking = Booking::create([
