@@ -4,6 +4,8 @@ return [
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
     'allowed_origins' => [
+        'https://elsantuario.com',
+        'https://www.elsantuario.com',
         'https://espaciox.infinityfreeapp.com',
         'https://iaduartec.github.io',
         'http://localhost:8000',
