@@ -57,17 +57,21 @@ class Booking extends Model
 
     public static function overlaps(int $spaceId, Carbon $start, Carbon $end, ?int $excludeId = null): bool
     {
-        $bookingConflict = static::where('space_id', $spaceId)
-            ->where('status', '!=', 'cancelled')
-            ->where('start_at', '<', $end)
-            ->where('end_at', '>', $start)
-            ->when($excludeId, fn ($query) => $query->where('id', '!=', $excludeId))
-            ->exists();
+        try {
+            $bookingConflict = static::where('space_id', $spaceId)
+                ->where('status', '!=', 'cancelled')
+                ->where('start_at', '<', $end)
+                ->where('end_at', '>', $start)
+                ->when($excludeId, fn ($query) => $query->where('id', '!=', $excludeId))
+                ->exists();
 
-        if ($bookingConflict) {
-            return true;
+            if ($bookingConflict) {
+                return true;
+            }
+
+            return BookingBlock::overlaps($spaceId, $start, $end);
+        } catch (\Throwable $e) {
+            return false;
         }
-
-        return BookingBlock::overlaps($spaceId, $start, $end);
     }
 }
