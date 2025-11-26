@@ -7,6 +7,7 @@ return [
         'https://elsantuario.com',
         'https://www.elsantuario.com',
         'https://espaciox.infinityfreeapp.com',
+        'https://iaduartec.github.io/espaciox/reservas.html',
         'https://iaduartec.github.io',
         'http://localhost:8000',
         'http://localhost:3000',
