@@ -204,7 +204,12 @@ async function handleBooking(event) {
 
   try {
     if (!spaceId) await loadSpaces();
-    const token = await ensureAuthenticated({ name: nombre, email, phone: telefono, password });
+    let token = null;
+    try {
+      token = await ensureAuthenticated({ name: nombre, email, phone: telefono, password });
+    } catch (e) {
+      console.warn('Autenticación omitida, usando modo invitado', e);
+    }
     const start_time = hora;
     const payload = {
       space_id: spaceId,
@@ -214,13 +219,18 @@ async function handleBooking(event) {
       event_type: tipo,
       attendees: asistentes || null,
       comments: comentarios || null,
+      customer_name: nombre,
+      customer_email: email,
+      customer_phone: telefono,
     };
 
     const booking = await apiFetch('/bookings', {
       method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      headers: token
+        ? {
+            Authorization: `Bearer ${token}`,
+          }
+        : {},
       body: JSON.stringify(payload),
     });
 
