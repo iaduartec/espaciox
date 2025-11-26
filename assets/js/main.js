@@ -200,8 +200,6 @@ class App {
         if (form && form.fecha) {
           form.fecha.value = day.date;
           this.populateTimeSlots(day.date);
-          // Scroll to form for better UX
-          form.scrollIntoView({ behavior: 'smooth' });
         }
       });
       container.appendChild(div);
