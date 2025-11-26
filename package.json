@@ -1,6 +1,7 @@
 {
   "name": "espaciox",
   "version": "1.0.0",
+  "type": "module",
   "description": "Landing estática para el salón privado El Santuario en Burgos. Incluye páginas de marketing, sección de blog y formularios básicos para simulación de reservas.",
   "main": "index.js",
   "scripts": {
