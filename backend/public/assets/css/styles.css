@@ -1041,6 +1041,20 @@ footer .legal>*:not(:last-child) {
   margin-right: 10px;
 }
 
+@media (max-width: 640px) {
+  footer {
+    text-align: center;
+  }
+
+  .footer-grid {
+    justify-items: center;
+  }
+
+  footer .legal {
+    justify-content: center;
+  }
+}
+
 /* Hero simple */
 .hero-simple {
   padding: 90px 0 50px;
