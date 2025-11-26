@@ -32,14 +32,15 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  -ms-touch-action: manipulation;
   touch-action: manipulation;
 }
 
 /* Glassmorphism Utility */
 .glass {
   background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.4);
   box-shadow: var(--shadow-glass);
 }
@@ -106,6 +107,7 @@ textarea {
   overflow: hidden;
   z-index: 1;
   -webkit-user-select: none;
+  -ms-user-select: none;
   -moz-user-select: none;
        user-select: none;
 }
@@ -161,6 +163,7 @@ textarea {
   color: var(--color-primary);
   border-color: rgba(31, 47, 61, 0.1);
   box-shadow: none;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
@@ -196,8 +199,8 @@ header {
   top: 0;
   z-index: 1000;
   background: rgba(253, 251, 247, 0.8);
-  backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
@@ -342,6 +345,10 @@ nav a.active {
   gap: 60px;
 }
 
+.hero-content-wrapper>* {
+  align-self: center;
+}
+
 .hero-copy h1 {
   font-family: var(--font-heading);
   font-size: clamp(3rem, 5vw, 4.5rem);
@@ -371,6 +378,7 @@ nav a.active {
   text-transform: uppercase;
   font-size: 0.85rem;
   margin-bottom: 20px;
+  -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 }
 
@@ -587,6 +595,11 @@ nav a.active {
   display: grid;
   place-items: center;
   box-shadow: var(--shadow-soft);
+}
+
+.icon-bubble>*,
+.step-number>* {
+  place-self: center;
 }
 
 /* Blog cards */
@@ -1154,6 +1167,37 @@ figcaption {
 
 .gallery-card .media-grid {
   margin-top: 14px;
+}
+
+/* Basic fallback layouts for legacy browsers */
+@supports (-ms-ime-align: auto) {
+  .grid,
+  .gifts-grid,
+  .steps,
+  .blog-grid,
+  .form-grid,
+  .calendar,
+  .media-grid,
+  .footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .grid>*,
+  .gifts-grid>*,
+  .steps>*,
+  .blog-grid>*,
+  .form-grid>*,
+  .calendar>*,
+  .media-grid>*,
+  .footer-grid>* {
+    flex: 1 1 240px;
+  }
+
+  .hero-content-wrapper {
+    display: block;
+  }
 }
 
 /* Responsive */
