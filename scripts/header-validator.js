@@ -4,17 +4,15 @@ import 'dotenv/config';
  * Simple header validator for static assets and pages.
  * Usage:
  *   node scripts/header-validator.js https://example.com/ https://example.com/assets/css/styles.css
- * If no args are provided, it falls back to the URLs in the default list.
+ * If no args are provided, it falls back to espaciox defaults.
  */
-const baseUrl = process.env.ESPACIOX_STATIC_BASE || 'https://tusitio.com';
+const defaultBase = process.env.ESPACIOX_STATIC_BASE || 'https://espaciox.onrender.com';
 
 const urls = process.argv.slice(2).filter(Boolean).length
   ? process.argv.slice(2)
   : [
-    `${baseUrl}/`,
-    `${baseUrl}/assets/css/styles.css`,
-    `${baseUrl}/assets/js/main.js`,
-    `${baseUrl}/assets/img/logo.png`,
+    `${defaultBase}/`,
+    `${defaultBase}/api/spaces`,
   ];
 
 // Expected headers (regex match)
@@ -27,10 +25,19 @@ const expectedHeaders = {
 // Headers that should not appear
 const forbiddenHeaders = ['x-frame-options', 'x-xss-protection', 'expires'];
 
+const fetchHeaders = async (url) => {
+  // Try HEAD first; some hosts block it, so fallback to GET
+  const res = await fetch(url, { method: 'HEAD' });
+  if (res.status === 405 || res.status === 501) {
+    return fetch(url, { method: 'GET' });
+  }
+  return res;
+};
+
 const validate = async (url) => {
   try {
-    const res = await fetch(url, { method: 'HEAD' });
-    console.log(`\n🔍 Revisando: ${url}`);
+    const res = await fetchHeaders(url);
+    console.log(`\n🔍 Revisando: ${url} (status ${res.status})`);
 
     for (const [key, regex] of Object.entries(expectedHeaders)) {
       const value = res.headers.get(key);
