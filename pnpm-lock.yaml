@@ -11,6 +11,9 @@ importers:
       '@google/genai':
         specifier: ^1.30.0
         version: 1.30.0
+      '@openai/codex':
+        specifier: ^0.63.0
+        version: 0.63.0
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -294,6 +297,11 @@ packages:
   '@jimp/utils@1.6.0':
     resolution: {integrity: sha512-gqFTGEosKbOkYF/WFj26jMHOI5OH2jeP1MmC/zbK6BF6VJBf8rIC5898dPfSzZEbSA0wbbV5slbntWVc5PKLFA==}
     engines: {node: '>=18'}
+
+  '@openai/codex@0.63.0':
+    resolution: {integrity: sha512-PyE6WdF4tLLtrtFkj4RsCV6TD6W42G1lCyT5vIHQSZNxgfbXJdXYjwW3TepjoCraJGtXhxwjcPILksBUn34s1g==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1031,6 +1039,8 @@ snapshots:
     dependencies:
       '@jimp/types': 1.6.0
       tinycolor2: 1.6.0
+
+  '@openai/codex@0.63.0': {}
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
