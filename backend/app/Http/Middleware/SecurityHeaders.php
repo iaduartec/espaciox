@@ -15,9 +15,10 @@ class SecurityHeaders
         $response = $next($request);
 
         // Remove headers that should not be exposed
-        header_remove('X-Powered-By');
-        header_remove('Expires');
-        header_remove('X-Frame-Options');
+        foreach (['X-Powered-By', 'Expires', 'X-Frame-Options'] as $header) {
+            header_remove($header);
+            $response->headers->remove($header);
+        }
 
         // Add required security headers
         $response->headers->set('X-Content-Type-Options', 'nosniff', false);
