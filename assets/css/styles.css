@@ -956,11 +956,21 @@ tbody tr:hover {
   cursor: not-allowed;
 }
 
+.calendar .day.ocupado:hover {
+  background: #fbe7e7;
+  border-color: #f0c4c4;
+}
+
 .calendar .day.bloqueado {
   background: #edf1f5;
   color: #6b7580;
   border-color: #d2dae4;
   cursor: not-allowed;
+}
+
+.calendar .day.bloqueado:hover {
+  background: #edf1f5;
+  border-color: #d2dae4;
 }
 
 /* Footer */
