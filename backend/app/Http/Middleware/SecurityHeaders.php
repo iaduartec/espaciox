@@ -23,7 +23,7 @@ class SecurityHeaders
         // Add required security headers
         $response->headers->set('X-Content-Type-Options', 'nosniff', false);
         $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'", false);
-        $response->headers->set('Cache-Control', $response->headers->get('Cache-Control', 'no-cache, no-store, must-revalidate'), false);
+        $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0', false);
 
         return $response;
     }
