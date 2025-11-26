@@ -4909,3 +4909,59 @@
 #40 /app/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #41 {main}
 "} 
+[2025-11-27 00:52:03] production.ERROR: Command "config:optimize" is not defined.
+
+Did you mean one of these?
+    config:cache
+    config:clear
+    config:publish
+    config:show {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"config:optimize\" is not defined.
+
+Did you mean one of these?
+    config:cache
+    config:clear
+    config:publish
+    config:show at /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php:740)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(298): Symfony\\Component\\Console\\Application->find()
+#1 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#3 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 {main}
+"} 
+[2025-11-27 00:53:18] production.ERROR: The "/home/kiri_/code/espaciox/backend/resources/views" directory does not exist. {"exception":"[object] (Symfony\\Component\\Finder\\Exception\\DirectoryNotFoundException(code: 0): The \"/home/kiri_/code/espaciox/backend/resources/views\" directory does not exist. at /home/kiri_/code/espaciox/backend/vendor/symfony/finder/Finder.php:646)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/ViewCacheCommand.php(88): Symfony\\Component\\Finder\\Finder->in()
+#1 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/ViewCacheCommand.php(43): Illuminate\\Foundation\\Console\\ViewCacheCommand->bladeFilesIn()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Collections/Traits/EnumeratesValues.php(261): Illuminate\\Foundation\\Console\\ViewCacheCommand->Illuminate\\Foundation\\Console\\{closure}()
+#3 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/ViewCacheCommand.php(38): Illuminate\\Support\\Collection->each()
+#4 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Foundation\\Console\\ViewCacheCommand->handle()
+#5 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure()
+#7 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#8 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate\\Container\\BoundMethod::call()
+#9 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call()
+#10 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute()
+#11 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#12 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(68): Illuminate\\Console\\Command->run()
+#13 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(41): Illuminate\\Console\\Command->runCommand()
+#14 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php(53): Illuminate\\Console\\Command->callSilent()
+#15 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/OptimizeCommand.php(48): Illuminate\\Console\\Command->callSilently()
+#16 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/View/Components/Task.php(40): Illuminate\\Foundation\\Console\\OptimizeCommand->Illuminate\\Foundation\\Console\\{closure}()
+#17 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/View/Components/Factory.php(60): Illuminate\\Console\\View\\Components\\Task->render()
+#18 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/OptimizeCommand.php(48): Illuminate\\Console\\View\\Components\\Factory->__call()
+#19 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Foundation\\Console\\OptimizeCommand->handle()
+#20 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#21 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure()
+#22 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#23 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate\\Container\\BoundMethod::call()
+#24 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call()
+#25 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute()
+#26 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#27 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(1073): Illuminate\\Console\\Command->run()
+#28 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(356): Symfony\\Component\\Console\\Application->doRunCommand()
+#29 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#30 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#31 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#32 {main}
+"} 
