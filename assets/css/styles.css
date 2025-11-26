@@ -1005,3 +1005,24 @@ figcaption {
   white-space: nowrap;
   border: 0;
 }
+
+/* Utilities */
+.mb-sm {
+  margin-bottom: 14px;
+}
+
+.mb-md {
+  margin-bottom: 20px;
+}
+
+.mb-lg {
+  margin-bottom: 30px;
+}
+
+.mt-sm {
+  margin-top: 12px;
+}
+
+.ml-md {
+  margin-left: 18px;
+}
