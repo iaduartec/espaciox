@@ -593,9 +593,10 @@
       0 => 'https://elsantuario.com',
       1 => 'https://www.elsantuario.com',
       2 => 'https://espaciox.infinityfreeapp.com',
-      3 => 'https://iaduartec.github.io',
-      4 => 'http://localhost:8000',
-      5 => 'http://localhost:3000',
+      3 => 'https://iaduartec.github.io/espaciox/reservas.html',
+      4 => 'https://iaduartec.github.io',
+      5 => 'http://localhost:8000',
+      6 => 'http://localhost:3000',
     ),
     'allowed_origins_patterns' => 
     array (
