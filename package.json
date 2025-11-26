@@ -15,5 +15,8 @@
     "jimp": "^1.6.0",
     "openai": "^6.9.1",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.57.0"
   }
 }
