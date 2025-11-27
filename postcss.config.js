@@ -1,6 +1,8 @@
-module.exports = {
+import autoprefixer from 'autoprefixer';
+
+export default {
   plugins: [
-    require('autoprefixer')({
+    autoprefixer({
       grid: 'autoplace',
     }),
   ],
