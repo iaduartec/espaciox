@@ -593,7 +593,7 @@
       0 => 'https://elsantuario.com',
       1 => 'https://www.elsantuario.com',
       2 => 'https://espaciox.infinityfreeapp.com',
-      3 => 'https://espaciox-48h1p7o9n-duartec.vercel.app',
+      3 => 'https://espaciox.vercel.app',
       4 => 'https://iaduartec.github.io/espaciox/reservas.html',
       5 => 'https://iaduartec.github.io',
       6 => 'http://localhost:8000',
