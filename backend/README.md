@@ -3,16 +3,19 @@
 Propuesta API-first en Laravel para el sistema de reservas de El Santuario, con landing estática en `public/`.
 
 ## Arquitectura rápida
+
 - `public/`: páginas estáticas (p.ej. `reservas.html`), estilos en `assets/css/styles.css` y lógica en `assets/js/main.js` (lee `window.ESPACIOX_API_BASE` o el meta `espaciox-api-base` para apuntar a la API).
 - API Laravel: rutas en `routes/api.php`, controladores en `app/Http/Controllers`, requests en `app/Http/Requests`, resources en `app/Http/Resources` y modelos en `app/Models`.
 - Datos: migraciones y seeders en `database/` (SQLite por defecto en `database/database.sqlite`); usa `.env.testing` para pruebas.
 - Infra: helpers en `bin/` (PHP con extensiones, arranque Railway), caches en `bootstrap/cache/`, logs/archivos en `storage/`.
 
 ## Requisitos
+
 - PHP 8.3 con `dom`, `pdo_sqlite` (dev) y `pdo_mysql` si usarás MySQL.
 - Composer. Node.js solo si ejecutas Playwright u otros scripts opcionales.
 
 ## Puesta en marcha rápida (SQLite)
+
 1. `cp .env.example .env`
 2. `composer install --ignore-platform-req=ext-dom`
 3. `php artisan key:generate`
@@ -26,16 +29,19 @@ Frontend: abre `http://localhost:8001/reservas.html` (sirve `public/`). Si usas 
 ```
 
 ## Comandos útiles
+
 - Migraciones/seeds: `php artisan migrate --seed`
 - Tests backend: `php artisan test` (o `php artisan test --filter BookingControllerTest`)
 - Optimización prod: `php artisan optimize`, `php artisan storage:link`
 - Limpiar caches: `php artisan cache:clear && php artisan config:clear`
 
 ## Testing
+
 - Backend: usa el suite de Laravel; para datos deterministas: `php artisan migrate --seed --env=testing`.
 - E2E (Playwright, si se añade): specs en `tests/e2e/`; ejecuta `npx playwright test` tras `npm install` y borra `test-results/` antes de commitear.
 
 ## Seguridad y configuración
+
 - Parte de `.env.example` y no subas `.env` ni claves; fija `APP_KEY`, `APP_URL`, `SANCTUM_STATEFUL_DOMAINS` y el DSN de base de datos.
 - Tokens se sirven como cookie HttpOnly (`espaciox_token`) para evitar `localStorage`; activa HTTPS en prod (`SESSION_SECURE_COOKIE=true`) y revisa `SESSION_DOMAIN`/`SESSION_SAME_SITE`.
 - Sanctum configurado para solicitudes con credenciales: añade tus dominios a `SANCTUM_STATEFUL_DOMAINS` y revisa `config/cors.php` (`supports_credentials=true`).
