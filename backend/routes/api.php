@@ -21,7 +21,8 @@ Route::get('spaces/{space}/availability', [SpaceController::class, 'availability
 Route::post('bookings', [ClientBookingController::class, 'store'])
     ->middleware('throttle:booking-submission');
 
-Route::get('health', HealthCheckController::class);
+Route::get('health', HealthCheckController::class)
+    ->middleware('throttle:api');
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
