@@ -14,6 +14,9 @@ async function walk(dir) {
       }
       files.push(...(await walk(fullPath)));
     } else if (entry.isFile() && entry.name.endsWith('.html')) {
+      if (entry.name.startsWith('flow-report-')) {
+        continue;
+      }
       files.push(fullPath);
     }
   }
