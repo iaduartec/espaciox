@@ -31,3 +31,5 @@
 ## Security & Configuration Tips
 - Start from `.env.example` and override via runtime env vars; avoid hardcoding API URLs in `assets/js/main.js`.
 - Source `scripts/open-vscode-with-env.sh` so editors inherit env; keep production credentials in hosting dashboards.
+- Production hardening: set `SESSION_SECURE_COOKIE=true`, align `SESSION_DOMAIN`/`SANCTUM_STATEFUL_DOMAINS` with deployed domains, and tighten CSP to your script/font origins. Serve assets versionados (hash) con `Cache-Control: public, max-age=31536000, immutable`; minify CSS/JS y usa gzip/brotli. Añade healthcheck simple (p.ej. `/api/health`) y logs estructurados para monitorizar.
+- UX/SEO: asegúrate de títulos y meta description en todas las páginas, `lang="es"` en `<html>`, `aria-label` en iconos/menú, `aria-live` en avisos de formularios y `srcset`/dimensiones explícitas para imágenes.
