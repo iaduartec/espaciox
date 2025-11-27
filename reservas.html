@@ -191,6 +191,56 @@
             </div>
           </form>
         </div>
+
+        <div class="card" style="margin-top:30px;">
+          <h2>Acceso y registro</h2>
+          <div class="grid">
+            <form id="form-login" class="form-grid" style="gap:12px;" novalidate>
+              <div class="field" style="grid-column: 1 / -1;">
+                <h3>Inicia sesión</h3>
+              </div>
+              <div class="field">
+                <label for="email_login">Email *</label>
+                <input id="email_login" name="email_login" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="password_login">Contraseña *</label>
+                <input id="password_login" name="password_login" type="password" autocomplete="current-password" required>
+              </div>
+              <div class="form-actions" style="grid-column: 1 / -1;">
+                <button class="btn secondary" type="submit">Iniciar sesión</button>
+              </div>
+            </form>
+            <form id="form-registro" class="form-grid" style="gap:12px;" novalidate>
+              <div class="field" style="grid-column: 1 / -1;">
+                <h3>Crea tu cuenta</h3>
+              </div>
+              <div class="field">
+                <label for="nombre_registro">Nombre y apellidos *</label>
+                <input id="nombre_registro" name="nombre_registro" type="text" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="email_registro">Email *</label>
+                <input id="email_registro" name="email_registro" type="email" autocomplete="email" required>
+              </div>
+              <div class="field">
+                <label for="telefono_registro">Teléfono</label>
+                <input id="telefono_registro" name="telefono_registro" type="tel" autocomplete="tel">
+              </div>
+              <div class="field">
+                <label for="password_registro">Contraseña *</label>
+                <input id="password_registro" name="password_registro" type="password" autocomplete="new-password" minlength="8" required>
+              </div>
+              <div class="field">
+                <label for="password_registro_confirm">Confirmar contraseña *</label>
+                <input id="password_registro_confirm" name="password_registro_confirm" type="password" autocomplete="new-password" minlength="8" required>
+              </div>
+              <div class="form-actions" style="grid-column: 1 / -1;">
+                <button class="btn" type="submit">Crear cuenta</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </section>
   </main>
