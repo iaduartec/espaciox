@@ -2,6 +2,7 @@
 set -euo pipefail
 
 PORT="${PORT:-80}"
+APACHE_SERVER_NAME="${APACHE_SERVER_NAME:-localhost}"
 cd /var/www/html
 
 # Ensure we have an APP_KEY in the environment and in .env so Laravel boots.
@@ -31,5 +32,8 @@ fi
 # Ajusta Apache para escuchar en el puerto que Render inyecta.
 sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -i "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf
+# Ensure ServerName is set to avoid Apache warnings
+printf "ServerName %s\n" "${APACHE_SERVER_NAME}" > /etc/apache2/conf-available/servername.conf
+a2enconf servername >/dev/null 2>&1 || true
 
 exec apache2-foreground
