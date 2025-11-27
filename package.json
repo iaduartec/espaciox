@@ -12,15 +12,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@google/genai": "^1.30.0",
-    "@openai/codex": "^0.63.0",
-    "@vercel/analytics": "^1.5.0",
-    "dotenv": "^17.2.3",
-    "jimp": "^1.6.0",
-    "openai": "^6.9.1",
-    "sharp": "^0.34.5"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "autoprefixer": "^10.4.22",
