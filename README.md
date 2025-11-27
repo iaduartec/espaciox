@@ -91,3 +91,8 @@ php artisan tinker # Opcional: crear reservas adicionales
 ```
 
 Las migraciones crean un espacio inicial y reservas de ejemplo para validar el calendario.
+
+## Validaciones SEO
+
+- `npm run check:meta` revisa que cada HTML tenga `<title>`, `<link rel="canonical">` y `<meta name="robots">` antes de desplegar.  
+- Añádelo al pipeline (GitHub Actions, Vercel Hook, etc.) para bloquear un despliegue si falta alguno de esos tags y mantener la puntuación SEO alta.
