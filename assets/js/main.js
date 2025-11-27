@@ -78,18 +78,26 @@ class AuthManager {
       return login.token;
     } catch (e) {
       // If login fails, try registration
-      const register = await this.api.fetch('/register', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: payload.name,
-          email: payload.email,
-          phone: payload.phone,
-          password: payload.password,
-          password_confirmation: payload.password,
-        }),
-      });
-      this.setToken(register.token);
-      return register.token;
+      try {
+        const register = await this.api.fetch('/register', {
+          method: 'POST',
+          body: JSON.stringify({
+            name: payload.name,
+            email: payload.email,
+            phone: payload.phone,
+            password: payload.password,
+            password_confirmation: payload.password,
+          }),
+        });
+        this.setToken(register.token);
+        return register.token;
+      } catch (regErr) {
+        const msg = (regErr?.message || '').toLowerCase();
+        if (msg.includes('email') && msg.includes('taken')) {
+          throw new Error('Este email ya está registrado. Inicia sesión con tu contraseña.');
+        }
+        throw regErr;
+      }
     }
   }
 }
