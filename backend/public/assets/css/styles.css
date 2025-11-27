@@ -1,3 +1,7 @@
+/* Proyecto El Santuario
+   Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
 
 :root {
@@ -101,6 +105,15 @@ textarea {
   font-size: 1.08rem;
   color: var(--color-muted);
   margin-bottom: 24px;
+}
+
+.sub-lead {
+  color: var(--color-muted);
+  margin-top: 6px;
+  font-size: 1.02rem;
+  max-width: 780px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .btn {
@@ -311,6 +324,10 @@ nav a.active {
   flex-direction: column;
   gap: 12px;
   margin-top: 12px;
+}
+
+.mobile-nav[hidden] {
+  display: none !important;
 }
 
 .mobile-nav a {
@@ -966,6 +983,12 @@ tbody tr:hover {
 .calendar .day:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+.calendar .day.is-selected {
+  background: linear-gradient(180deg, #ffffff 0%, #f3eee6 100%);
+  border-color: rgba(217, 193, 164, 0.8);
+  box-shadow: 0 0 0 3px rgba(217, 193, 164, 0.3);
 }
 
 .calendar .day.ocupado {
