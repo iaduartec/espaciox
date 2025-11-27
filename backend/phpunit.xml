@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+  bootstrap="vendor/autoload.php"
+  colors="true"
+  stopOnFailure="false"
+  failOnWarning="true"
+  failOnRisky="true"
+  failOnIncomplete="true"
+  failOnSkipped="false"
+  beStrictAboutOutputDuringTests="true"
+>
+  <testsuites>
+    <testsuite name="Application Test Suite">
+      <directory suffix="Test.php">tests</directory>
+    </testsuite>
+  </testsuites>
+
+  <php>
+    <env name="APP_ENV" value="testing"/>
+    <env name="APP_KEY" value="base64:mSAML4IxAYKG8bKwP1VB+RWMsQr4fnRqLH2rNip0B/w="/>
+    <env name="CACHE_DRIVER" value="array"/>
+    <env name="DB_CONNECTION" value="sqlite"/>
+    <env name="DB_DATABASE" value=":memory:"/>
+    <env name="MAIL_MAILER" value="array"/>
+    <env name="QUEUE_CONNECTION" value="sync"/>
+    <env name="SESSION_DRIVER" value="array"/>
+    <env name="SANCTUM_STATEFUL_DOMAINS" value="localhost,127.0.0.1,localhost:8000,localhost:8001,127.0.0.1:8000,127.0.0.1:8001"/>
+  </php>
+</phpunit>
