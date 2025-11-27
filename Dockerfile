@@ -73,7 +73,7 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 COPY --from=frontend /app/public/dist ./public/dist
 
 # Prepara directorios requeridos y limpia caches de artisan (no requiere APP_KEY)
-RUN mkdir -p storage/logs bootstrap/cache database && \
+RUN mkdir -p storage/logs storage/framework/views storage/framework/cache bootstrap/cache database && \
     touch database/database.sqlite && \
     chown -R www-data:www-data storage bootstrap/cache database && \
     php artisan config:clear && \
