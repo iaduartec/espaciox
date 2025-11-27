@@ -17,6 +17,7 @@ class ApiService {
       resp = await fetch(this.buildUrl(path), {
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
           ...(options.headers || {}),
         },
         ...options,
