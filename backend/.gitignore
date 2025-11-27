@@ -6,3 +6,7 @@
 /espaciox
 /storage
 /test-results
+/vendor
+/node_modules
+/.phpunit.result.cache
+/public/storage
