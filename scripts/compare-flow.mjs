@@ -15,12 +15,22 @@ const step = result.steps?.[0];
 if (!step) throw new Error('No Lighthouse steps found');
 
 const metricsAudit = step.lhr.audits.metrics;
-const items = metricsAudit?.details?.items?.[0] ?? {};
+const items = metricsAudit?.details?.items?.[0];
+if (metricsAudit?.scoreDisplayMode === 'error') {
+  console.warn(`Metrics audit error: ${metricsAudit.errorMessage}`);
+}
+
+const metricFromAudit = (fallbackId) => step.lhr.audits?.[fallbackId]?.numericValue ?? 0;
+const metrics = {
+  cumulativeLayoutShift: metricFromAudit('cumulative-layout-shift'),
+  largestContentfulPaint: metricFromAudit('largest-contentful-paint'),
+  firstContentfulPaint: metricFromAudit('first-contentful-paint'),
+};
 
 const current = {
-  cls: items.cumulativeLayoutShift ?? 0,
-  lcp: items.largestContentfulPaint ?? 0,
-  fcp: items.firstContentfulPaint ?? 0,
+  cls: items?.cumulativeLayoutShift ?? metrics.cumulativeLayoutShift ?? 0,
+  lcp: items?.largestContentfulPaint ?? metrics.largestContentfulPaint ?? 0,
+  fcp: items?.firstContentfulPaint ?? metrics.firstContentfulPaint ?? 0,
   seo: step.lhr.categories.seo?.score ?? 0
 };
 
