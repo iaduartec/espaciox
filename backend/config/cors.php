@@ -7,6 +7,7 @@ return [
         'https://elsantuario.com',
         'https://www.elsantuario.com',
         'https://espaciox.infinityfreeapp.com',
+        'https://espaciox-48h1p7o9n-duartec.vercel.app',
         'https://iaduartec.github.io/espaciox/reservas.html',
         'https://iaduartec.github.io',
         'http://localhost:8000',
