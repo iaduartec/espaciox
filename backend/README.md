@@ -61,6 +61,7 @@ Frontend: abre `http://localhost:8001/reservas.html` (sirve `public/`). Si usas 
 | PATCH | /api/admin/bookings/{booking}/confirm | Confirmar reserva |
 | PATCH | /api/admin/bookings/{booking}/cancel | Cancelar reserva |
 | POST | /api/admin/blocks | Crear bloqueos de espacio |
+| GET | /api/health | Healthcheck (DB, cache, cola) |
 
 ## Contenedor Docker (Apache)
 
