@@ -13,7 +13,7 @@ const flow = await startFlow(page, { name: 'flow-espaciox' });
 console.log(`Running Lighthouse Flow against ${target}`);
 await flow.navigate(target);
 await flow.startTimespan();
-await page.waitForTimeout(3500);
+await new Promise((resolve) => setTimeout(resolve, 3500));
 await flow.endTimespan();
 
 await flow.snapshot();
