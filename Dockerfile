@@ -65,11 +65,8 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
 
-# Opcional: limpia caches de artisan (no requiere APP_KEY)
-RUN mkdir -p resources/views && \
-    php artisan config:clear && \
-    php artisan route:clear && \
-    if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi
+# Limpia caches de artisan (no requiere APP_KEY). Omitimos view:clear porque no hay vistas blade.
+RUN php artisan config:clear && php artisan route:clear
 
 # Permisos para logs y cachés (aseguramos storage/* para que Laravel pueda escribir)
 RUN mkdir -p storage/logs \
