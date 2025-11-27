@@ -1,27 +1,44 @@
 # EspacioX API Backend
 
-Esta carpeta contiene la propuesta de backend Laravel API-first para el sistema de reservas.
+Propuesta API-first en Laravel para el sistema de reservas de El Santuario, con landing estática en `public/`.
+
+## Arquitectura rápida
+- `public/`: páginas estáticas (p.ej. `reservas.html`), estilos en `assets/css/styles.css` y lógica en `assets/js/main.js` (lee `window.ESPACIOX_API_BASE` o el meta `espaciox-api-base` para apuntar a la API).
+- API Laravel: rutas en `routes/api.php`, controladores en `app/Http/Controllers`, requests en `app/Http/Requests`, resources en `app/Http/Resources` y modelos en `app/Models`.
+- Datos: migraciones y seeders en `database/` (SQLite por defecto en `database/database.sqlite`); usa `.env.testing` para pruebas.
+- Infra: helpers en `bin/` (PHP con extensiones, arranque Railway), caches en `bootstrap/cache/`, logs/archivos en `storage/`.
 
 ## Requisitos
+- PHP 8.3 con `dom`, `pdo_sqlite` (dev) y `pdo_mysql` si usarás MySQL.
+- Composer. Node.js solo si ejecutas Playwright u otros scripts opcionales.
 
-- PHP 8.3 con extensiones `dom`, `pdo_sqlite` (para desarrollo) y `pdo_mysql` si usarás MySQL.
-- Composer.
+## Puesta en marcha rápida (SQLite)
+1. `cp .env.example .env`
+2. `composer install --ignore-platform-req=ext-dom`
+3. `php artisan key:generate`
+4. `php artisan migrate:fresh --seed`
+5. `php artisan serve --port 8001`
 
-## Puesta en marcha rápida (usando SQLite local)
+Frontend: abre `http://localhost:8001/reservas.html` (sirve `public/`). Si usas un servidor estático aparte (`cd public && python -m http.server 8000`), injerta antes de cargar `assets/js/main.js`:
 
-1. Instalar dependencias: `cd backend && composer install --ignore-platform-req=ext-dom`
-2. Clonar env: `cp .env.example .env`
-3. Usar el wrapper que ya carga SQLite: `./bin/php artisan key:generate`
-4. Migrar y seed de demo: `./bin/php artisan migrate:fresh --seed`
-5. Levantar el servidor: `./bin/php -S localhost:8000 -t public`
+```html
+<script>window.ESPACIOX_API_BASE = 'http://localhost:8001/api';</script>
+```
 
-El `.env` ya apunta a `DB_CONNECTION=sqlite` en `database/database.sqlite`.
+## Comandos útiles
+- Migraciones/seeds: `php artisan migrate --seed`
+- Tests backend: `php artisan test` (o `php artisan test --filter BookingControllerTest`)
+- Optimización prod: `php artisan optimize`, `php artisan storage:link`
+- Limpiar caches: `php artisan cache:clear && php artisan config:clear`
 
-### Usar MySQL en lugar de SQLite
+## Testing
+- Backend: usa el suite de Laravel; para datos deterministas: `php artisan migrate --seed --env=testing`.
+- E2E (Playwright, si se añade): specs en `tests/e2e/`; ejecuta `npx playwright test` tras `npm install` y borra `test-results/` antes de commitear.
 
-1. Edita `.env` con tus credenciales MySQL (`DB_CONNECTION=mysql`, host, puerto, usuario, pass, base).
-2. Asegúrate de tener instaladas las extensiones `pdo_mysql` y `mysqli`.
-3. Ejecuta migraciones y seed: `php artisan migrate --seed` (o con `./bin/php` si necesitas cargar extensiones locales).
+## Seguridad y configuración
+- Parte de `.env.example` y no subas `.env` ni claves; fija `APP_KEY`, `APP_URL`, `SANCTUM_STATEFUL_DOMAINS` y el DSN de base de datos.
+- Define la base de la API sin tocar assets: `window.ESPACIOX_API_BASE` o meta `espaciox-api-base`.
+- En producción fija `APP_DEBUG=false` y ejecuta `php artisan config:cache route:cache`.
 
 ## Endpoints principales
 
@@ -42,31 +59,13 @@ El `.env` ya apunta a `DB_CONNECTION=sqlite` en `database/database.sqlite`.
 | PATCH | /api/admin/bookings/{booking}/cancel | Cancelar reserva |
 | POST | /api/admin/blocks | Crear bloqueos de espacio |
 
-### Respuestas y seguridad
-
-- Middleware `ForceJsonResponse` fuerza `Accept: application/json` en `/api/*` para evitar redirecciones HTML y devolver siempre JSON.
-- Headers de seguridad: `X-Content-Type-Options: nosniff`, `Content-Security-Policy: frame-ancestors 'self'`.
-- Cache-Control: `no-cache, no-store, max-age=0` en `/api/*`; `public, max-age=31536000, immutable` en estáticos.
-
-## Recursos JSON
-
-- `SpaceResource`, `BookingResource`, `CalendarDayResource`, `AvailabilitySlotResource`
-- Notificaciones por email al crear, confirmar o cancelar reservas
-
-## Validaciones destacadas
-
-- Anti-solape general mediante `Booking::overlaps`
-- Horario definido por día vía `config/spaces.php`
-- Reglas de capacidad, duración (1-12h) y bloques administrativos
-
 ## Contenedor Docker (Apache)
 
-Se incluye un `Dockerfile` multi-stage en la raíz del repo:
+Se incluye un `Dockerfile` multi-stage en la raíz:
 
 ```bash
 docker build -t espaciox .
-# Define APP_KEY y credenciales de DB al ejecutar; Apache escucha en $PORT (por defecto 80).
 docker run --rm -p 8080:8080 -e PORT=8080 -e APP_KEY=base64:... -e DB_HOST=... espaciox
 ```
 
-El stage `frontend` copia los HTML y assets estáticos a `public/dist`. El stage final instala dependencias PHP, ajusta Apache para servir `backend/public` y limpia caches de Laravel antes de arrancar el servidor.
+El stage `frontend` copia `public` y assets; el final instala dependencias PHP, sirve `backend/public` con Apache y ejecuta limpiezas de cache (`config:cache`, `route:cache`).
