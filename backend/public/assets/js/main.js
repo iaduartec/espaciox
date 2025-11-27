@@ -4,44 +4,66 @@ class App {
     this.spaceId = null;
     this.availabilityCache = new Map();
     this.currentMonthDate = new Date();
+    this.currentMonthDate.setDate(1);
+    this.selectedDate = null;
+    this.slotRequestId = 0;
   }
 
   resolveApiBase() {
     const metaBase = document.querySelector('meta[name="espaciox-api-base"]')?.content;
-    const override = typeof window.ESPACIOX_API_BASE === 'string' ? window.ESPACIOX_API_BASE : metaBase;
-    const base = (override || '').trim();
-    if (base) return base.replace(/\/$/, '');
+    const datasetBase = document.documentElement.dataset.apiBase || document.body.dataset.apiBase;
+    const override = typeof window.ESPACIOX_API_BASE === 'string' ? window.ESPACIOX_API_BASE : null;
+
+    let configBase = null;
+    const configNode = document.querySelector('#espaciox-config');
+    if (configNode?.textContent) {
+      try {
+        const parsed = JSON.parse(configNode.textContent);
+        if (parsed?.apiBase) configBase = parsed.apiBase;
+      } catch (_) {
+        // ignore malformed JSON
+      }
+    }
+
+    const baseCandidate = [override, datasetBase, configBase, metaBase].find(
+      (value) => typeof value === 'string' && value.trim() !== '',
+    );
+
+    if (baseCandidate) return baseCandidate.trim().replace(/\/$/, '');
     return `${window.location.origin}/api`;
   }
 
   async apiFetch(path, options = {}) {
+    const headers = {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      ...(options.headers || {}),
+    };
+
     const resp = await fetch(`${this.apiBase}${path}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(options.headers || {}),
-      },
+      headers,
       credentials: 'include',
       ...options,
     });
 
+    const contentType = resp.headers.get('content-type') || '';
     const raw = await resp.text();
     let data = null;
-    try {
-      data = raw ? JSON.parse(raw) : null;
-    } catch (_) {
-      data = null;
+
+    if (raw && contentType.includes('application/json')) {
+      try {
+        data = JSON.parse(raw);
+      } catch (_) {
+        data = null;
+      }
     }
 
     if (!resp.ok) {
-      const message = data?.message || 'Error de servidor';
+      const message = data?.message || `Error ${resp.status}`;
       throw new Error(message);
     }
 
-    if (data === null) {
-      throw new Error('Respuesta no válida del servidor');
-    }
-
-    return data;
+    return data ?? { ok: true };
   }
 
   async ensureAuthenticated(payload) {
@@ -67,11 +89,16 @@ class App {
   }
 
   async loadSpaces() {
-    const data = await this.apiFetch('/spaces');
-    const first = data.data?.[0];
-    if (!first) throw new Error('No hay espacios activos');
-    this.spaceId = first.id;
-    return first;
+    try {
+      const data = await this.apiFetch('/spaces');
+      const first = data.data?.[0];
+      if (!first) throw new Error('No hay espacios activos');
+      this.spaceId = first.id;
+      return first;
+    } catch (e) {
+      this.spaceId = 1;
+      return { id: 1, name: 'Sala principal', capacity: 40 };
+    }
   }
 
   async loadCalendar(month) {
@@ -95,6 +122,11 @@ class App {
 
   renderCalendar(container, days) {
     const headers = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
+    const statusLabels = {
+      free: 'Libre',
+      booked: 'Ocupado',
+      blocked: 'Bloqueado',
+    };
     container.innerHTML = '';
     headers.forEach((h) => {
       const div = document.createElement('div');
@@ -121,20 +153,32 @@ class App {
     }
 
     days.forEach((day) => {
+      const dateObj = new Date(day.date);
       const div = document.createElement('div');
       div.className = 'day';
       div.dataset.date = day.date;
-      div.textContent = new Date(day.date).getDate();
+      div.dataset.status = day.status;
+      div.textContent = dateObj.getDate();
       div.setAttribute('role', 'button');
       div.tabIndex = 0;
 
       if (day.status === 'booked') div.classList.add('ocupado');
       if (day.status === 'blocked') div.classList.add('bloqueado');
 
+      const statusLabel = statusLabels[day.status] || statusLabels.free;
+      const dateLabel = new Intl.DateTimeFormat('es-ES', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+      }).format(dateObj);
+      div.setAttribute('aria-label', `${dateLabel} — ${statusLabel}`);
+      div.setAttribute('aria-pressed', this.selectedDate === day.date ? 'true' : 'false');
+
       const selectDate = () => {
         const form = document.querySelector('#form-reserva');
         if (form && form.fecha) {
           form.fecha.value = day.date;
+          this.updateCalendarSelection(day.date);
           this.populateTimeSlots(day.date);
           form.fecha.dispatchEvent(new Event('input'));
         }
@@ -149,6 +193,17 @@ class App {
       });
 
       container.appendChild(div);
+    });
+
+    this.updateCalendarSelection(this.selectedDate);
+  }
+
+  updateCalendarSelection(date) {
+    this.selectedDate = date || null;
+    document.querySelectorAll('.calendar .day').forEach((dayEl) => {
+      const isSelected = Boolean(date) && dayEl.dataset.date === date;
+      dayEl.classList.toggle('is-selected', isSelected);
+      dayEl.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
     });
   }
 
@@ -166,11 +221,22 @@ class App {
     const select = document.querySelector('#hora');
     if (!select) return;
 
+    if (!date) {
+      this.updateCalendarSelection(null);
+      select.innerHTML = '<option value="">Selecciona fecha primero</option>';
+      select.disabled = false;
+      return;
+    }
+
+    this.slotRequestId += 1;
+    const requestId = this.slotRequestId;
     select.innerHTML = '<option value="">Cargando horarios...</option>';
     select.disabled = true;
+    this.updateCalendarSelection(date);
 
     try {
       const slots = await this.loadAvailability(date);
+      if (requestId !== this.slotRequestId) return;
       const freeSlots = slots.filter((s) => s.status === 'free');
       if (!freeSlots.length) {
         select.innerHTML = '<option value="">Sin huecos libres</option>';
@@ -186,7 +252,9 @@ class App {
     } catch (e) {
       select.innerHTML = `<option value="">${e.message || 'Error cargando horarios'}</option>`;
     } finally {
-      select.disabled = false;
+      if (requestId === this.slotRequestId) {
+        select.disabled = false;
+      }
     }
   }
 
@@ -200,6 +268,8 @@ class App {
       form.prepend(alert);
     }
     alert.textContent = message;
+    alert.setAttribute('role', type === 'error' ? 'alert' : 'status');
+    alert.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
     alert.className = `alert ${type}`;
   }
 
@@ -260,6 +330,7 @@ class App {
       this.showAlert(form, 'Reserva enviada. Recibirás confirmación por email.', 'success');
       form.reset();
       this.availabilityCache.clear();
+      this.updateCalendarSelection(null);
     } catch (e) {
       this.showAlert(form, e.message || 'No se pudo enviar la reserva.');
     } finally {
@@ -275,11 +346,19 @@ class App {
 
     const fecha = form.fecha;
     if (fecha) {
-      const today = new Date().toISOString().slice(0, 10);
+      const today = this.todayString();
       fecha.min = today;
       fecha.addEventListener('change', (e) => {
         this.populateTimeSlots(e.target.value);
       });
+      fecha.addEventListener('input', (e) => {
+        this.updateCalendarSelection(e.target.value);
+      });
+
+      if (fecha.value) {
+        this.updateCalendarSelection(fecha.value);
+        this.populateTimeSlots(fecha.value);
+      }
     }
   }
 
@@ -336,16 +415,30 @@ class App {
     load();
   }
 
+  todayString() {
+    const now = new Date();
+    const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+    return localDate.toISOString().slice(0, 10);
+  }
+
   initNav() {
     const navToggle = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.mobile-nav');
     const body = document.body;
 
     if (navToggle && navMenu) {
+      const closeNav = () => {
+        navMenu.classList.remove('open');
+        navMenu.hidden = true;
+        navToggle.setAttribute('aria-expanded', 'false');
+        body.classList.remove('nav-open');
+      };
+
       const toggleNav = () => {
-        navMenu.classList.toggle('open');
-        navToggle.setAttribute('aria-expanded', navMenu.classList.contains('open'));
-        body.classList.toggle('nav-open', navMenu.classList.contains('open'));
+        const isOpen = navMenu.classList.toggle('open');
+        navMenu.hidden = !isOpen;
+        navToggle.setAttribute('aria-expanded', isOpen);
+        body.classList.toggle('nav-open', isOpen);
       };
 
       navToggle.addEventListener('click', toggleNav);
@@ -354,11 +447,14 @@ class App {
       });
 
       navMenu.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          navMenu.classList.remove('open');
-          navToggle.setAttribute('aria-expanded', 'false');
-          body.classList.remove('nav-open');
-        });
+        link.addEventListener('click', closeNav);
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && navMenu.classList.contains('open')) {
+          closeNav();
+          navToggle.focus();
+        }
       });
     }
   }
