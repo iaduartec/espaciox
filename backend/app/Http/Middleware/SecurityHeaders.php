@@ -22,6 +22,8 @@ class SecurityHeaders
 
         // Add required security headers
         $response->headers->set('X-Content-Type-Options', 'nosniff', false);
+        $response->headers->set('X-Frame-Options', 'SAMEORIGIN', false);
+        $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains; preload', false);
         $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'", false);
         if ($request->is('api/*')) {
             $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0', false);
