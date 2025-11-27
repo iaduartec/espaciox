@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\Public\SpaceController;
 use App\Http\Controllers\Api\Client\BookingController as ClientBookingController;
 use App\Http\Controllers\Api\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Api\Admin\BookingBlockController;
+use App\Http\Controllers\Api\HealthCheckController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('register', [AuthController::class, 'register'])
@@ -19,6 +20,8 @@ Route::get('spaces/{space}/availability', [SpaceController::class, 'availability
 // Permitir reservas aunque no haya autenticación (para demo pública).
 Route::post('bookings', [ClientBookingController::class, 'store'])
     ->middleware('throttle:booking-submission');
+
+Route::get('health', HealthCheckController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
