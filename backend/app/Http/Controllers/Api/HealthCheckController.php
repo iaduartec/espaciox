@@ -3,15 +3,47 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 
 class HealthCheckController extends Controller
 {
     public function __invoke(): JsonResponse
     {
+        $checks = [
+            'db' => $this->checkDatabase(),
+            'cache' => $this->checkCache(),
+        ];
+
+        $ok = collect($checks)->every(fn ($c) => $c['status'] === 'ok');
+
         return response()->json([
-            'status' => 'ok',
+            'status' => $ok ? 'ok' : 'degraded',
+            'checks' => $checks,
             'timestamp' => now()->toIso8601String(),
-        ]);
+        ], $ok ? 200 : 503);
+    }
+
+    private function checkDatabase(): array
+    {
+        try {
+            DB::select('select 1');
+            return ['status' => 'ok'];
+        } catch (\Throwable $e) {
+            return ['status' => 'fail', 'message' => 'db unavailable'];
+        }
+    }
+
+    private function checkCache(): array
+    {
+        try {
+            $key = 'healthcheck:'.uniqid();
+            Cache::put($key, '1', 5);
+            $value = Cache::get($key);
+            return ['status' => $value === '1' ? 'ok' : 'fail'];
+        } catch (\Throwable $e) {
+            return ['status' => 'fail', 'message' => 'cache unavailable'];
+        }
     }
 }
