@@ -26,6 +26,7 @@ class Kernel extends HttpKernel
         ],
         'api' => [
             \App\Http\Middleware\ForceJsonResponse::class,
+            \App\Http\Middleware\AttachTokenFromCookie::class,
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
