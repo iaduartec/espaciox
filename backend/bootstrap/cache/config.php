@@ -400,7 +400,7 @@
     ),
     'cookie' => 'espaciox_session',
     'path' => '/',
-    'domain' => 'iaduartec.github.io',
+    'domain' => 'https://espaciox.vercel.app',
     'secure' => NULL,
     'http_only' => true,
     'same_site' => 'lax',
@@ -719,7 +719,7 @@
   array (
     'stateful' => 
     array (
-      0 => 'iaduartec.github.io',
+      0 => 'https://espaciox.vercel.app',
     ),
     'guard' => 
     array (
