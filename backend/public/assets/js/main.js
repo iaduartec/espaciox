@@ -1,3 +1,7 @@
+/* Proyecto El Santuario
+   Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 class App {
   constructor() {
     this.apiBase = this.resolveApiBase();
@@ -208,7 +212,8 @@ class App {
   }
 
   async loadAvailability(date) {
-    if (!this.spaceId || !date) return [];
+    if (!date) return [];
+    if (!this.spaceId) await this.loadSpaces();
     if (this.availabilityCache.has(date)) return this.availabilityCache.get(date);
 
     const data = await this.apiFetch(`/spaces/${this.spaceId}/availability?date=${date}`);
@@ -393,7 +398,7 @@ class App {
     };
 
     const load = async () => {
-      const month = this.currentMonthDate.toISOString().slice(0, 7);
+      const month = this.formatMonth(this.currentMonthDate);
       this.availabilityCache.clear();
       await this.loadCalendar(month);
     };
@@ -419,6 +424,11 @@ class App {
     const now = new Date();
     const localDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
     return localDate.toISOString().slice(0, 10);
+  }
+
+  formatMonth(date) {
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    return `${date.getFullYear()}-${month}`;
   }
 
   initNav() {
