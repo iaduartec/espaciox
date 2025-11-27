@@ -7,7 +7,9 @@ return [
         'https://espaciox.vercel.app',
         'https://iaduartec.github.io',
     ],
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => [
+        '#^https://espaciox-[^.]+\\.vercel\\.app$#',
+    ],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
     'max_age' => 0,
