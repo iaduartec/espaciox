@@ -13,3 +13,4 @@
 /storage
 /public/storage
 /database/database.sqlite
+.vercel
