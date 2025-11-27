@@ -446,14 +446,30 @@ nav a.active {
     position: relative;
     height: 600px;
     border-radius: 32px;
-    background: url('../img/zonas-polivalentes.webp') center/cover no-repeat;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     transform: perspective(1000px) rotateY(-5deg);
-    transition: transform 0.5s ease
+    transition: transform 0.5s ease;
+    overflow: hidden;
 }
 
 .hero-visual:hover {
     transform: perspective(1000px) rotateY(0deg)
+}
+
+.hero-visual__media {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    display: block;
+}
+
+.hero-visual__media img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: 32px;
+    display: block;
 }
 
 .floating-card {
