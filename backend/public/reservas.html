@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-api-base="/api">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script defer src="https://vercel.com/analytics/script.js"></script>
   <title>Reservas | El Santuario</title>
   <meta name="description" content="Reserva El Santuario con calendario en tiempo real, bloquea tu fecha y recibe confirmación inmediata.">
+  <meta name="color-scheme" content="light">
+  <link rel="canonical" href="https://elsantuario.com/reservas">
   <meta property="og:title" content="Reservas | El Santuario">
   <meta property="og:description" content="Consulta disponibilidad y reserva El Santuario en minutos.">
   <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El Santuario">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:image" content="assets/img/salon-celebraciones.webp">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="theme-color" content="#1a2633">
   <meta name="espaciox-api-base" content="/api">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -27,20 +33,20 @@
       <nav aria-label="Menú principal">
         <ul>
           <li><a href="index.html">Inicio</a></li>
-          <li><a class="active" href="reservas.html">Reservas</a></li>
+          <li><a class="active" aria-current="page" href="reservas.html">Reservas</a></li>
           <li><a href="tarifas.html">Tarifas</a></li>
           <li><a href="instalaciones.html">Instalaciones</a></li>
           <li><a href="blog.html">Blog</a></li>
           <li><a href="regalos.html">Regalos</a></li>
         </ul>
       </nav>
-      <button class="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <button class="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="container mobile-nav" aria-label="Menú móvil">
+    <div id="menu-movil" class="container mobile-nav" aria-label="Menú móvil" hidden>
       <a href="index.html">Inicio</a>
-      <a class="active" href="reservas.html">Reservas</a>
+      <a class="active" aria-current="page" href="reservas.html">Reservas</a>
       <a href="tarifas.html">Tarifas</a>
       <a href="instalaciones.html">Instalaciones</a>
       <a href="blog.html">Blog</a>
@@ -48,11 +54,18 @@
     </div>
   </header>
 
+  <noscript>
+    <div class="container">
+      <p class="alert error" role="alert">Activa JavaScript para cargar disponibilidad y enviar la reserva.</p>
+    </div>
+  </noscript>
+
   <main id="contenido-principal">
     <section class="hero-simple">
       <div class="container">
         <h1>Reservas</h1>
         <p class="lead">Fianza de 100 € para confirmar tu fecha. Te pediremos datos básicos y confirmaremos disponibilidad al instante.</p>
+        <p class="sub-lead">Atención concierge: respondemos en menos de 2 horas en horario laboral y te enviamos checklist premium para preparar tu evento.</p>
       </div>
     </section>
 
@@ -66,7 +79,7 @@
         <div class="grid mb-30">
           <article class="card">
             <figure class="mb-14">
-              <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy" alt="Sala polivalente luminosa con mesas modulares y material creativo">
+              <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy" decoding="async" alt="Sala polivalente luminosa con mesas modulares y material creativo">
             </figure>
             <h3>Bloquea tu fecha en minutos</h3>
             <p>Elige la franja horaria y dinos si necesitas la zona infantil o mesas adicionales. Te confirmamos por email y WhatsApp para que tengas todo por escrito.</p>
@@ -78,7 +91,7 @@
           </article>
           <article class="card">
             <figure class="mb-14">
-              <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy" alt="Salón acogedor con sofás, mesas decoradas y luces cálidas para eventos">
+              <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy" decoding="async" alt="Salón acogedor con sofás, mesas decoradas y luces cálidas para eventos">
             </figure>
             <h3>Te ayudamos con la logística</h3>
             <p>Indicaciones de acceso, recomendaciones de catering local y cómo configurar el espacio según tu evento. Te enviamos un plano con enchufes y puntos de luz.</p>
