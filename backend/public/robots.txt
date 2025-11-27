@@ -1,0 +1,5 @@
+# Proyecto El Santuario
+# Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+User-agent: *
+Allow: /
+Sitemap: https://elsantuario.com/sitemap.xml
