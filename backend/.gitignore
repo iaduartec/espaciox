@@ -1,3 +1,8 @@
 .env
 .vercel
 .env*.local
+/bootstrap/cache/*.php
+/database/database.sqlite
+/espaciox
+/storage
+/test-results
