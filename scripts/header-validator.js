@@ -7,6 +7,7 @@ import 'dotenv/config';
  * If no args are provided, it falls back to espaciox defaults.
  */
 const defaultBase = process.env.ESPACIOX_STATIC_BASE || 'https://espaciox.onrender.com';
+const shouldSkipFetch = Boolean(process.env.SKIP_HEADER_FETCH);
 
 const urls = process.argv.slice(2).filter(Boolean).length
   ? process.argv.slice(2)
@@ -35,6 +36,11 @@ const fetchHeaders = async (url) => {
 };
 
 const validate = async (url) => {
+  if (shouldSkipFetch) {
+    console.warn(`⏭ SKIP_HEADER_FETCH activo. Se omite la revisión de ${url}.`);
+    return;
+  }
+
   try {
     const res = await fetchHeaders(url);
     console.log(`\n🔍 Revisando: ${url} (status ${res.status})`);
