@@ -1,5 +1,9 @@
 <?php
 
+/* Proyecto El Santuario
+   Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 namespace App\Http\Controllers\Api\Client;
 
 use App\Http\Controllers\Controller;
@@ -9,6 +13,7 @@ use App\Models\Booking;
 use App\Models\Space;
 use App\Notifications\BookingReceivedNotification;
 use App\Notifications\BookingStatusNotification;
+use App\Support\SpaceCache;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -53,6 +58,7 @@ class BookingController extends Controller
             ]);
 
             $booking->load('space');
+            SpaceCache::forgetRange($booking->space_id, $start, $end);
 
             if ($user) {
                 $user->notify(new BookingReceivedNotification($booking));
@@ -109,6 +115,7 @@ class BookingController extends Controller
         $booking->update(['status' => 'cancelled']);
         $booking->load('space');
         $booking->user?->notify(new BookingStatusNotification($booking));
+        SpaceCache::forgetRange($booking->space_id, $booking->start_at, $booking->end_at);
 
         return BookingResource::make($booking);
     }
