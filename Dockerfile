@@ -66,7 +66,8 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 COPY --from=frontend /app/public/dist ./public/dist
 
 # Opcional: limpia caches de artisan (no requiere APP_KEY)
-RUN php artisan config:clear && \
+RUN mkdir -p resources/views && \
+    php artisan config:clear && \
     php artisan route:clear && \
     if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi
 
