@@ -14,36 +14,13 @@ class App {
     return `${window.location.origin}/api`;
   }
 
-  storageReady() {
-    try {
-      const key = '__storage_test__';
-      localStorage.setItem(key, '1');
-      localStorage.removeItem(key);
-      return true;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  setToken(token) {
-    if (this.storageReady()) localStorage.setItem('espaciox_token', token);
-  }
-
-  getToken() {
-    if (!this.storageReady()) return null;
-    return localStorage.getItem('espaciox_token');
-  }
-
-  clearToken() {
-    if (this.storageReady()) localStorage.removeItem('espaciox_token');
-  }
-
   async apiFetch(path, options = {}) {
     const resp = await fetch(`${this.apiBase}${path}`, {
       headers: {
         'Content-Type': 'application/json',
         ...(options.headers || {}),
       },
+      credentials: 'include',
       ...options,
     });
 
