@@ -6,16 +6,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prefix:css": "postcss assets/css/styles.css -o assets/css/styles.css && csso assets/css/styles.css --output assets/css/styles.min.css --comments '/Proyecto El Santuario/'",
+    "prefix:css": "postcss assets/css/styles.css -o assets/css/styles.css && csso assets/css/styles.css --output assets/css/styles.min.css --comments exclamation",
     "validate:headers": "node scripts/header-validator.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "autoprefixer": "^10.4.22",
+    "csso-cli": "^4.0.2",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1"
   },
