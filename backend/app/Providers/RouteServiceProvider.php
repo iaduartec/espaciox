@@ -31,5 +31,17 @@ class RouteServiceProvider extends ServiceProvider
                 optional($request->user())->id ?: $request->ip()
             );
         });
+
+        RateLimiter::for('auth', function (Request $request) {
+            $identifier = $request->input('email') ?: $request->ip();
+
+            return Limit::perMinute(10)->by($identifier);
+        });
+
+        RateLimiter::for('booking-submission', function (Request $request) {
+            $identifier = $request->input('customer_email') ?: $request->input('email') ?: $request->ip();
+
+            return Limit::perMinute(20)->by($identifier);
+        });
     }
 }
