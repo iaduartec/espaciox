@@ -25,7 +25,7 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token,
-        ], 201);
+        ], 201)->cookie($this->tokenCookie($token));
     }
 
     public function login(LoginRequest $request)
@@ -41,18 +41,38 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token,
-        ]);
+        ])->cookie($this->tokenCookie($token));
     }
 
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()?->delete();
 
-        return response()->json(['message' => 'Sesión cerrada']);
+        return response()->json(['message' => 'Sesión cerrada'])
+            ->withoutCookie('espaciox_token');
     }
 
     public function me(Request $request)
     {
         return response()->json($request->user());
+    }
+
+    protected function tokenCookie(string $token)
+    {
+        $minutes = 60 * 24 * 30;
+        $secure = (bool) config('session.secure', app()->environment('production'));
+        $sameSite = config('session.same_site', 'lax') ?: 'lax';
+
+        return cookie(
+            'espaciox_token',
+            $token,
+            $minutes,
+            '/',
+            config('session.domain'),
+            $secure,
+            true,
+            false,
+            $sameSite
+        );
     }
 }
