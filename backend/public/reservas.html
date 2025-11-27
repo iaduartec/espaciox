@@ -3,13 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script defer src="https://vercel.com/analytics/script.js"></script>
-  <noscript><img src="https://vercel.com/analytics/script.js" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  <script defer src="https://vercel.com/analytics/script.js"></script>
   <title>Reservas | El Santuario</title>
+  <meta name="description" content="Reserva El Santuario con calendario en tiempo real, bloquea tu fecha y recibe confirmación inmediata.">
+  <meta property="og:title" content="Reservas | El Santuario">
+  <meta property="og:description" content="Consulta disponibilidad y reserva El Santuario en minutos.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#1a2633">
+  <meta name="espaciox-api-base" content="/api">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="assets/css/styles.css?v=2">
 </head>
 <body>
+  <a class="skip-link" href="#contenido-principal">Saltar al contenido principal</a>
   <header>
     <div class="container navbar">
       <a class="logo" href="index.html">
@@ -40,7 +48,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="contenido-principal">
     <section class="hero-simple">
       <div class="container">
         <h1>Reservas</h1>
@@ -96,7 +104,7 @@
               <span class="legend-item"><span class="legend-swatch booked"></span>Ocupado</span>
               <span class="legend-item"><span class="legend-swatch blocked"></span>Bloqueado</span>
             </div>
-            <div id="calendario-disponibilidad" class="calendar" aria-label="Calendario de disponibilidad">
+            <div id="calendario-disponibilidad" class="calendar" aria-label="Calendario de disponibilidad" aria-live="polite">
               <p>Cargando disponibilidad...</p>
             </div>
           </div>
@@ -104,27 +112,27 @@
 
         <div class="card">
           <h2>Formulario de reserva</h2>
-          <form id="form-reserva" novalidate>
+          <form id="form-reserva">
             <div class="form-grid">
               <div class="field">
                 <label for="nombre">Nombre y apellidos *</label>
-                <input id="nombre" name="nombre" type="text" required>
+                <input id="nombre" name="nombre" type="text" autocomplete="name" required>
               </div>
               <div class="field">
                 <label for="email">Email *</label>
-                <input id="email" name="email" type="email" required>
+                <input id="email" name="email" type="email" autocomplete="email" required>
               </div>
               <div class="field">
                 <label for="telefono">Teléfono *</label>
-                <input id="telefono" name="telefono" type="tel" required>
+                <input id="telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" pattern="[0-9+\\s]{9,}" required>
               </div>
               <div class="field">
                 <label for="password">Contraseña (para tu acceso) *</label>
-                <input id="password" name="password" type="password" minlength="8" required>
+                <input id="password" name="password" type="password" minlength="8" autocomplete="new-password" required>
               </div>
               <div class="field">
                 <label for="tipo">Tipo de evento</label>
-                <select id="tipo" name="tipo">
+                <select id="tipo" name="tipo" required>
                   <option>Cumpleaños infantil</option>
                   <option>Cumpleaños adulto</option>
                   <option>Reunión familiar</option>
@@ -135,7 +143,7 @@
               </div>
               <div class="field">
                 <label for="fecha">Fecha</label>
-                <input id="fecha" name="fecha" type="date">
+                <input id="fecha" name="fecha" type="date" required>
               </div>
               <div class="field">
                 <label for="hora">Hora de inicio *</label>
@@ -171,7 +179,7 @@
               </div>
             </div>
             <div class="field mt-12">
-              <label><input id="normas" type="checkbox"> He leído y acepto las <a href="normas-uso.html">normas de uso</a> *</label>
+              <label><input id="normas" type="checkbox" required> He leído y acepto las <a href="normas-uso.html">normas de uso</a> *</label>
             </div>
             <div class="form-actions">
               <button class="btn" type="submit">Enviar reserva</button>
@@ -220,6 +228,6 @@
       <p>© 2025 El Santuario. Todos los derechos reservados.</p>
     </div>
   </footer>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
