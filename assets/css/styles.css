@@ -67,6 +67,24 @@ textarea {
   margin: 0 auto;
 }
 
+/* Utilities */
+.mb-14 { margin-bottom: 14px; }
+.mb-18 { margin-bottom: 18px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-30 { margin-bottom: 30px; }
+.mt-12 { margin-top: 12px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+.ml-18 { margin-left: 18px; }
+.p-0 { padding: 0; }
+.border-0 { border: 0; }
+.overflow-hidden { overflow: hidden; }
+.text-center { text-align: center; }
+.muted-sm { font-size: 0.95rem; color: var(--color-muted); }
+.gap-12 { gap: 12px; }
+.span-full { grid-column: 1 / -1; }
+.grid-auto-280 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
 .section {
   padding: 80px 0;
 }
