@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "framework": null,
+  "buildCommand": "npm run prefix:css",
+  "outputDirectory": ".",
+  "excludeFiles": "backend/**"
+}
