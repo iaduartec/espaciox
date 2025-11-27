@@ -1,18 +1,73 @@
 <!DOCTYPE html>
+<!-- Proyecto El Santuario
+     Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España) -->
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reserva El Santuario en Burgos: calendario dinámico, franjas horarias, formulario seguro y recordatorios automáticos para tu evento privado.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#1a2633">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El Santuario">
+  <meta property="og:title" content="Reservas | El Santuario">
+  <meta property="og:description" content="Reserva tu salón privado por horas y gestiona registro/ingreso con la API segura de El Santuario en Burgos.">
+  <meta property="og:url" content="https://elsantuario.com/reservas.html">
+  <meta property="og:image" content="https://elsantuario.com/assets/img/zonas-polivalentes.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Reservas | El Santuario">
+  <meta name="twitter:description" content="Gestiona disponibilidad, registro y pagos de fianza en el calendario en vivo de El Santuario.">
+  <meta name="twitter:image" content="https://elsantuario.com/assets/img/zonas-polivalentes.webp">
+  <meta name="twitter:site" content="@elsantuario">
+  <link rel="canonical" href="https://elsantuario.com/reservas.html">
+  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
+  <link rel="preload" href="assets/css/styles.css?v=3" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="assets/css/styles.css?v=3"></noscript>
+  <link rel="preload" href="assets/img/zonas-polivalentes.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="assets/js/main.js?v=5" as="script">
+  <script>
+    window.ESPACIOX_API_BASE = window.ESPACIOX_API_BASE || 'https://espaciox.onrender.com/api';
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "El Santuario",
+      "description": "Salón privado en Burgos con reservas y calendario dinámico para eventos, cursos y reuniones.",
+      "url": "https://elsantuario.com/",
+      "telephone": "+34612345678",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "C/ Río Arlanzón, 12",
+        "postalCode": "09005",
+        "addressLocality": "Burgos",
+        "addressCountry": "ES"
+      },
+      "image": "https://elsantuario.com/assets/img/zonas-polivalentes.webp",
+      "openingHours": [
+        "Mo-Th 09:00-22:00",
+        "Fr 09:00-23:00",
+        "Sa 10:00-23:00",
+        "Su 10:00-20:00"
+      ]
+    }
+  </script>
   <script defer src="https://vercel.com/analytics/script.js"></script>
   <noscript><img src="https://vercel.com/analytics/script.js" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
-  <title>Reservas | El Santuario</title>
-  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
   <meta name="api-base" content="https://espaciox.onrender.com/api">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2">
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <header>
     <div class="container navbar">
       <a class="logo" href="index.html">
@@ -29,11 +84,11 @@
           <li><a href="regalos.html">Regalos</a></li>
         </ul>
       </nav>
-      <button class="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <button class="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu">
         <span></span><span></span><span></span>
       </button>
     </div>
-    <div class="container mobile-nav" aria-label="Menú móvil">
+    <div class="container mobile-nav" id="mobile-menu" aria-label="Menú móvil">
       <a href="index.html">Inicio</a>
       <a class="active" href="reservas.html">Reservas</a>
       <a href="tarifas.html">Tarifas</a>
@@ -43,7 +98,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero-simple">
       <div class="container">
         <h1>Reservas</h1>
@@ -63,7 +118,7 @@
         <div class="grid mb-lg">
           <article class="card">
             <figure class="mb-sm">
-              <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy"
+            <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy" decoding="async"
                 alt="Sala polivalente luminosa con mesas modulares y material creativo">
             </figure>
             <h3>Bloquea tu fecha en minutos</h3>
@@ -77,7 +132,7 @@
           </article>
           <article class="card">
             <figure class="mb-sm">
-              <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy"
+            <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy" decoding="async"
                 alt="Salón acogedor con sofás, mesas decoradas y luces cálidas para eventos">
             </figure>
             <h3>Te ayudamos con la logística</h3>
@@ -286,8 +341,8 @@
       <p>© 2025 El Santuario. Todos los derechos reservados.</p>
     </div>
   </footer>
-  <!-- Cache bust para forzar a cargar la versión más reciente del JS -->
-  <script src="assets/js/main.js?v=4"></script>
+  <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script defer src="assets/js/main.js?v=5"></script>
 </body>
 
 </html>
