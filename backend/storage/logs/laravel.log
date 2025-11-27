@@ -5192,3 +5192,93 @@ Did you mean one of these?
 #37 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
 #38 {main}
 "} 
+[2025-11-27 03:38:48] testing.ERROR: could not find driver (Connection: pgsql, SQL: select exists (select 1 from pg_class c, pg_namespace n where n.nspname = 'public' and c.relname = 'migrations' and c.relkind in ('r', 'p') and n.oid = c.relnamespace)) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 0): could not find driver (Connection: pgsql, SQL: select exists (select 1 from pg_class c, pg_namespace n where n.nspname = 'public' and c.relname = 'migrations' and c.relkind in ('r', 'p') and n.oid = c.relnamespace)) at /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php:825)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback()
+#1 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate\\Database\\Connection->run()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(344): Illuminate\\Database\\Connection->select()
+#3 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(361): Illuminate\\Database\\Connection->selectOne()
+#4 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Schema/PostgresBuilder.php(52): Illuminate\\Database\\Connection->scalar()
+#5 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Migrations/DatabaseMigrationRepository.php(184): Illuminate\\Database\\Schema\\PostgresBuilder->hasTable()
+#6 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(742): Illuminate\\Database\\Migrations\\DatabaseMigrationRepository->repositoryExists()
+#7 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(165): Illuminate\\Database\\Migrations\\Migrator->repositoryExists()
+#8 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(338): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#9 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(165): retry()
+#10 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(141): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->repositoryExists()
+#11 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(111): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->prepareDatabase()
+#12 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(658): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#13 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(110): Illuminate\\Database\\Migrations\\Migrator->usingConnection()
+#14 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(89): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->runMigrations()
+#15 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#16 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#17 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure()
+#18 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#19 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate\\Container\\BoundMethod::call()
+#20 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call()
+#21 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute()
+#22 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#23 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(1055): Illuminate\\Console\\Command->run()
+#24 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(356): Symfony\\Component\\Console\\Application->doRunCommand()
+#25 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#26 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#27 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#28 {main}
+
+[previous exception] [object] (PDOException(code: 0): could not find driver at /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php:66)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(66): PDO->__construct()
+#1 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/Connector.php(44): Illuminate\\Database\\Connectors\\Connector->createPdoConnection()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/PostgresConnector.php(35): Illuminate\\Database\\Connectors\\Connector->createConnection()
+#3 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connectors/ConnectionFactory.php(185): Illuminate\\Database\\Connectors\\PostgresConnector->connect()
+#4 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#5 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1231): call_user_func()
+#6 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(1267): Illuminate\\Database\\Connection->getPdo()
+#7 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(512): Illuminate\\Database\\Connection->getReadPdo()
+#8 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(407): Illuminate\\Database\\Connection->getPdoForSelect()
+#9 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(812): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}()
+#10 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(779): Illuminate\\Database\\Connection->runQueryCallback()
+#11 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(398): Illuminate\\Database\\Connection->run()
+#12 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(344): Illuminate\\Database\\Connection->select()
+#13 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Connection.php(361): Illuminate\\Database\\Connection->selectOne()
+#14 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Schema/PostgresBuilder.php(52): Illuminate\\Database\\Connection->scalar()
+#15 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Migrations/DatabaseMigrationRepository.php(184): Illuminate\\Database\\Schema\\PostgresBuilder->hasTable()
+#16 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(742): Illuminate\\Database\\Migrations\\DatabaseMigrationRepository->repositoryExists()
+#17 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(165): Illuminate\\Database\\Migrations\\Migrator->repositoryExists()
+#18 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Support/helpers.php(338): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#19 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(165): retry()
+#20 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(141): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->repositoryExists()
+#21 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(111): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->prepareDatabase()
+#22 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Migrations/Migrator.php(658): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#23 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(110): Illuminate\\Database\\Migrations\\Migrator->usingConnection()
+#24 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Database/Console/Migrations/MigrateCommand.php(89): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->runMigrations()
+#25 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\MigrateCommand->handle()
+#26 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Util.php(43): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#27 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(95): Illuminate\\Container\\Util::unwrapIfClosure()
+#28 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#29 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Container/Container.php(696): Illuminate\\Container\\BoundMethod::call()
+#30 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(213): Illuminate\\Container\\Container->call()
+#31 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Command/Command.php(318): Illuminate\\Console\\Command->execute()
+#32 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Console/Command.php(182): Symfony\\Component\\Console\\Command\\Command->run()
+#33 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(1055): Illuminate\\Console\\Command->run()
+#34 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(356): Symfony\\Component\\Console\\Application->doRunCommand()
+#35 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#36 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#37 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#38 {main}
+"} 
+[2025-11-27 03:38:48] production.ERROR: Command "test" is not defined.
+
+Did you mean one of these?
+    make:test
+    schedule:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"test\" is not defined.
+
+Did you mean one of these?
+    make:test
+    schedule:test at /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php:740)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(298): Symfony\\Component\\Console\\Application->find()
+#1 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#3 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 {main}
+"} 
