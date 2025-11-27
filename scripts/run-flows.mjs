@@ -30,7 +30,8 @@ const flow = await startFlow(page, {
 console.log(`Running Flow for ${target}`);
 await flow.navigate(target);
 await flow.startTimespan();
-await page.waitForTimeout(4000);
+// puppeteer v24 dropped page.waitForTimeout; use a simple delay instead
+await new Promise((resolve) => setTimeout(resolve, 4000));
 await flow.endTimespan();
 await flow.snapshot();
 
