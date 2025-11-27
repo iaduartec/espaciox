@@ -1,5 +1,9 @@
 <?php
 
+/* Proyecto El Santuario
+   Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -27,8 +31,10 @@ class SecurityHeaders
         $response->headers->set('Content-Security-Policy', "frame-ancestors 'self'", false);
         if ($request->is('api/*')) {
             $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0', false);
-        } else {
+        } elseif ($request->is('assets/*')) {
             $response->headers->set('Cache-Control', 'public, max-age=31536000, immutable', false);
+        } else {
+            $response->headers->set('Cache-Control', 'no-cache, no-store, max-age=0', false);
         }
 
         return $response;
