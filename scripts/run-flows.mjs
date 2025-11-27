@@ -14,12 +14,12 @@ const require = createRequire(import.meta.url);
 const { startFlow } = require('lighthouse');
 
 const browser = await puppeteer.launch({
+  headless: 'new',
+  defaultViewport: { width: 1280, height: 720 },
   args: [
     '--no-sandbox',
     '--disable-setuid-sandbox',
     '--disable-dev-shm-usage',
-    '--disable-gpu',
-    '--single-process',
   ],
 });
 const page = await browser.newPage();
