@@ -42,6 +42,12 @@ El `.env` ya apunta a `DB_CONNECTION=sqlite` en `database/database.sqlite`.
 | PATCH | /api/admin/bookings/{booking}/cancel | Cancelar reserva |
 | POST | /api/admin/blocks | Crear bloqueos de espacio |
 
+### Respuestas y seguridad
+
+- Middleware `ForceJsonResponse` fuerza `Accept: application/json` en `/api/*` para evitar redirecciones HTML y devolver siempre JSON.
+- Headers de seguridad: `X-Content-Type-Options: nosniff`, `Content-Security-Policy: frame-ancestors 'self'`.
+- Cache-Control: `no-cache, no-store, max-age=0` en `/api/*`; `public, max-age=31536000, immutable` en estáticos.
+
 ## Recursos JSON
 
 - `SpaceResource`, `BookingResource`, `CalendarDayResource`, `AvailabilitySlotResource`
