@@ -45,9 +45,13 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 # Instala dependencias PHP aprovechando la cache.
-# Usa un secreto opcional GITHUB_TOKEN durante el build (BuildKit: --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN).
+# Usa un secreto opcional GITHUB_TOKEN durante el build (BuildKit: --secret id=GITHUB_TOKEN).
 COPY backend/composer.json backend/composer.lock ./
-RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+    GITHUB_TOKEN_FILE=/run/secrets/GITHUB_TOKEN && \
+    if [ -f "${GITHUB_TOKEN_FILE}" ]; then \
+      GITHUB_TOKEN=$(cat "${GITHUB_TOKEN_FILE}"); \
+    fi && \
     if [ -n "${GITHUB_TOKEN:-}" ]; then \
       composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
     fi && \
@@ -55,7 +59,12 @@ RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
 
 # Copia el código de la app
 COPY backend ./
-RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+RUN --mount=type=secret,id=GITHUB_TOKEN \
+    GITHUB_TOKEN_FILE=/run/secrets/GITHUB_TOKEN && \
+    if [ -f "${GITHUB_TOKEN_FILE}" ]; then \
+      GITHUB_TOKEN=$(cat "${GITHUB_TOKEN_FILE}"); \
+      composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
+    fi && \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el front compilado al public de Laravel
