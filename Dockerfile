@@ -1,14 +1,13 @@
 # syntax=docker/dockerfile:1.7
 
 # Stage 1 - Build frontend (Vite/static)
-FROM node:20.12.2-bookworm-slim AS frontend
+FROM node:20-bookworm-slim AS frontend
 RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Si existiera un proyecto Vite, instala dependencias; para el front estático actual basta con copiar los assets.
 COPY package*.json ./
-# Usa npm install si el lock está desincronizado (npm ci fallaría)
-RUN if [ -f package-lock.json ]; then npm ci || npm install --omit=dev; elif [ -f package.json ]; then npm install --omit=dev; fi
+RUN if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi
 
 # Copia el front estático actual (HTML + assets). Si añades Vite, ajusta el comando de build.
 COPY assets ./assets
@@ -26,7 +25,7 @@ FROM php:8.2-apache-bookworm AS backend
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git curl unzip pkg-config \
     libzip-dev libonig-dev libxml2-dev libpq-dev libsqlite3-dev \
-    && docker-php-ext-install pdo pdo_mysql pdo_sqlite pdo_pgsql mbstring zip \
+    && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring zip \
     && rm -rf /var/lib/apt/lists/*
 
 # Configuración de Apache para servir Laravel desde /public y permitir .htaccess
@@ -34,9 +33,7 @@ ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
 RUN a2enmod rewrite && \
     sed -ri "s#/var/www/html#${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/000-default.conf && \
     printf "<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All\n</Directory>\n" > /etc/apache2/conf-available/laravel.conf && \
-    a2enconf laravel && \
-    echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf && \
-    a2enconf servername
+    a2enconf laravel
 
 # Composer y opciones para descargas más estables
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
@@ -50,30 +47,27 @@ WORKDIR /var/www/html
 # Instala dependencias PHP aprovechando la cache.
 # Usa un secreto opcional GITHUB_TOKEN durante el build (BuildKit: --secret id=GITHUB_TOKEN,env=GITHUB_TOKEN).
 COPY backend/composer.json backend/composer.lock ./
-RUN --mount=type=secret,id=GITHUB_TOKEN \
-    if [ -f /run/secrets/GITHUB_TOKEN ] && [ -s /run/secrets/GITHUB_TOKEN ]; then \
-      export GITHUB_TOKEN="$(cat /run/secrets/GITHUB_TOKEN)"; \
+RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
+    if [ -n "${GITHUB_TOKEN:-}" ]; then \
       composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
     fi && \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el código de la app
 COPY backend ./
-RUN --mount=type=secret,id=GITHUB_TOKEN \
+RUN --mount=type=secret,id=GITHUB_TOKEN,env=GITHUB_TOKEN \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
 
-# Limpia caches de artisan (no requiere APP_KEY). Omitimos view:clear porque no hay vistas blade.
-RUN php artisan config:clear && php artisan route:clear
+# Opcional: limpia caches de artisan (no requiere APP_KEY)
+RUN php artisan config:clear && \
+    php artisan route:clear && \
+    if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi
 
-# Permisos para logs y cachés (aseguramos storage/* para que Laravel pueda escribir)
-RUN mkdir -p storage/logs \
-    storage/framework/cache/data \
-    storage/framework/sessions \
-    storage/framework/views \
-    bootstrap/cache && \
+# Permisos para logs y cachés (aseguramos storage/logs para que Laravel pueda escribir)
+RUN mkdir -p storage/logs bootstrap/cache && \
     chown -R www-data:www-data storage bootstrap/cache
 
 COPY backend/bin/apache-render-entrypoint.sh /usr/local/bin/apache-render-entrypoint.sh
