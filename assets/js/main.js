@@ -491,6 +491,9 @@ class App {
   }
 
   initCalendarNav() {
+    const calendarEl = document.querySelector('#calendario-disponibilidad');
+    if (!calendarEl) return;
+
     const label = document.querySelector('#mes-actual');
     const prev = document.querySelector('#mes-anterior');
     const next = document.querySelector('#mes-siguiente');
@@ -518,10 +521,10 @@ class App {
         load();
       });
       updateLabel();
+      load();
     } else {
       this.loadCalendar(new Date().toISOString().slice(0, 7));
     }
-    load();
   }
 
   initAOS() {
