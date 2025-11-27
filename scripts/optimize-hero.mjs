@@ -2,23 +2,24 @@ import sharp from 'sharp';
 import { existsSync } from 'fs';
 
 const sourcePng = 'assets/img/zonas-polivalentes.png';
-const targetWebp = 'assets/img/zonas-polivalentes-hero.webp';
-const targetAvif = 'assets/img/zonas-polivalentes-hero.avif';
+const widths = [600, 900, 1200];
+const targetImages = [];
 
 if (!existsSync(sourcePng)) {
   console.error('Source image not found:', sourcePng);
   process.exit(1);
 }
 
-await Promise.all([
-  sharp(sourcePng)
-    .resize({ width: 1200 })
-    .webp({ quality: 80 })
-    .toFile(targetWebp),
-  sharp(sourcePng)
-    .resize({ width: 1200 })
-    .avif({ quality: 70 })
-    .toFile(targetAvif),
-]);
+await Promise.all(
+  widths.flatMap((width) => {
+    const webp = `assets/img/zonas-polivalentes-hero-${width}w.webp`;
+    const avif = `assets/img/zonas-polivalentes-hero-${width}w.avif`;
+    targetImages.push({ width, webp, avif });
+    return [
+      sharp(sourcePng).resize({ width }).webp({ quality: 80 }).toFile(webp),
+      sharp(sourcePng).resize({ width }).avif({ quality: 70 }).toFile(avif),
+    ];
+  })
+);
 
-console.log('Hero image optimized:', targetWebp, targetAvif);
+console.log('Hero image optimized:', targetImages);
