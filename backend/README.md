@@ -83,4 +83,5 @@ docker run --rm -p 8080:8080 -e PORT=8080 -e APP_KEY=base64:... -e DB_HOST=... e
 El stage `frontend` copia `public` y assets; el final instala dependencias PHP, sirve `backend/public` con Apache y ejecuta limpiezas de cache (`config:cache`, `route:cache`).
 
 ## Documentación operativa
+
 - Guía de arranque, entornos y checklist de despliegue en `OPERATIONS.md`.
