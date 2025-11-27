@@ -1,0 +1,5 @@
+backend/
+node_modules/
+Dockerfile
+scripts/
+pnpm-lock.yaml
