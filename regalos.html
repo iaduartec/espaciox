@@ -1,17 +1,72 @@
 <!DOCTYPE html>
+<!-- Proyecto El Santuario
+     Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España) -->
 <html lang="es">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <script defer src="https://vercel.com/analytics/script.js"></script>
-  <noscript><img src="https://vercel.com/analytics/script.js" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
-  <title>Regalos | El Santuario</title>
+  <meta name="description" content="Regalos y kits personalizados para invitados en El Santuario: libros de firmas, detalles personalizados y packs de recuerdo.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#1a2633">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El Santuario">
+  <meta property="og:title" content="Regalos | El Santuario">
+  <meta property="og:description" content="Detalles pensados para tus invitados: libros de firmas, kits baby shower y recuerdos corporativos para eventos en Burgos.">
+  <meta property="og:url" content="https://elsantuario.com/regalos.html">
+  <meta property="og:image" content="https://elsantuario.com/assets/img/salon-celebraciones.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regalos | El Santuario">
+  <meta name="twitter:description" content="Suma un detalle inolvidable a tus celebraciones con los regalos exclusivos del salón privado El Santuario.">
+  <meta name="twitter:image" content="https://elsantuario.com/assets/img/salon-celebraciones.webp">
+  <meta name="twitter:site" content="@elsantuario">
+  <link rel="canonical" href="https://elsantuario.com/regalos.html">
   <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
+  <link rel="preload" href="assets/css/styles.css?v=3" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="assets/css/styles.css?v=3"></noscript>
+  <link rel="preload" href="assets/img/salon-celebraciones.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="assets/js/main.min.js?v=5" as="script">
+  <script>
+    window.ESPACIOX_API_BASE = window.ESPACIOX_API_BASE || 'https://espaciox.onrender.com/api';
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "El Santuario",
+      "description": "Regalos y kits personalizados para eventos ejecutivos o familiares en Burgos.",
+      "url": "https://elsantuario.com/regalos.html",
+      "telephone": "+34612345678",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "C/ Río Arlanzón, 12",
+        "postalCode": "09005",
+        "addressLocality": "Burgos",
+        "addressCountry": "ES"
+      },
+      "image": "https://elsantuario.com/assets/img/salon-celebraciones.webp",
+      "openingHours": [
+        "Mo-Th 09:00-22:00",
+        "Fr 09:00-23:00",
+        "Sa 10:00-23:00",
+        "Su 10:00-20:00"
+      ]
+    }
+  </script>
+  <script defer src="https://vercel.com/analytics/script.js"></script>
+  <noscript><img src="https://vercel.com/analytics/script.js" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
 </head>
 
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <header>
     <div class="container navbar">
       <a class="logo" href="index.html">
@@ -29,9 +84,9 @@
         </ul>
       </nav>
       <button class="hamburger" type="button" aria-label="Abrir menú"
-        aria-expanded="false"><span></span><span></span><span></span></button>
+        aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
     </div>
-    <div class="container mobile-nav" aria-label="Menú móvil">
+    <div class="container mobile-nav" id="mobile-menu" aria-label="Menú móvil">
       <a href="index.html">Inicio</a>
       <a href="reservas.html">Reservas</a>
       <a href="tarifas.html">Tarifas</a>
@@ -41,7 +96,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero-simple">
       <div class="container">
         <h1>Regalos</h1>
@@ -140,7 +195,8 @@
       <p>© 2025 El Santuario. Todos los derechos reservados.</p>
     </div>
   </footer>
-  <script src="assets/js/main.js"></script>
+  <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script defer src="assets/js/main.min.js?v=5"></script>
 </body>
 
 </html>
