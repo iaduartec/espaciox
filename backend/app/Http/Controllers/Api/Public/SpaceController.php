@@ -1,5 +1,9 @@
 <?php
 
+/* Proyecto El Santuario
+   Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Controllers\Controller;
@@ -12,6 +16,7 @@ use App\Models\Space;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SpaceController extends Controller
 {
@@ -37,16 +42,24 @@ class SpaceController extends Controller
         $blocks = collect();
         if ($space instanceof Space) {
             try {
-                $bookings = $space->bookings()
-                    ->where('status', '!=', 'cancelled')
-                    ->where('start_at', '<', $end->copy()->endOfDay())
-                    ->where('end_at', '>', $start->copy()->startOfDay())
-                    ->get();
+                [$bookings, $blocks] = Cache::remember(
+                    sprintf('spaces:%s:calendar:%s', $space->id, $month),
+                    now()->addMinutes(1),
+                    function () use ($space, $start, $end) {
+                        $bookings = $space->bookings()
+                            ->where('status', '!=', 'cancelled')
+                            ->where('start_at', '<', $end->copy()->endOfDay())
+                            ->where('end_at', '>', $start->copy()->startOfDay())
+                            ->get();
 
-                $blocks = $space->bookingBlocks()
-                    ->where('start_at', '<', $end->copy()->endOfDay())
-                    ->where('end_at', '>', $start->copy()->startOfDay())
-                    ->get();
+                        $blocks = $space->bookingBlocks()
+                            ->where('start_at', '<', $end->copy()->endOfDay())
+                            ->where('end_at', '>', $start->copy()->startOfDay())
+                            ->get();
+
+                        return [$bookings, $blocks];
+                    }
+                );
             } catch (\Throwable $e) {
                 $bookings = collect();
                 $blocks = collect();
@@ -103,16 +116,24 @@ class SpaceController extends Controller
         $blocks = collect();
         if ($space instanceof Space) {
             try {
-                $bookings = $space->bookings()
-                    ->where('status', '!=', 'cancelled')
-                    ->where('start_at', '<', $periodEnd)
-                    ->where('end_at', '>', $periodStart)
-                    ->get();
+                [$bookings, $blocks] = Cache::remember(
+                    sprintf('spaces:%s:availability:%s', $space->id, $date),
+                    now()->addMinutes(1),
+                    function () use ($space, $periodStart, $periodEnd) {
+                        $bookings = $space->bookings()
+                            ->where('status', '!=', 'cancelled')
+                            ->where('start_at', '<', $periodEnd)
+                            ->where('end_at', '>', $periodStart)
+                            ->get();
 
-                $blocks = $space->bookingBlocks()
-                    ->where('start_at', '<', $periodEnd)
-                    ->where('end_at', '>', $periodStart)
-                    ->get();
+                        $blocks = $space->bookingBlocks()
+                            ->where('start_at', '<', $periodEnd)
+                            ->where('end_at', '>', $periodStart)
+                            ->get();
+
+                        return [$bookings, $blocks];
+                    }
+                );
             } catch (\Throwable $e) {
                 $bookings = collect();
                 $blocks = collect();
