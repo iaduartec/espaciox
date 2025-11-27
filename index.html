@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
   <link rel="preload" href="assets/css/styles.min.css?v=3" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="assets/css/styles.min.css?v=3"></noscript>
-  <link rel="preload" href="assets/img/zonas-polivalentes.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="assets/img/zonas-polivalentes-hero.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="assets/js/main.min.js?v=5" as="script">
   <script>
     window.ESPACIOX_API_BASE = window.ESPACIOX_API_BASE || 'https://espaciox.onrender.com/api';
@@ -117,12 +117,14 @@
           </div>
           <div class="hero-visual" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
             <picture class="hero-visual__media">
-              <source srcset="assets/img/zonas-polivalentes.avif" type="image/avif">
-              <source srcset="assets/img/zonas-polivalentes.webp" type="image/webp">
+              <source srcset="assets/img/zonas-polivalentes-hero.avif" type="image/avif">
+              <source srcset="assets/img/zonas-polivalentes-hero.webp" type="image/webp">
               <img
-                src="assets/img/zonas-polivalentes.png"
+                src="assets/img/zonas-polivalentes-hero.webp"
+                srcset="assets/img/zonas-polivalentes-hero.webp 1200w"
+                sizes="(max-width: 900px) 100vw, 900px"
                 alt="Salón cálido preparado para una celebración privada en Burgos"
-                width="1400"
+                width="1200"
                 height="900"
                 loading="eager"
                 decoding="async"
