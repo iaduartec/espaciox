@@ -1,3 +1,7 @@
+/* Proyecto El Santuario
+   Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 /**
  * API Helper class to manage network requests
  */
@@ -15,6 +19,9 @@ class ApiService {
     let resp;
     try {
       resp = await fetch(this.buildUrl(path), {
+        credentials: 'include',
+        cache: 'no-store',
+        mode: 'cors',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -27,19 +34,18 @@ class ApiService {
       throw new Error('No se pudo conectar con el servidor. Comprueba tu conexión e inténtalo de nuevo.');
     }
 
-    const raw = await resp.text();
     let data = null;
     try {
-      data = raw ? JSON.parse(raw) : null;
-    } catch {
-      data = null;
+      data = await resp.json();
+    } catch (error) {
+      console.warn('Respuesta JSON inválida', error);
     }
 
     if (!resp.ok) {
       throw new Error(data?.message || 'Error de servidor');
     }
 
-    if (data === null) {
+    if (!data) {
       throw new Error('Respuesta no válida del servidor');
     }
 
@@ -53,33 +59,32 @@ class ApiService {
 class AuthManager {
   constructor(apiService) {
     this.api = apiService;
-    this.tokenKey = 'espaciox_token';
-  }
-
-  setToken(token) {
-    localStorage.setItem(this.tokenKey, token);
-  }
-
-  getToken() {
-    return localStorage.getItem(this.tokenKey);
+    this.sessionReady = false;
   }
 
   async ensureAuthenticated(payload) {
-    const token = this.getToken();
-    if (token) return token;
+    if (this.sessionReady) {
+      return true;
+    }
 
     try {
-      // Try login first
-      const login = await this.api.fetch('/login', {
+      await this.api.fetch('/me');
+      this.sessionReady = true;
+      return true;
+    } catch {
+      // Fall through to login/register
+    }
+
+    try {
+      await this.api.fetch('/login', {
         method: 'POST',
         body: JSON.stringify({ email: payload.email, password: payload.password }),
       });
-      this.setToken(login.token);
-      return login.token;
-    } catch (e) {
-      // If login fails, try registration
+      this.sessionReady = true;
+      return true;
+    } catch (loginErr) {
       try {
-        const register = await this.api.fetch('/register', {
+        await this.api.fetch('/register', {
           method: 'POST',
           body: JSON.stringify({
             name: payload.name,
@@ -89,8 +94,8 @@ class AuthManager {
             password_confirmation: payload.password,
           }),
         });
-        this.setToken(register.token);
-        return register.token;
+        this.sessionReady = true;
+        return true;
       } catch (regErr) {
         const msg = (regErr?.message || '').toLowerCase();
         if (msg.includes('email') && msg.includes('taken')) {
@@ -99,6 +104,10 @@ class AuthManager {
         throw regErr;
       }
     }
+  }
+
+  markAuthenticated() {
+    this.sessionReady = true;
   }
 }
 
@@ -339,14 +348,12 @@ class App {
     try {
       await this.loadSpaces();
 
-      const token = await this.auth.ensureAuthenticated({
+      await this.auth.ensureAuthenticated({
         name: data.nombre,
         email: data.email,
         phone: data.telefono,
         password: data.password,
       });
-
-      if (!token) throw new Error('No se pudo autenticar al usuario.');
 
       const payload = {
         space_id: this.spaceId,
@@ -363,7 +370,6 @@ class App {
 
       await this.api.fetch('/bookings', {
         method: 'POST',
-        headers: { 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(payload),
       });
 
@@ -442,7 +448,7 @@ class App {
           password_confirmation: payload.confirm,
         }),
       });
-      this.auth.setToken(res.token);
+      this.auth.markAuthenticated();
       this.showAlert(form, 'Cuenta creada y sesión iniciada.', 'success');
       form.reset();
     } catch (e) {
@@ -468,7 +474,7 @@ class App {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       });
-      this.auth.setToken(res.token);
+      this.auth.markAuthenticated();
       this.showAlert(form, 'Sesión iniciada correctamente.', 'success');
       form.reset();
     } catch (e) {
