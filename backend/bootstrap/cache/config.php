@@ -595,6 +595,7 @@
     ),
     'allowed_origins_patterns' => 
     array (
+      0 => '#^https://espaciox-[^.]+\\.vercel\\.app$#',
     ),
     'allowed_headers' => 
     array (
