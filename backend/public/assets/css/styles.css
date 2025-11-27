@@ -36,6 +36,22 @@ body {
   touch-action: manipulation;
 }
 
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  background: #fff;
+  color: var(--color-primary);
+  padding: 10px 14px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-soft);
+  z-index: 9999;
+}
+
+.skip-link:focus-visible {
+  left: 16px;
+}
+
 /* Glassmorphism Utility */
 .glass {
   background: rgba(255, 255, 255, 0.65);
@@ -152,6 +168,29 @@ textarea {
 .btn:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
+}
+
+.btn.is-loading {
+  opacity: 0.75;
+  cursor: progress;
+}
+
+.btn.is-loading::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-top-color: #fff;
+  position: absolute;
+  right: 14px;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .card {
@@ -280,6 +319,10 @@ nav a.active {
   background: #fff;
   box-shadow: var(--shadow-soft);
   border: 1px solid rgba(31, 47, 61, 0.06);
+}
+
+body.nav-open {
+  overflow: hidden;
 }
 
 /* Hero */
@@ -1198,6 +1241,18 @@ figcaption {
 
   .table-wrapper {
     padding: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 
