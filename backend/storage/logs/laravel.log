@@ -5377,3 +5377,19 @@ Did you mean one of these?
 #3 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
 #4 {main}
 "} 
+[2025-11-27 03:54:43] production.ERROR: Command "test" is not defined.
+
+Did you mean one of these?
+    make:test
+    schedule:test {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"test\" is not defined.
+
+Did you mean one of these?
+    make:test
+    schedule:test at /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php:740)
+[stacktrace]
+#0 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(298): Symfony\\Component\\Console\\Application->find()
+#1 /home/kiri_/code/espaciox/backend/vendor/symfony/console/Application.php(195): Symfony\\Component\\Console\\Application->doRun()
+#2 /home/kiri_/code/espaciox/backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(198): Symfony\\Component\\Console\\Application->run()
+#3 /home/kiri_/code/espaciox/backend/artisan(12): Illuminate\\Foundation\\Console\\Kernel->handle()
+#4 {main}
+"} 
