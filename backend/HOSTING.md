@@ -22,8 +22,6 @@ La landing estática vive en la raíz del repositorio y puede servirse en cualqu
 - **Variables de entorno:** copia `.env` desde `.env.example`, define `APP_KEY`, `APP_URL`, credenciales de DB y `SANCTUM_STATEFUL_DOMAINS` con el dominio del front.
 - **Jobs y caché:** drivers por defecto son `file` y `sync`, por lo que no se necesita Redis/cola dedicada, pero puedes habilitarlos si tu hosting los ofrece.
 
-<<<<<<< HEAD
-
 ## Opciones gratuitas recomendadas
 
 Las opciones gratuitas suelen tener límites estrictos de CPU, memoria, tiempo de ejecución o certificados. Úsalas para pruebas o demos, no para producción.
@@ -47,8 +45,6 @@ En todas las opciones gratuitas para la API:
 - Usa SQLite para reducir dependencias si el proveedor no ofrece MySQL/PostgreSQL.
 - Configura el `.env` sin claves sensibles; asume que los logs pueden ser públicos.
 
->>>>>>> 6f69a3e (Update .env.example)
->>>>>>>
 ## Despliegue mínimo
 
 1. Instala dependencias en el servidor: `cd backend && composer install --optimize-autoloader --no-dev`.

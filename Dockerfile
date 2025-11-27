@@ -29,11 +29,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Configuración de Apache para servir Laravel desde /public y permitir .htaccess
-ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
+    APACHE_SERVER_NAME=localhost
 RUN a2enmod rewrite && \
     sed -ri "s#/var/www/html#${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/000-default.conf && \
     printf "<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All\n</Directory>\n" > /etc/apache2/conf-available/laravel.conf && \
-    a2enconf laravel
+    printf "ServerName ${APACHE_SERVER_NAME}\n" > /etc/apache2/conf-available/servername.conf && \
+    a2enconf laravel servername
 
 # Composer y opciones para descargas más estables
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
@@ -71,8 +73,9 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 COPY --from=frontend /app/public/dist ./public/dist
 
 # Prepara directorios requeridos y limpia caches de artisan (no requiere APP_KEY)
-RUN mkdir -p storage/logs bootstrap/cache && \
-    chown -R www-data:www-data storage bootstrap/cache && \
+RUN mkdir -p storage/logs bootstrap/cache database && \
+    touch database/database.sqlite && \
+    chown -R www-data:www-data storage bootstrap/cache database && \
     php artisan config:clear && \
     php artisan route:clear && \
     if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi

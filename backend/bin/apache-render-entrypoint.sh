@@ -2,6 +2,7 @@
 set -euo pipefail
 
 PORT="${PORT:-80}"
+SERVER_NAME="${SERVER_NAME:-${APACHE_SERVER_NAME:-localhost}}"
 cd /var/www/html
 
 # Ensure we have an APP_KEY in the environment and in .env so Laravel boots.
@@ -31,5 +32,26 @@ fi
 # Ajusta Apache para escuchar en el puerto que Render inyecta.
 sed -i "s/Listen 80/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -i "s/:80>/:${PORT}>/" /etc/apache2/sites-available/000-default.conf
+echo "ServerName ${SERVER_NAME}" > /etc/apache2/conf-available/servername.conf
+a2enconf servername >/dev/null
+
+# Prepara permisos de escritura para SQLite si es la conexión activa.
+DB_CONNECTION_ENV="${DB_CONNECTION:-}"
+if [ -z "${DB_CONNECTION_ENV}" ] && [ -f .env ]; then
+  DB_CONNECTION_ENV=$(grep '^DB_CONNECTION=' .env | cut -d= -f2-)
+fi
+
+if [ "${DB_CONNECTION_ENV}" = "sqlite" ]; then
+  DB_DATABASE_ENV="${DB_DATABASE:-}"
+  if [ -z "${DB_DATABASE_ENV}" ] && [ -f .env ]; then
+    DB_DATABASE_ENV=$(grep '^DB_DATABASE=' .env | cut -d= -f2-)
+  fi
+
+  DB_DATABASE_ENV="${DB_DATABASE_ENV:-database/database.sqlite}"
+  DB_DIR=$(dirname "${DB_DATABASE_ENV}")
+  mkdir -p "${DB_DIR}"
+  touch "${DB_DATABASE_ENV}"
+  chown -R www-data:www-data storage bootstrap/cache "${DB_DIR}"
+fi
 
 exec apache2-foreground
