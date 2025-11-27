@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./load-env.js";
 import OpenAI from "openai";
 import sharp from "sharp";
 import * as fs from "node:fs";

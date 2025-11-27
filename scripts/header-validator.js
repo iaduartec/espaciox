@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import './load-env.js';
 
 /**
  * Simple header validator for static assets and pages.
