@@ -1,15 +1,70 @@
 <!DOCTYPE html>
+<!-- Proyecto El Santuario
+     Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España) -->
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Consulta las tarifas 2025 de El Santuario: bloques de alquiler por horas, packs de limpieza y precios transparentes con IVA incluido.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#1a2633">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El Santuario">
+  <meta property="og:title" content="Tarifas | El Santuario">
+  <meta property="og:description" content="Bloques de 2/4/5/10 horas, extras y servicios añadidos para tu evento privado en Burgos.">
+  <meta property="og:url" content="https://elsantuario.com/tarifas.html">
+  <meta property="og:image" content="https://elsantuario.com/assets/img/salon-celebraciones.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:locale" content="es_ES">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tarifas | El Santuario">
+  <meta name="twitter:description" content="Bloques horarios claros, servicios extra y packs para bodas, reuniones familiares o corporativas en El Santuario.">
+  <meta name="twitter:image" content="https://elsantuario.com/assets/img/salon-celebraciones.webp">
+  <meta name="twitter:site" content="@elsantuario">
+  <link rel="canonical" href="https://elsantuario.com/tarifas.html">
+  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" as="style">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" media="print" onload="this.media='all'">
+  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
+  <link rel="preload" href="assets/css/styles.css?v=3" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="assets/css/styles.css?v=3"></noscript>
+  <link rel="preload" href="assets/img/salon-celebraciones.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="assets/js/main.js?v=5" as="script">
+  <script>
+    window.ESPACIOX_API_BASE = window.ESPACIOX_API_BASE || 'https://espaciox.onrender.com/api';
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "El Santuario",
+      "description": "Salón privado en Burgos con tarifas transparentes de alquiler por horas y servicios extra.",
+      "url": "https://elsantuario.com/",
+      "telephone": "+34612345678",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "C/ Río Arlanzón, 12",
+        "postalCode": "09005",
+        "addressLocality": "Burgos",
+        "addressCountry": "ES"
+      },
+      "image": "https://elsantuario.com/assets/img/salon-celebraciones.webp",
+      "openingHours": [
+        "Mo-Th 09:00-22:00",
+        "Fr 09:00-23:00",
+        "Sa 10:00-23:00",
+        "Su 10:00-20:00"
+      ]
+    }
+  </script>
   <script defer src="https://vercel.com/analytics/script.js"></script>
   <noscript><img src="https://vercel.com/analytics/script.js" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
-  <title>Tarifas | El Santuario</title>
-  <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="assets/css/styles.css?v=2">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Saltar al contenido</a>
   <header>
     <div class="container navbar">
       <a class="logo" href="index.html">
@@ -26,9 +81,9 @@
           <li><a href="regalos.html">Regalos</a></li>
         </ul>
       </nav>
-      <button class="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+      <button class="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu"><span></span><span></span><span></span></button>
     </div>
-    <div class="container mobile-nav" aria-label="Menú móvil">
+    <div class="container mobile-nav" id="mobile-menu" aria-label="Menú móvil">
       <a href="index.html">Inicio</a>
       <a href="reservas.html">Reservas</a>
       <a class="active" href="tarifas.html">Tarifas</a>
@@ -38,7 +93,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero-simple">
       <div class="container">
         <h1>Tarifas 2025</h1>
@@ -70,7 +125,7 @@
         <div class="grid mb-30">
           <article class="card">
             <figure class="mb-14">
-              <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy" alt="Salón acogedor con sofás, mesas decoradas y luces cálidas para eventos">
+              <img src="assets/img/salon-celebraciones.webp" width="1400" height="900" loading="lazy" decoding="async" alt="Salón acogedor con sofás, mesas decoradas y luces cálidas para eventos">
             </figure>
             <h3>Packs listos para usar</h3>
             <p>Añade limpieza, montaje de mesas y decoración básica. Te dejamos todo listo para recibir a tus invitados sin prisas.</p>
@@ -82,7 +137,7 @@
           </article>
           <article class="card">
             <figure class="mb-14">
-              <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy" alt="Sala polivalente luminosa con mesas modulares y material creativo">
+              <img src="assets/img/zonas-polivalentes.webp" width="1400" height="900" loading="lazy" decoding="async" alt="Sala polivalente luminosa con mesas modulares y material creativo">
             </figure>
             <h3>Transparencia total</h3>
             <p>Todos los precios incluyen IVA y se confirman por escrito con tu reserva. Si necesitas ampliar horas te avisamos antes de aplicar la tarifa extra.</p>
@@ -157,6 +212,7 @@
       <p>© 2025 El Santuario. Todos los derechos reservados.</p>
     </div>
   </footer>
-  <script src="assets/js/main.js"></script>
+  <script defer src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script defer src="assets/js/main.js?v=5"></script>
 </body>
 </html>
