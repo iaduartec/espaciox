@@ -39,6 +39,7 @@ Frontend: abre `http://localhost:8001/reservas.html` (sirve `public/`). Si usas 
 - Parte de `.env.example` y no subas `.env` ni claves; fija `APP_KEY`, `APP_URL`, `SANCTUM_STATEFUL_DOMAINS` y el DSN de base de datos.
 - Tokens se sirven como cookie HttpOnly (`espaciox_token`) para evitar `localStorage`; activa HTTPS en prod (`SESSION_SECURE_COOKIE=true`) y revisa `SESSION_DOMAIN`/`SESSION_SAME_SITE`.
 - Sanctum configurado para solicitudes con credenciales: añade tus dominios a `SANCTUM_STATEFUL_DOMAINS` y revisa `config/cors.php` (`supports_credentials=true`).
+- Cabeceras endurecidas vía `SecurityHeaders` (HSTS, X-Frame-Options, CSP mínima). Ajusta la CSP si cambias orígenes de scripts/iframes.
 - Define la base de la API sin tocar assets: `window.ESPACIOX_API_BASE` o meta `espaciox-api-base`.
 - En producción fija `APP_DEBUG=false` y ejecuta `php artisan config:cache route:cache`.
 
