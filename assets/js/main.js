@@ -111,6 +111,7 @@ class App {
   init() {
     this.initMobileNav();
     this.initReservaForm();
+    this.initAuthForms();
     this.initBlogFilters();
     this.initCalendarNav();
     this.initAOS();
@@ -379,6 +380,90 @@ class App {
       fecha.addEventListener('change', (e) => {
         this.populateTimeSlots(e.target.value);
       });
+    }
+  }
+
+  initAuthForms() {
+    const registerForm = document.querySelector('#form-registro');
+    const loginForm = document.querySelector('#form-login');
+
+    if (registerForm) {
+      registerForm.addEventListener('submit', (e) => this.handleRegister(e));
+    }
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => this.handleLogin(e));
+    }
+  }
+
+  async handleRegister(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const payload = {
+      name: (formData.get('nombre_registro') || '').trim(),
+      email: (formData.get('email_registro') || '').trim(),
+      phone: (formData.get('telefono_registro') || '').trim(),
+      password: (formData.get('password_registro') || '').trim(),
+      confirm: (formData.get('password_registro_confirm') || '').trim(),
+    };
+
+    if (!payload.name || !payload.email || !payload.password || !payload.confirm) {
+      this.showAlert(form, 'Completa todos los campos obligatorios.');
+      return;
+    }
+    if (payload.password.length < 8) {
+      this.showAlert(form, 'La contraseña debe tener al menos 8 caracteres.');
+      return;
+    }
+    if (payload.password !== payload.confirm) {
+      this.showAlert(form, 'Las contraseñas no coinciden.');
+      return;
+    }
+
+    this.showAlert(form, 'Enviando registro...', 'success');
+    try {
+      const res = await this.api.fetch('/register', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: payload.name,
+          email: payload.email,
+          phone: payload.phone,
+          password: payload.password,
+          password_confirmation: payload.confirm,
+        }),
+      });
+      this.auth.setToken(res.token);
+      this.showAlert(form, 'Cuenta creada y sesión iniciada.', 'success');
+      form.reset();
+    } catch (e) {
+      this.showAlert(form, e.message || 'No se pudo crear la cuenta.');
+    }
+  }
+
+  async handleLogin(event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const email = (formData.get('email_login') || '').trim();
+    const password = (formData.get('password_login') || '').trim();
+
+    if (!email || !password) {
+      this.showAlert(form, 'Introduce email y contraseña.');
+      return;
+    }
+
+    this.showAlert(form, 'Iniciando sesión...', 'success');
+    try {
+      const res = await this.api.fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+      });
+      this.auth.setToken(res.token);
+      this.showAlert(form, 'Sesión iniciada correctamente.', 'success');
+      form.reset();
+    } catch (e) {
+      this.showAlert(form, e.message || 'No se pudo iniciar sesión.');
     }
   }
 
