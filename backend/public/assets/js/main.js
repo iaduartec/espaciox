@@ -45,15 +45,11 @@ class App {
   }
 
   async ensureAuthenticated(payload) {
-    const token = this.getToken();
-    if (token) return token;
-
     try {
       const login = await this.apiFetch('/login', {
         method: 'POST',
         body: JSON.stringify({ email: payload.email, password: payload.password }),
       });
-      this.setToken(login.token);
       return login.token;
     } catch (_) {
       const register = await this.apiFetch('/register', {
@@ -66,7 +62,6 @@ class App {
           password_confirmation: payload.password,
         }),
       });
-      this.setToken(register.token);
       return register.token;
     }
   }
@@ -245,7 +240,7 @@ class App {
     try {
       this.setSubmitting(form, true);
       if (!this.spaceId) await this.loadSpaces();
-      const token = await this.ensureAuthenticated({ name: nombre, email, phone: telefono, password });
+      await this.ensureAuthenticated({ name: nombre, email, phone: telefono, password });
 
       const payload = {
         space_id: this.spaceId,
@@ -259,9 +254,6 @@ class App {
 
       await this.apiFetch('/bookings', {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify(payload),
       });
 
@@ -269,7 +261,6 @@ class App {
       form.reset();
       this.availabilityCache.clear();
     } catch (e) {
-      if (e.message?.includes('token')) this.clearToken();
       this.showAlert(form, e.message || 'No se pudo enviar la reserva.');
     } finally {
       this.setSubmitting(form, false);
