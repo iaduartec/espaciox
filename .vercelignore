@@ -3,3 +3,4 @@ node_modules/
 Dockerfile
 scripts/
 pnpm-lock.yaml
+_config.yml
