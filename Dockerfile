@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1.7
 
 # Stage 1 - Build frontend (Vite/static)
-FROM node:20.12.2-bookworm-slim AS frontend
-RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+FROM node:20.12.2-alpine3.19 AS frontend
 WORKDIR /app
+RUN apk update && apk upgrade --no-cache
 
 # Si existiera un proyecto Vite, instala dependencias; para el front estático actual basta con copiar los assets.
 COPY package*.json ./
