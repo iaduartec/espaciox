@@ -96,3 +96,4 @@ Las migraciones crean un espacio inicial y reservas de ejemplo para validar el c
 
 - `npm run check:meta` revisa que cada HTML tenga `<title>`, `<link rel="canonical">` y `<meta name="robots">` antes de desplegar.  
 - Añádelo al pipeline (GitHub Actions, Vercel Hook, etc.) para bloquear un despliegue si falta alguno de esos tags y mantener la puntuación SEO alta.
+- El workflow `.github/workflows/meta-guard.yml` ya implementa esa comprobación sobre `main` (push + PR) y fallará el flujo si detecta algún HTML sin los metadatos obligatorios.
