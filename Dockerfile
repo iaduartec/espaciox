@@ -65,8 +65,8 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 # Copia el front compilado al public de Laravel
 COPY --from=frontend /app/public/dist ./public/dist
 
-# Asegura que bootstrap/cache existe antes de limpiar caches, así evita errores en builds restringidos.
-RUN mkdir -p bootstrap/cache
+# Asegura que bootstrap/cache existe y es escribible antes de limpiar caches, así evita errores en builds restringidos.
+RUN mkdir -p bootstrap/cache && chmod -R 775 bootstrap/cache
 
 # Limpia caches de artisan (no requiere APP_KEY). Omitimos view:clear porque no hay vistas blade.
 RUN php artisan config:clear && php artisan route:clear
