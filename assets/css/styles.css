@@ -1,4 +1,4 @@
-/* Proyecto El Santuario
+/*! Proyecto El Santuario
    Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
 */
 :root {
@@ -1305,39 +1305,34 @@ figcaption {
     margin-top: 12px
 }
 
-.ml-md {
-    margin-left: 18px
+ .ml-md {
+    margin-left: 18px;
 }
 
 .skip-link {
     position: absolute;
     top: 0;
     left: 0;
+    transform: translateY(-120%);
+    padding: 12px 20px;
+    background: #1a2633;
+    color: #fff;
+    font-weight: 700;
+    z-index: 1100;
+    border-radius: 0 0 12px 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    text-decoration: none;
+}
 
-    transform:translateY(-120.skip-link {
-            position:absolute; top:0; left:0; transform:translateY(-120%); padding:12px 20px; background:#1a2633; color:#fff; font-weight:700; z-index:1100; border-radius:0 0 12px 0; transition:transform .3s ease, box-shadow .3s ease; box-shadow:0 10px 30px rgba(0, 0, 0, 0.35); text-decoration:none
-        }
+.skip-link:focus-visible {
+    transform: translateY(0);
+}
 
-        .skip-link:focus-visible {
-            transform:translateY(0)
-        }
-
-        @media(prefers-reduced-motion:reduce) {
-            * {
-                animation-duration:0 !important; transition:none !important
-            }
-        }
-
-        .skip-link {
-            position:absolute; top:0; left:0; transform:translateY(-120%); padding:12px 20px; background:#1a2633; color:#fff; font-weight:700; z-index:1100; border-radius:0 0 12px 0; transition:transform .3s ease, box-shadow .3s ease; box-shadow:0 10px 30px rgba(0, 0, 0, 0.35); text-decoration:none
-        }
-
-        .skip-link:focus-visible {
-            transform:translateY(0)
-        }
-
-        @media (prefers-reduced-motion:reduce) {
-            *, *::before, *::after {
-                animation-duration:0 !important; transition-duration:0 !important; scroll-behavior:auto !important
-            }
-        }
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0 !important;
+        transition-duration: 0 !important;
+        scroll-behavior: auto !important;
+    }
+}
