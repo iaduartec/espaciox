@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prefix:css": "postcss assets/css/styles.css -o assets/css/styles.css",
+    "prefix:css": "postcss assets/css/styles.css -o assets/css/styles.css && csso assets/css/styles.css --output assets/css/styles.min.css --comments '/Proyecto El Santuario/'",
     "validate:headers": "node scripts/header-validator.js"
   },
   "keywords": [],
