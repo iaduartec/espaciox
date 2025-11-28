@@ -1,3 +1,75 @@
+name: Trivy Scan
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  trivy:
+    name: Run Trivy and upload report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Run Trivy filesystem scan
+        uses: aquasecurity/trivy-action@v1
+        with:
+          format: json
+          output: trivy-report.json
+          severity: CRITICAL,HIGH,MEDIUM
+
+      - name: Upload Trivy JSON report
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-report
+          path: trivy-report.json
+
+      - name: Comment PR with Trivy summary
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            if (!fs.existsSync('trivy-report.json')) return;
+            const data = JSON.parse(fs.readFileSync('trivy-report.json','utf8'));
+            const vulns = [];
+            (data.Results || []).forEach(r => {
+              if (r.Vulnerabilities) r.Vulnerabilities.forEach(v => {
+                if (['CRITICAL','HIGH','MEDIUM'].includes(v.Severity)) vulns.push(v);
+              });
+            });
+            const total = vulns.length;
+            const md = [
+              '**Trivy scan results**',
+              `Total findings (CRITICAL/HIGH/MEDIUM): **${total}**`,
+            ];
+            ['CRITICAL','HIGH','MEDIUM'].forEach(s => {
+              const c = vulns.filter(v => v.Severity === s).length;
+              if (c) md.push(`- **${s}**: ${c}`);
+            });
+            if (total > 0) {
+              md.push('');
+              md.push('Top findings:');
+              vulns.slice(0,10).forEach(v => {
+                md.push(`- **${v.Severity}** ${v.VulnerabilityID} — ${v.Title || v.Description || ''} (${v.InstalledVersion || '<none>'})`);
+              });
+            } else {
+              md.push('');
+              md.push('No findings.');
+            }
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.pull_request.number,
+              body: md.join('\n')
+            });
 name: Trivy Image Scan
 
 on:
