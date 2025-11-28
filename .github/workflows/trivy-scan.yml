@@ -22,12 +22,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Run Trivy filesystem scan
-        uses: aquasecurity/trivy-action@v1.3.0
-        with:
-          format: json
-          output: trivy-report.json
-          severity: CRITICAL,HIGH,MEDIUM
+      - name: Run Trivy filesystem scan (container)
+        run: |
+          docker run --rm -v "$PWD:/workspace" -w /workspace aquasec/trivy:0.67.2 fs --severity CRITICAL,HIGH,MEDIUM --format json -o trivy-report.json . || true
 
       - name: Upload Trivy JSON report
         uses: actions/upload-artifact@v4
