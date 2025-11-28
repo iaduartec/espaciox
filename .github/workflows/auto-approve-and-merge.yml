@@ -26,7 +26,7 @@ jobs:
 
       - name: Merge when labeled 'automerge'
         if: contains(github.event.pull_request.labels.*.name, 'automerge')
-        uses: peter-evans/merge-pull-request@v4
+        uses: peter-evans/merge-pull-request@v3
         with:
           merge-method: squash
           commit-title: 'chore: merge PR #${{ github.event.pull_request.number }}'
