@@ -3,7 +3,7 @@
         'name' => 'espaciox/backend',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'c7b0ed28c5a857c2000945f2f26c6e70c5c3dc3a',
+        'reference' => '02f7c207391fff943df5998d25a89f5570cfde9d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -76,7 +76,7 @@
         'espaciox/backend' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'c7b0ed28c5a857c2000945f2f26c6e70c5c3dc3a',
+            'reference' => '02f7c207391fff943df5998d25a89f5570cfde9d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
