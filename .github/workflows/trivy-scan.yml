@@ -75,3 +75,35 @@ jobs:
               body: md.join('\n')
             });
 
+  trivy-image:
+    name: Build image and run Trivy (container)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    needs: trivy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: false
+          load: true
+          tags: espaciox:${{ github.sha }}
+
+      - name: Run Trivy image scan and save JSON
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.67.2 image --severity CRITICAL,HIGH,MEDIUM --format json -o trivy-image-report.json espaciox:${{ github.sha }} || true
+
+      - name: Upload Trivy image report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-image-report-${{ github.sha }}
+          path: trivy-image-report.json
+
