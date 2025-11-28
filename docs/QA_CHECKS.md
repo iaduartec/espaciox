@@ -1,0 +1,4 @@
+- Lighthouse targets: 100/100/100/100
+- CLS: logo sized, images lazy, dimensions set
+- LCP: preload hero images
+- Security headers: present (front/back)
