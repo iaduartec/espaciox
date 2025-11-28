@@ -1,0 +1,12 @@
+extends: default
+
+rules:
+  truthy: disable
+  line-length:
+    max: 300
+    level: warning
+  empty-lines:
+    max: 2
+    level: warning
+  document-start:
+    level: warning
