@@ -2,7 +2,7 @@ extends: default
 
 rules:
   truthy:
-    level: disable
+    disable: true
   line-length:
     max: 200
     level: warning
