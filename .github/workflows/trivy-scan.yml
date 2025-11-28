@@ -1,5 +1,9 @@
 name: Trivy Scan
 
+permissions:
+  contents: read
+  issues: write
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -18,7 +22,7 @@ jobs:
         uses: docker/setup-buildx-action@v2
 
       - name: Run Trivy filesystem scan
-        uses: aquasecurity/trivy-action@v1
+        uses: aquasecurity/trivy-action@v1.3.0
         with:
           format: json
           output: trivy-report.json
