@@ -12,36 +12,36 @@ jobs:
       pull-requests: write
       actions: read
     steps:
-      - name: Auto-approve Dependabot
-        if: github.actor == 'dependabot[bot]'
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Auto-approve Dependabot
+      if: github.actor == 'dependabot[bot]'
+      uses: hmarr/auto-approve-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Auto-approve when labeled 'automerge'
-        if: contains(github.event.pull_request.labels.*.name, 'automerge')
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: Auto-approve when labeled 'automerge'
+      if: contains(github.event.pull_request.labels.*.name, 'automerge')
+      uses: hmarr/auto-approve-action@v2
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Merge when labeled 'automerge'
-        if: contains(github.event.pull_request.labels.*.name, 'automerge')
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const pr = context.payload.pull_request;
-            if (!pr) {
-              core.info('No pull_request found in context; skipping merge.');
-              return;
-            }
-            const owner = context.repo.owner;
-            const repo = context.repo.repo;
-            const pull_number = pr.number;
-            await github.rest.pulls.merge({
-              owner,
-              repo,
-              pull_number,
-              merge_method: 'squash',
-              commit_title: `chore: merge PR #${pull_number}`
-            });
+    - name: Merge when labeled 'automerge'
+      if: contains(github.event.pull_request.labels.*.name, 'automerge')
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const pr = context.payload.pull_request;
+          if (!pr) {
+            core.info('No pull_request found in context; skipping merge.');
+            return;
+          }
+          const owner = context.repo.owner;
+          const repo = context.repo.repo;
+          const pull_number = pr.number;
+          await github.rest.pulls.merge({
+            owner,
+            repo,
+            pull_number,
+            merge_method: 'squash',
+            commit_title: `chore: merge PR #${pull_number}`
+          });
