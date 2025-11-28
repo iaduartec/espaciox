@@ -1,0 +1,3 @@
+- Merge via squash
+- Deploy front (Vercel) and reload backend Nginx
+- Verify headers and images
