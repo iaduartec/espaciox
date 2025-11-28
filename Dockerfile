@@ -5,6 +5,7 @@ FROM node:20-bullseye-slim AS frontend
 # Use Debian-based image for better CVE coverage; keep build deps during npm install only as needed.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends ca-certificates curl openssl python3 build-essential \
+    && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
@@ -22,7 +23,7 @@ RUN mkdir -p public/dist && \
     fi
 
 # Stage 2 - Backend Laravel (PHP-FPM + Nginx on Alpine)
-FROM php:8.2-fpm-alpine AS backend
+FROM php:8.3-fpm-alpine AS backend
 
 # Install runtime deps, build deps for PHP extensions, nginx, and cleanup
 RUN apk add --no-cache --virtual .build-deps \
