@@ -87,36 +87,3 @@ RUN chmod +x /usr/local/bin/nginx-render-entrypoint.sh
 EXPOSE 80
 CMD ["/usr/local/bin/nginx-render-entrypoint.sh"]
 
-name: Auto Approve & Merge PRs
-
-on:
-  pull_request_target:
-    types: [opened, reopened, labeled, synchronize]
-
-jobs:
-  auto-approve-and-merge:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-      actions: read
-    steps:
-      - name: Auto-approve Dependabot
-        if: github.actor == 'dependabot[bot]'
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Auto-approve when labeled 'automerge'
-        if: contains(github.event.pull_request.labels.*.name, 'automerge')
-        uses: hmarr/auto-approve-action@v2
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Merge when labeled 'automerge'
-        if: contains(github.event.pull_request.labels.*.name, 'automerge')
-        uses: peter-evans/merge-pull-request@v4
-        with:
-          merge-method: squash
-          commit-title: 'chore: merge PR #${{ github.event.pull_request.number }}'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
