@@ -1,0 +1,1 @@
+Ensure CI validates HTML/CSS/links and that images exist.
