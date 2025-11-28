@@ -27,19 +27,18 @@ jobs:
           load: true
           tags: espaciox:${{ github.sha }}
 
-      - name: Run Trivy scan (CRITICAL,HIGH,MEDIUM)
-        uses: aquasecurity/trivy-action@v1
-        with:
-          image-ref: espaciox:${{ github.sha }}
-          format: table
-          severity: CRITICAL,HIGH,MEDIUM
-          ignore-unfixed: true
-          exit-code: '1'
+      - name: Run Trivy scan (CRITICAL,HIGH,MEDIUM) via container
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.67.2 image --severity CRITICAL,HIGH,MEDIUM --format table espaciox:${{ github.sha }} || exit_code=$?; echo "TRIVY_EXIT=$exit_code"; if [ "${exit_code:-0}" -ne 0 ]; then exit $exit_code; fi
 
-      - name: Upload full Trivy JSON report
+      - name: Save full Trivy JSON report
         if: always()
         run: |
-          trivy image --severity CRITICAL,HIGH,MEDIUM --format json -o trivy-report.json espaciox:${{ github.sha }} || true
-          echo "Trivy report saved to trivy-report.json"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.67.2 image --severity CRITICAL,HIGH,MEDIUM --format json -o trivy-report.json espaciox:${{ github.sha }} || true
+
+      - name: Upload Trivy report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy-report-${{ github.sha }}
+          path: trivy-report.json
