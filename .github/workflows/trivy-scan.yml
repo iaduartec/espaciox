@@ -18,6 +18,26 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+name: Trivy Image Scan
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, reopened]
+  push:
+    branches: [ main ]
+
+jobs:
+  trivy-scan:
+    name: Build image and run Trivy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
       - name: Build image
         uses: docker/build-push-action@v4
@@ -42,3 +62,67 @@ jobs:
         with:
           name: trivy-report-${{ github.sha }}
           path: trivy-report.json
+
+      - name: Comment PR with Trivy summary
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python3 - <<'PY'
+          import os, json, sys, urllib.request
+          f = 'trivy-report.json'
+          if not os.path.exists(f):
+              print('No trivy report found')
+              sys.exit(0)
+          data = json.load(open(f))
+          vulns = []
+          for res in data.get('Results', []):
+              for v in res.get('Vulnerabilities') or []:
+                  vulns.append(v)
+          total = len(vulns)
+          bysev = {}
+          for v in vulns:
+              s = v.get('Severity', 'UNKNOWN')
+              bysev[s] = bysev.get(s, 0) + 1
+          def sev_key(x):
+              order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2}
+              return order.get(x.get('Severity'), 3)
+          top = []
+          for v in sorted(vulns, key=sev_key)[:10]:
+              top.append(f"- **{v.get('Severity')}** {v.get('VulnerabilityID')} — {v.get('PkgName')} {v.get('InstalledVersion')} (fixed: {v.get('FixedVersion') or '<none>'})")
+          md = []
+          md.append('**Trivy scan summary**')
+          md.append('')
+          md.append(f'Total findings (CRITICAL/HIGH/MEDIUM): **{total}**')
+          md.append('')
+          for s in ('CRITICAL', 'HIGH', 'MEDIUM'):
+              if s in bysev:
+                  md.append(f'- {s}: {bysev[s]}')
+          if top:
+              md.append('')
+              md.append('Top findings:')
+              md.extend(top)
+          else:
+              md.append('')
+              md.append('No findings.')
+          body = '\n'.join(md)
+          print(body)
+          token = os.environ.get('GITHUB_TOKEN')
+          repo = os.environ.get('GITHUB_REPOSITORY')
+          pr = os.environ.get('PR_NUMBER')
+          if token and repo and pr:
+              url = f'https://api.github.com/repos/{repo}/issues/{pr}/comments'
+              data_json = json.dumps({'body': body}).encode('utf-8')
+              req = urllib.request.Request(url, data=data_json, headers={
+                  'Authorization': f'token {token}',
+                  'Accept': 'application/vnd.github+json',
+                  'Content-Type': 'application/json'
+              })
+              try:
+                  resp = urllib.request.urlopen(req)
+                  print('Comment posted, status', resp.getcode())
+              except Exception as e:
+                  print('Failed posting comment:', e)
+          PY
