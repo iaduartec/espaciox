@@ -1,0 +1,4 @@
+- Inline critical CSS (hero) [optional]
+- Self-host AOS or add SRI
+- CSP with nonces [optional]
+- Image srcset width descriptors
