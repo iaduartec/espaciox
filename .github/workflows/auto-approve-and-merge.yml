@@ -26,8 +26,22 @@ jobs:
 
       - name: Merge when labeled 'automerge'
         if: contains(github.event.pull_request.labels.*.name, 'automerge')
-        uses: peter-evans/merge-pull-request@v3
+        uses: actions/github-script@v6
         with:
-          merge-method: squash
-          commit-title: 'chore: merge PR #${{ github.event.pull_request.number }}'
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            if (!pr) {
+              core.info('No pull_request found in context; skipping merge.');
+              return;
+            }
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pull_number = pr.number;
+            await github.rest.pulls.merge({
+              owner,
+              repo,
+              pull_number,
+              merge_method: 'squash',
+              commit_title: `chore: merge PR #${pull_number}`
+            });
