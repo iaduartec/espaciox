@@ -1,0 +1,3 @@
+- Ensure no layout regressions on mobile
+- Verify AVIF loads with WebP fallback
+- Confirm headers in response (curl -I)
