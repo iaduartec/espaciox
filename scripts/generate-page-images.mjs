@@ -3,7 +3,7 @@
 */
 
 import "./load-env.js";
-import OpenAI from "openai";
+// OpenAI se importará dinámicamente solo si es necesario
 import sharp from "sharp";
 import * as fs from "node:fs";
 import * as path from "node:path";
@@ -80,17 +80,38 @@ const imagesToGenerate = [
 
 async function main() {
   const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) {
-    console.error("Falta OPENAI_API_KEY en el entorno (.env o variables de entorno).");
-    process.exit(1);
+  let openai = null;
+  if (apiKey) {
+    const { default: OpenAI } = await import("openai");
+    openai = new OpenAI({ apiKey });
   }
-
-  const openai = new OpenAI({ apiKey });
 
   for (const imageDef of imagesToGenerate) {
     const outPath = path.join(repoRoot, imageDef.filePath);
     await fs.promises.mkdir(path.dirname(outPath), { recursive: true });
-    console.log(`Generando ${imageDef.filePath}...`);
+    console.log(`Procesando ${imageDef.filePath}...`);
+
+    const webpExists = fs.existsSync(outPath);
+    const avifOutPath = outPath.replace(/\.webp$/i, ".avif");
+    const avifExists = fs.existsSync(avifOutPath);
+
+    if (webpExists) {
+      // Si ya hay WebP, opcionalmente re-encode, pero por defecto solo crear AVIF si falta
+      if (!avifExists) {
+        const pipeline = sharp(outPath);
+        const avifBuffer = await pipeline.avif({ quality: Math.min(80, (imageDef.quality ?? 80)) }).toBuffer();
+        await fs.promises.writeFile(avifOutPath, avifBuffer);
+        console.log(`→ Guardada ${path.relative(repoRoot, avifOutPath)}`);
+      } else {
+        console.log(`✓ Ya existe AVIF para ${imageDef.filePath}`);
+      }
+      continue;
+    }
+
+    if (!openai) {
+      console.warn(`No existe ${imageDef.filePath} y no hay OPENAI_API_KEY. Omitiendo.`);
+      continue;
+    }
 
     const response = await openai.images.generate({
       model: "gpt-image-1",
@@ -100,23 +121,19 @@ async function main() {
     });
 
     const rawBuffer = Buffer.from(response.data[0].b64_json, "base64");
-    let pipeline = sharp(rawBuffer);
-
+    let pipeline = sharp(rawBuffer).resize(1400, 900, { fit: "cover" });
     if (imageDef.resize) {
-      pipeline = pipeline.resize(imageDef.resize.width, imageDef.resize.height, {
+      pipeline = sharp(rawBuffer).resize(imageDef.resize.width, imageDef.resize.height, {
         fit: imageDef.resize.fit ?? "cover",
       });
-    } else {
-      pipeline = pipeline.resize(1400, 900, { fit: "cover" });
     }
 
-    // WebP
+    // WebP (nuevo)
     const webpBuffer = await pipeline.webp({ quality: imageDef.quality ?? 80 }).toBuffer();
     await fs.promises.writeFile(outPath, webpBuffer);
     console.log(`→ Guardada ${imageDef.filePath}`);
 
-    // AVIF alongside WebP
-    const avifOutPath = outPath.replace(/\.webp$/i, ".avif");
+    // AVIF junto a WebP
     const avifBuffer = await pipeline.avif({ quality: Math.min(80, (imageDef.quality ?? 80)) }).toBuffer();
     await fs.promises.writeFile(avifOutPath, avifBuffer);
     console.log(`→ Guardada ${path.relative(repoRoot, avifOutPath)}`);
