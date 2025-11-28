@@ -54,55 +54,90 @@ jobs:
           import os, json, sys, urllib.request
           f = 'trivy-report.json'
           if not os.path.exists(f):
-              print('No trivy report found')
-              sys.exit(0)
+            print('No trivy report found')
+            sys.exit(0)
           data = json.load(open(f))
           vulns = []
           for res in data.get('Results', []):
-              for v in res.get('Vulnerabilities') or []:
-                  vulns.append(v)
+            for v in res.get('Vulnerabilities') or []:
+              vulns.append(v)
           total = len(vulns)
           bysev = {}
           for v in vulns:
-              s = v.get('Severity', 'UNKNOWN')
-              bysev[s] = bysev.get(s, 0) + 1
+            s = v.get('Severity', 'UNKNOWN')
+            bysev[s] = bysev.get(s, 0) + 1
           def sev_key(x):
-              order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2}
-              return order.get(x.get('Severity'), 3)
+            order = {'CRITICAL': 0, 'HIGH': 1, 'MEDIUM': 2}
+            return order.get(x.get('Severity'), 3)
           top = []
           for v in sorted(vulns, key=sev_key)[:10]:
-              top.append(f"- **{v.get('Severity')}** {v.get('VulnerabilityID')} — {v.get('PkgName')} {v.get('InstalledVersion')} (fixed: {v.get('FixedVersion') or '<none>'})")
+            top.append(f"- **{v.get('Severity')}** {v.get('VulnerabilityID')} — {v.get('PkgName')} {v.get('InstalledVersion')} (fixed: {v.get('FixedVersion') or '<none>'})")
+
+          # build markdown body
           md = []
           md.append('**Trivy scan summary**')
           md.append('')
           md.append(f'Total findings (CRITICAL/HIGH/MEDIUM): **{total}**')
           md.append('')
           for s in ('CRITICAL', 'HIGH', 'MEDIUM'):
-              if s in bysev:
-                  md.append(f'- {s}: {bysev[s]}')
+            if s in bysev:
+              md.append(f'- {s}: {bysev[s]}')
           if top:
-              md.append('')
-              md.append('Top findings:')
-              md.extend(top)
+            md.append('')
+            md.append('Top findings:')
+            md.extend(top)
           else:
-              md.append('')
-              md.append('No findings.')
-          body = '\n'.join(md)
-          print(body)
+            md.append('')
+            md.append('No findings.')
+
+          # add artifact link if available
           token = os.environ.get('GITHUB_TOKEN')
           repo = os.environ.get('GITHUB_REPOSITORY')
           pr = os.environ.get('PR_NUMBER')
-          if token and repo and pr:
-              url = f'https://api.github.com/repos/{repo}/issues/{pr}/comments'
-              data_json = json.dumps({'body': body}).encode('utf-8')
-              req = urllib.request.Request(url, data=data_json, headers={
-                  'Authorization': f'token {token}',
-                  'Accept': 'application/vnd.github+json',
-                  'Content-Type': 'application/json'
+          artifact_link = None
+          if token and repo:
+            try:
+              req = urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/artifacts', headers={
+                'Authorization': f'token {token}',
+                'Accept': 'application/vnd.github+json'
               })
-              try:
-                  resp = urllib.request.urlopen(req)
-                  print('Comment posted, status', resp.getcode())
-              except Exception as e:
-                  print('Failed posting comment:', e)
+              resp = urllib.request.urlopen(req)
+              arts = json.load(resp)
+              name = f'trivy-report-{os.environ.get("GITHUB_SHA")}'
+              for a in arts.get('artifacts',[]):
+                if a.get('name') == name or a.get('name') == f'trivy-report-${{ github.sha }}'.replace('${{ github.sha }}', os.environ.get('GITHUB_SHA', '')):
+                  artifact_link = a.get('archive_download_url')
+                  break
+            except Exception:
+              artifact_link = None
+          if artifact_link:
+            md.append('')
+            md.append(f'Artifact: {artifact_link}')
+
+          # include JSON excerpt (first 4000 chars) to avoid huge comments
+          json_text = json.dumps(data)
+          excerpt = json_text[:4000]
+          md.append('')
+          md.append('<details><summary>Trivy JSON excerpt (first 4k chars)</summary>')
+          md.append('\n```json')
+          md.append(excerpt)
+          md.append('```')
+          md.append('</details>')
+
+          body = '\n'.join(md)
+          print(body)
+
+          if token and repo and pr:
+            url = f'https://api.github.com/repos/{repo}/issues/{pr}/comments'
+            data_json = json.dumps({'body': body}).encode('utf-8')
+            req = urllib.request.Request(url, data=data_json, headers={
+              'Authorization': f'token {token}',
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json'
+            })
+            try:
+              resp = urllib.request.urlopen(req)
+              print('Comment posted, status', resp.getcode())
+            except Exception as e:
+              print('Failed posting comment:', e)
           PY
