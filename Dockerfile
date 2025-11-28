@@ -1,15 +1,18 @@
 # syntax=docker/dockerfile:1.7
 
-# Stage 1 - Build frontend (Vite/static)
-FROM node:20-bookworm-slim AS frontend
-RUN apt-get update && apt-get upgrade -y && rm -rf /var/lib/apt/lists/*
+# Stage 1 - Build frontend (static)
+FROM node:20-alpine AS frontend
+# Use Alpine to reduce surface area. Install runtime certs and keep build deps only during npm install.
+RUN apk add --no-cache ca-certificates curl openssl
 WORKDIR /app
 
-# Si existiera un proyecto Vite, instala dependencias; para el front estático actual basta con copiar los assets.
+# Install npm deps (use virtual build deps for native modules)
 COPY package*.json ./
-RUN if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi
+RUN apk add --no-cache --virtual .build-deps python3 make g++ && \
+    if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi && \
+    apk del .build-deps
 
-# Copia el front estático actual (HTML + assets). Si añades Vite, ajusta el comando de build.
+# Copy static assets and build (noop if no build script)
 COPY assets ./assets
 COPY *.html ./public/
 RUN mkdir -p public/dist && \
@@ -18,15 +21,18 @@ RUN mkdir -p public/dist && \
       cp -r assets public/dist/assets && cp public/*.html public/dist/; \
     fi
 
-# Stage 2 - Backend Laravel (Apache + Composer)
-FROM php:8.2-apache-bookworm AS backend
+# Stage 2 - Backend Laravel (PHP-FPM + Nginx on Alpine)
+FROM php:8.2-fpm-alpine AS backend
 
-# Dependencias de sistema y extensiones PHP
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git curl unzip pkg-config \
-    libzip-dev libonig-dev libxml2-dev libpq-dev libsqlite3-dev \
+# Install runtime deps, build deps for PHP extensions, nginx, and cleanup
+RUN apk add --no-cache --virtual .build-deps \
+        gcc g++ make autoconf nasm libtool pkgconfig python3 linux-headers \
+    && apk add --no-cache \
+        ca-certificates git curl unzip libzip-dev oniguruma-dev libxml2-dev \
+        postgresql-dev sqlite-dev zlib-dev nginx \
     && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring zip \
-    && rm -rf /var/lib/apt/lists/*
+    && apk del .build-deps \
+    && rm -rf /var/cache/apk/*
 
 # Configuración de Apache para servir Laravel desde /public y permitir .htaccess
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
@@ -46,20 +52,17 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Instala dependencias PHP aprovechando la cache.
-# Usa un secreto opcional GITHUB_TOKEN durante el build (BuildKit: --secret id=GITHUB_TOKEN).
+# Install PHP deps using composer (supports BuildKit secret for GitHub token)
 COPY backend/composer.json backend/composer.lock ./
 RUN --mount=type=secret,id=GITHUB_TOKEN \
     GITHUB_TOKEN_FILE=/run/secrets/GITHUB_TOKEN && \
     if [ -f "${GITHUB_TOKEN_FILE}" ]; then \
       GITHUB_TOKEN=$(cat "${GITHUB_TOKEN_FILE}"); \
-    fi && \
-    if [ -n "${GITHUB_TOKEN:-}" ]; then \
       composer config --global github-oauth.github.com "${GITHUB_TOKEN}"; \
     fi && \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
-# Copia el código de la app
+# Copy app code and run composer again to ensure vendor present
 COPY backend ./
 RUN --mount=type=secret,id=GITHUB_TOKEN \
     GITHUB_TOKEN_FILE=/run/secrets/GITHUB_TOKEN && \
@@ -69,7 +72,7 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
     fi && \
     composer install --no-dev --optimize-autoloader --no-interaction --no-scripts --prefer-dist --no-progress --ansi
 
-# Copia el front compilado al public de Laravel
+# Copy the built frontend into Laravel public
 COPY --from=frontend /app/public/dist ./public/dist
 
 # Prepara directorios requeridos y limpia caches de artisan (no requiere APP_KEY)
@@ -77,10 +80,12 @@ RUN mkdir -p storage/logs bootstrap/cache database && \
     touch database/database.sqlite && \
     chown -R www-data:www-data storage bootstrap/cache database && \
     php artisan config:clear && \
-    php artisan route:clear && \
-    if [ -d resources/views ]; then php artisan view:clear; else echo "Skipping view:clear (no resources/views directory)"; fi
+    php artisan route:clear
 
-COPY backend/bin/apache-render-entrypoint.sh /usr/local/bin/apache-render-entrypoint.sh
-RUN chmod +x /usr/local/bin/apache-render-entrypoint.sh
+# Nginx entrypoint + config
+COPY backend/bin/nginx-render-entrypoint.sh /usr/local/bin/nginx-render-entrypoint.sh
+COPY backend/nginx/default.conf /etc/nginx/http.d/default.conf
+RUN chmod +x /usr/local/bin/nginx-render-entrypoint.sh
 
-CMD ["apache-render-entrypoint.sh"]
+EXPOSE 80
+CMD ["/usr/local/bin/nginx-render-entrypoint.sh"]

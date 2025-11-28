@@ -51,3 +51,18 @@ En todas las opciones gratuitas para la API:
 2. Genera clave y migra base de datos (`php artisan key:generate` y `php artisan migrate --seed`).
 3. Configura el vhost a `backend/public`, habilita HTTPS y reinicia PHP-FPM.
 4. Sube el front a tu hosting estático y apunta el dominio principal a esa ubicación.
+
+## Solución de problemas en Render
+
+- **Revisar logs de build y runtime:** confirma qué comando falla y si hay variables de entorno ausentes. Los errores suelen
+  indicar extensiones de PHP faltantes o ausencia de `APP_KEY`/credenciales.
+- **Limpiar cache de build:** en Render, pulsa **Clear build cache** y vuelve a desplegar si Composer se queda sin memoria o
+  hay artefactos corruptos.
+- **Inyectar variables críticas:** define `APP_KEY`, `APP_ENV=production`, URLs de base de datos y `PORT` (Render lo envía por
+  defecto, pero conviene fijar el puerto en tu Procfile/entrypoint). Sin `APP_KEY` Laravel no levantará.
+- **Verificar permisos de SQLite:** si usas SQLite, asegúrate de que `storage`, `bootstrap/cache` y el archivo de base de
+  datos sean escribibles por Apache/PHP-FPM.
+- **Health check:** expón un endpoint simple (`/api/health` o `/api/ping`) para validar que Apache responde tras el despliegue
+  y asociarlo al health check del servicio.
+- **Dependencias privadas:** si Composer descarga paquetes privados de GitHub, añade `GITHUB_TOKEN` como **Secret File** y
+  pásalo al build (opción "Buildtime Secret File") para evitar límites de rate.
