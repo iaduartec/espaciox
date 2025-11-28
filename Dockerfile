@@ -36,7 +36,9 @@ RUN apk add --no-cache --virtual .build-deps \
     && rm -rf /var/cache/apk/*
 
 # Ensure BusyBox and related packages are patched to fixed versions
-RUN apk update && apk upgrade --no-cache busybox busybox-binsh ssl_client || true
+RUN apk update && \
+    apk add --no-cache busybox=1.37.0-r20 busybox-binsh=1.37.0-r20 ssl_client=1.37.0-r20 || \
+    apk upgrade --no-cache busybox busybox-binsh ssl_client || true
 
 # Composer settings
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
