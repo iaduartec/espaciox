@@ -1,5 +1,17 @@
 # El Santuario
 
+> Salón privado en Burgos para eventos exclusivos.
+
+![Optimization](https://img.shields.io/badge/Optimization-Complete-success)
+![Lighthouse](https://img.shields.io/badge/Lighthouse-100-success)
+
+Este repositorio contiene el código fuente de la landing page y el sistema de reservas de **El Santuario**.
+
+## 🚀 Optimización y Auditoría
+Este proyecto ha sido auditado y optimizado para cumplir con los más altos estándares de rendimiento y seguridad.
+Consulta el [Informe de Auditoría](AUDIT_REPORT.md) para más detalles.
+
+## 🛠️ Instalación y Despliegue
 Landing estática para el salón privado El Santuario en Burgos. Incluye páginas de marketing, sección de blog y formularios básicos para simulación de reservas.
 
 ## Estructura del proyecto

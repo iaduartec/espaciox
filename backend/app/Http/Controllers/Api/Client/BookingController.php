@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 
 class BookingController extends Controller
 {
-    public function store(StoreBookingRequest $request)
+    public function store(StoreBookingRequest $request): \Illuminate\Http\JsonResponse|BookingResource
     {
         $user = $request->user();
         $customerName = $user->name ?? $request->input('customer_name') ?? $request->input('name') ?? 'Invitado';
