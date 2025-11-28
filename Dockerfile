@@ -34,7 +34,16 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
 
-# Composer settings
+# Configuración de Apache para servir Laravel desde /public y permitir .htaccess
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public \
+    APACHE_SERVER_NAME=localhost
+RUN a2enmod rewrite && \
+    sed -ri "s#/var/www/html#${APACHE_DOCUMENT_ROOT}#g" /etc/apache2/sites-available/000-default.conf && \
+    printf "<Directory ${APACHE_DOCUMENT_ROOT}>\n\tAllowOverride All\n</Directory>\n" > /etc/apache2/conf-available/laravel.conf && \
+    printf "ServerName ${APACHE_SERVER_NAME}\n" > /etc/apache2/conf-available/servername.conf && \
+    a2enconf laravel servername
+
+# Composer y opciones para descargas más estables
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1 \
     COMPOSER_HTTP_TIMEOUT=600 \
@@ -66,15 +75,9 @@ RUN --mount=type=secret,id=GITHUB_TOKEN \
 # Copy the built frontend into Laravel public
 COPY --from=frontend /app/public/dist ./public/dist
 
-# Ensure storage and cache dirs exist and are writable
-RUN mkdir -p bootstrap/cache \
-    storage/logs \
-    storage/framework/cache/data \
-    storage/framework/sessions \
-    storage/framework/views \
-    database && \
+# Prepara directorios requeridos y limpia caches de artisan (no requiere APP_KEY)
+RUN mkdir -p storage/logs bootstrap/cache database && \
     touch database/database.sqlite && \
-    chmod -R 775 bootstrap/cache && \
     chown -R www-data:www-data storage bootstrap/cache database && \
     php artisan config:clear && \
     php artisan route:clear
