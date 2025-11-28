@@ -107,7 +107,3 @@ jobs:
         with:
           name: trivy-image-report-${{ github.sha }}
           path: trivy-image-report.json
-
-
-
-
