@@ -1,0 +1,5 @@
+- [ ] CI passes
+- [ ] Review approved
+- [ ] No large binary diffs
+- [ ] Changelog updated
+- [ ] Deployment notes prepared
