@@ -369,6 +369,10 @@ nav a.active {
     bottom: 0;
     left: 0;
     background: url('../img/salon-celebraciones.webp') center/cover no-repeat;
+    background-image: -webkit-image-set(
+        url('../img/salon-celebraciones.avif') type('image/avif'),
+        url('../img/salon-celebraciones.webp') type('image/webp')
+    );
     background-image: image-set(
         url('../img/salon-celebraciones.avif') type('image/avif'),
         url('../img/salon-celebraciones.webp') type('image/webp')
@@ -451,6 +455,10 @@ nav a.active {
     height: 600px;
     border-radius: 32px;
     background: url('../img/zonas-polivalentes.webp') center/cover no-repeat;
+    background-image: -webkit-image-set(
+        url('../img/zonas-polivalentes.avif') type('image/avif'),
+        url('../img/zonas-polivalentes.webp') type('image/webp')
+    );
     background-image: image-set(
         url('../img/zonas-polivalentes.avif') type('image/avif'),
         url('../img/zonas-polivalentes.webp') type('image/webp')
