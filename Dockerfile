@@ -35,6 +35,9 @@ RUN apk add --no-cache --virtual .build-deps \
     && apk del .build-deps \
     && rm -rf /var/cache/apk/*
 
+# Ensure BusyBox and related packages are patched to fixed versions
+RUN apk update && apk upgrade --no-cache busybox busybox-binsh ssl_client || true
+
 # Composer settings
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
     COMPOSER_MEMORY_LIMIT=-1 \
