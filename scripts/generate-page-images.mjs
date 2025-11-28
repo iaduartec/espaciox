@@ -1,3 +1,7 @@
+/* Proyecto El Santuario
+  Creado por Sergio Gómez Barrio — Duartec Instalaciones Informáticas (Burgos, España)
+*/
+
 import "./load-env.js";
 import OpenAI from "openai";
 import sharp from "sharp";
@@ -106,9 +110,16 @@ async function main() {
       pipeline = pipeline.resize(1400, 900, { fit: "cover" });
     }
 
-    const finalBuffer = await pipeline.webp({ quality: imageDef.quality ?? 80 }).toBuffer();
-    await fs.promises.writeFile(outPath, finalBuffer);
+    // WebP
+    const webpBuffer = await pipeline.webp({ quality: imageDef.quality ?? 80 }).toBuffer();
+    await fs.promises.writeFile(outPath, webpBuffer);
     console.log(`→ Guardada ${imageDef.filePath}`);
+
+    // AVIF alongside WebP
+    const avifOutPath = outPath.replace(/\.webp$/i, ".avif");
+    const avifBuffer = await pipeline.avif({ quality: Math.min(80, (imageDef.quality ?? 80)) }).toBuffer();
+    await fs.promises.writeFile(avifOutPath, avifBuffer);
+    console.log(`→ Guardada ${path.relative(repoRoot, avifOutPath)}`);
   }
 
   console.log("Todas las imágenes han sido regeneradas y optimizadas.");
