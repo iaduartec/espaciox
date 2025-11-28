@@ -1,0 +1,1 @@
+- PR #36: perf(seo,images,security) — ready
