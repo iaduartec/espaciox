@@ -71,6 +71,31 @@ Notas de hosting:
 - Reutiliza las clases existentes de `styles.css` para nuevas secciones.
 - Si añades nuevas interacciones, centralízalas en `assets/js/main.js` para mantener un único punto de scripts.
 
+## Optimización Lighthouse y Seguridad
+
+- Rendimiento:
+  - Preload de fuentes, CSS AOS y LCP (`<link rel="preload" as="image">`).
+  - Imágenes AVIF/WebP: se generan variantes con `scripts/generate-page-images.mjs` y se sirven con `<picture>`.
+  - Caché `immutable` para `/assets/**` en Vercel y Nginx; HTML sin caché.
+  - Dimensiones intrínsecas en el logo y claves CLS mitigadas.
+- Accesibilidad:
+  - `skip-link`, labels, `aria-*` en navegación móvil, `loading="lazy"`, `decoding="async"`.
+- SEO:
+  - `canonical`, OpenGraph/Twitter, `robots.txt` y `sitemap.xml` mantenidos.
+- Seguridad (front y backend):
+  - Headers: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security`.
+  - Middleware `SecurityHeaders` en Laravel y configuración Nginx/Vercel.
+
+### Regenerar imágenes (WebP + AVIF)
+
+```bash
+pnpm i # o npm i
+export OPENAI_API_KEY=... # requerido por el script
+node scripts/generate-page-images.mjs
+```
+
+El script escribe `.webp` y `.avif` para todas las imágenes listadas. Las páginas usan `<picture>` para preferir AVIF.
+
 ## Configuración de Codex Chat en VS Code
 
 - Copia `.env.example` a `.env` y rellena `OPENAI_API_KEY` con tu clave válida (no se versiona).
