@@ -1,16 +1,16 @@
 # syntax=docker/dockerfile:1.7
 
 # Stage 1 - Build frontend (static)
-FROM node:20-alpine AS frontend
-# Use Alpine to reduce surface area. Install runtime certs and keep build deps only during npm install.
-RUN apk add --no-cache ca-certificates curl openssl
+FROM node:20-bullseye-slim AS frontend
+# Use Debian-based image for better CVE coverage; keep build deps during npm install only as needed.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends ca-certificates curl openssl python3 build-essential \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Install npm deps (use virtual build deps for native modules)
 COPY package*.json ./
-RUN apk add --no-cache --virtual .build-deps python3 make g++ && \
-    if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi && \
-    apk del .build-deps
+RUN if [ -f package-lock.json ]; then npm ci; elif [ -f package.json ]; then npm install; fi
 
 # Copy static assets and build (noop if no build script)
 COPY assets ./assets
