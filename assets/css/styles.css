@@ -369,6 +369,10 @@ nav a.active {
     bottom: 0;
     left: 0;
     background: url('../img/salon-celebraciones.webp') center/cover no-repeat;
+    background-image: image-set(
+        url('../img/salon-celebraciones.avif') type('image/avif'),
+        url('../img/salon-celebraciones.webp') type('image/webp')
+    );
     opacity: 0;
     z-index: -1;
     animation: fadeInZoom 1.5s ease-out forwards
@@ -447,6 +451,10 @@ nav a.active {
     height: 600px;
     border-radius: 32px;
     background: url('../img/zonas-polivalentes.webp') center/cover no-repeat;
+    background-image: image-set(
+        url('../img/zonas-polivalentes.avif') type('image/avif'),
+        url('../img/zonas-polivalentes.webp') type('image/webp')
+    );
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     transform: perspective(1000px) rotateY(-5deg);
     transition: transform 0.5s ease
