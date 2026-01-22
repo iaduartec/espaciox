@@ -948,8 +948,8 @@ packages:
   lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
 
-  lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+  lodash-es@4.17.23:
+    resolution: {integrity: sha512-kVI48u3PZr38HdYz98UmfPnXl2DXrpdctLrFLCd3kOx1xUkOmpFPx7gCWWM5MPkL/fD8zb+Ph0QzjGFs4+hHWg==}
 
   lookup-closest-locale@6.2.0:
     resolution: {integrity: sha512-/c2kL+Vnp1jnV6K6RpDTHK3dgg0Tu2VVp+elEiJpjfS1UyY7AjOYHohRug6wT0OpoX2qFgNORndE9RqesfVxWQ==}
@@ -2329,7 +2329,7 @@ snapshots:
       js-library-detector: 6.7.0
       lighthouse-logger: 2.0.2
       lighthouse-stack-packs: 1.12.3
-      lodash-es: 4.17.21
+      lodash-es: 4.17.23
       lookup-closest-locale: 6.2.0
       open: 8.4.2
       puppeteer-core: 24.32.1
@@ -2352,7 +2352,7 @@ snapshots:
 
   lines-and-columns@1.2.4: {}
 
-  lodash-es@4.17.21: {}
+  lodash-es@4.17.23: {}
 
   lookup-closest-locale@6.2.0: {}
 
