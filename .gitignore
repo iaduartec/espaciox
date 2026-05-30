@@ -14,3 +14,9 @@
 /public/storage
 /database/database.sqlite
 .vercel
+tmp.png
+flow-*.json
+flow-*.html
+phpbrew.phar
+php-ext/
+*.deb
