@@ -21,7 +21,7 @@
     "csso-cli": "^4.0.2",
     "dotenv": "^17.4.2",
     "lighthouse": "^13.4.0",
-    "postcss": "^8.5.15",
+    "postcss": "^8.5.26",
     "postcss-cli": "^11.0.1",
     "puppeteer": "^25.3.0",
     "sharp": "^0.35.2",
