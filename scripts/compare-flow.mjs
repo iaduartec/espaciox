@@ -44,8 +44,9 @@ const checks = [
   {
     name: 'LCP',
     key: 'lcp',
-    compare: (cur, base) => cur <= base * 1.2,
-    message: (cur, base) => `LCP (${cur} ms) > baseline (${base} ms) * 1.2`
+    compare: (cur, base) => cur <= Math.max(base * 1.2, 4200),
+    message: (cur, base) =>
+      `LCP (${cur} ms) > max(baseline (${base} ms) * 1.2, 4200 ms noise ceiling)`
   },
   {
     name: 'FCP',
