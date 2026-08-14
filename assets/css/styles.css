@@ -537,6 +537,10 @@ nav a.active {
 }
 
 @media (max-width:900px) {
+    .hero-bg-parallax {
+        display: none
+    }
+
     .hero {
         padding: 120px 0 80px;
         text-align: center
