@@ -42,7 +42,7 @@ importers:
         version: 25.3.0
       sharp:
         specifier: ^0.35.4
-        version: 0.35.4
+        version: 0.35.4(@types/node@26.0.0)
       terser:
         specifier: ^5.48.0
         version: 5.48.0
@@ -2267,7 +2267,7 @@ snapshots:
 
   semver@7.8.5: {}
 
-  sharp@0.35.4:
+  sharp@0.35.4(@types/node@26.0.0):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -2298,6 +2298,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.4
       '@img/sharp-win32-ia32': 0.35.4
       '@img/sharp-win32-x64': 0.35.4
+      '@types/node': 26.0.0
 
   shimmer@1.2.1: {}
 
