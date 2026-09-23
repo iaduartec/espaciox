@@ -1,0 +1,10 @@
+packages:
+  - "."
+
+overrides:
+  postcss: 8.5.23
+  baseline-browser-mapping: 2.11.0
+  browserslist: 4.28.7
+  "@opentelemetry/core": 2.8.0
+  'brace-expansion@>=2.0.0': 2.1.4
+  'nanoid@<4.0.0': 3.3.18
