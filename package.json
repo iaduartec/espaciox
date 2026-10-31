@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:css": "postcss assets/css/styles.css -o assets/css/styles.css && csso assets/css/styles.css --output assets/css/styles.min.css --comments exclamation",
     "build:js": "terser assets/js/main.js -o assets/js/main.min.js --compress --mangle",
-    "build": "npm run build:css && npm run build:js",
+    "build": "pnpm run build:css && pnpm run build:js",
     "validate:headers": "node scripts/header-validator.js",
     "check:meta": "node scripts/check-meta.mjs"
   },
@@ -23,8 +23,6 @@
     "lighthouse": "^13.5.0",
     "postcss": "^8.5.28",
     "postcss-cli": "^12.0.0",
-    "puppeteer": "^25.11.0",
-    "postcss-cli": "^11.0.1",
     "puppeteer": "^25.12.0",
     "sharp": "^0.35.4",
     "terser": "^5.51.2"
@@ -34,5 +32,6 @@
     "last 2 versions",
     "not dead",
     "not ie <= 11"
-  ]
+  ],
+  "packageManager": "pnpm@11.15.0"
 }

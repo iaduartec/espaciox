@@ -1,6 +1,9 @@
 packages:
   - "."
 
+allowBuilds:
+  puppeteer: true
+
 overrides:
   postcss: 8.5.23
   baseline-browser-mapping: 2.11.0
